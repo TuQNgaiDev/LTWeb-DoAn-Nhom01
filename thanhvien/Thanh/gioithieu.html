@@ -1,544 +1,214 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-          content="Trang giới thiệu cá nhân của Nguyễn Tuấn Nhật Thanh - thành viên nhóm">
+        content="Trang giới thiệu cá nhân của Nguyễn Tuấn Nhật Thanh - thành viên nhóm">
 
     <title>Giới thiệu Nguyễn Tuấn Nhật Thanh | Website Nhóm</title>
-
-    <style>
-        /* ================= TOÀN TRANG ================= */
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f4f6f8;
-            color: #333;
-            line-height: 1.6;
-        }
-
-
-        /* ================= HEADER ================= */
-
-        header {
-            background: linear-gradient(135deg, #0077b6, #00b4d8);
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-        }
-
-        header h2 {
-            margin: 0 0 5px;
-            font-size: 30px;
-        }
-
-        header p {
-            margin: 0;
-            font-size: 17px;
-        }
-
-
-        /* ================= NAVIGATION ================= */
-
-        nav {
-            background-color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        nav li {
-            margin: 0;
-        }
-
-        nav a {
-            display: block;
-            text-decoration: none;
-            color: #0077b6;
-            font-weight: bold;
-            padding: 15px 20px;
-            transition: 0.3s;
-        }
-
-        nav a:hover {
-            background-color: #0077b6;
-            color: white;
-        }
-
-
-        /* ================= MAIN ================= */
-
-        main {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        main > h1 {
-            text-align: center;
-            color: #023e8a;
-            margin-bottom: 35px;
-            font-size: 36px;
-        }
-
-
-        /* ================= CÁC KHỐI NỘI DUNG ================= */
-
-        section,
-        article {
-            background-color: white;
-            padding: 30px;
-            margin-bottom: 30px;
-            border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        section h2,
-        article h2 {
-            color: #0077b6;
-            margin-top: 0;
-            margin-bottom: 20px;
-            border-left: 5px solid #00b4d8;
-            padding-left: 12px;
-        }
-
-
-        /* ================= GIỚI THIỆU BẢN THÂN ================= */
-
-        .profile {
-            display: flex;
-            align-items: flex-start;
-            gap: 40px;
-        }
-
-
-        /* ================= ẢNH CHÂN DUNG ================= */
-
-        figure {
-            width: 220px;
-            min-width: 220px;
-            margin: 0;
-            text-align: center;
-        }
-
-        figure img {
-            width: 220px;
-            height: 280px;
-            object-fit: cover;
-            display: block;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        figcaption {
-            margin-top: 12px;
-            font-size: 14px;
-            color: #666;
-            line-height: 1.4;
-        }
-
-
-        /* ================= THÔNG TIN CÁ NHÂN ================= */
-
-        .profile-info {
-            flex: 1;
-        }
-
-        .profile-info p {
-            margin: 0 0 15px;
-        }
-
-        .profile-info strong {
-            color: #023e8a;
-        }
-
-
-        /* ================= DANH SÁCH KỸ NĂNG ================= */
-
-        section ul {
-            padding-left: 25px;
-        }
-
-        section li {
-            margin-bottom: 8px;
-        }
-
-
-        /* ================= BẢNG THỜI KHÓA BIỂU ================= */
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            text-align: center;
-            background-color: white;
-        }
-
-        caption {
-            caption-side: top;
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #023e8a;
-        }
-
-        th,
-        td {
-            border: 1px solid #ccc;
-            padding: 12px 10px;
-        }
-
-        thead th {
-            background-color: #0077b6;
-            color: white;
-        }
-
-        tbody th {
-            background-color: #e9f7fc;
-            color: #023e8a;
-        }
-
-        tbody tr:hover {
-            background-color: #f1faff;
-        }
-
-
-        /* ================= FOOTER ================= */
-
-        footer {
-            background-color: #023e8a;
-            color: white;
-            text-align: center;
-            padding: 25px 20px;
-            margin-top: 40px;
-        }
-
-        footer p {
-            margin: 8px 0;
-        }
-
-        footer a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-
-        /* ================= ĐIỆN THOẠI ================= */
-
-        @media (max-width: 700px) {
-
-            nav ul {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            nav a {
-                padding: 10px;
-            }
-
-            main {
-                padding: 0 10px;
-            }
-
-            main > h1 {
-                font-size: 28px;
-            }
-
-            .profile {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .profile-info {
-                width: 100%;
-            }
-
-            figure {
-                width: 220px;
-            }
-
-            table {
-                font-size: 13px;
-            }
-
-            th,
-            td {
-                padding: 8px 5px;
-            }
-        }
-
-    </style>
 </head>
-
 
 <body>
 
-    <!-- ================= HEADER ================= -->
-
     <header>
-        <h2>WEBSITE CỦA NHÓM</h2>
-        <p>Thiết kế và Lập trình Web</p>
+        <h1>WEBSITE CỦA NHÓM</h1>
+
+        <nav>
+            <a href="../../index.html">Trang chủ</a> |
+            <a href="../../gioi-thieu.html">Giới thiệu nhóm</a>
+        </nav>
     </header>
-
-
-    <!-- ================= NAVIGATION ================= -->
-
-    <nav>
-        <ul>
-            <li>
-                <a href="../../index.html">Trang chủ</a>
-            </li>
-
-            <li>
-                <a href="../../gioi-thieu.html">Giới thiệu nhóm</a>
-            </li>
-        </ul>
-    </nav>
-
-
-    <!-- ================= MAIN CONTENT ================= -->
 
     <main>
 
-        <h1>Giới thiệu Nguyễn Tuấn Nhật Thanh</h1>
-
-
-        <!-- ===== SECTION: GIỚI THIỆU BẢN THÂN ===== -->
+        <h2>Giới thiệu Nguyễn Tuấn Nhật Thanh</h2>
 
         <section>
+            <h3>Thông tin cá nhân</h3>
 
-            <h2>Giới thiệu bản thân</h2>
-
-            <div class="profile">
-
-                <!-- Ảnh chân dung -->
-
-                <figure>
-
-                    <img src="images/nguyen-tuan-nhat-thanh.jpg"
-                         alt="Ảnh chân dung Nguyễn Tuấn Nhật Thanh">
-
-                    <figcaption>
-                        Ảnh chân dung Nguyễn Tuấn Nhật Thanh
-                    </figcaption>
-
-                </figure>
-
-
-                <!-- Thông tin cá nhân -->
-
-                <div class="profile-info">
-
-                    <p>
-                        Xin chào! Tôi là Nguyễn Tuấn Nhật Thanh,
-                        sinh viên ngành Công nghệ thông tin.
-                        Hiện tại tôi đang học tập và tìm hiểu
-                        về thiết kế và lập trình website.
-                    </p>
-
-                    <p>
-                        Tôi là thành viên của nhóm thực hiện làm
-                        bài tập website trong học phần
-                        Thiết kế và Lập trình Web.
-                    </p>
-
-                    <p>
-                        <strong>Họ và tên:</strong>
-                        Nguyễn Tuấn Nhật Thanh
-                    </p>
-
-                    <p>
-                        <strong>Mã sinh viên:</strong>
-                        3120224132
-                    </p>
-
-                    <p>
-                        <strong>Lớp:</strong>
-                        24CNTT1
-                    </p>
-
-                    <p>
-                        <strong>Ngành:</strong>
-                        Công nghệ thông tin
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ===== ARTICLE: DỰ ÁN / SỞ THÍCH ===== -->
-
-        <article>
-
-            <h2>Dự án và sở thích</h2>
-
-            <p>
-                Trong quá trình học tập, tôi đang tham gia xây dựng
-                một website cùng các thành viên trong nhóm. Dự án
-                giúp tôi hiểu rõ hơn về HTML5, cách tổ chức nội dung
-                và xây dựng cấu trúc website.
-            </p>
-
-            <p>
-                Ngoài việc học lập trình, tôi thích nghe nhạc,
-                xem phim, chơi thể thao và tìm hiểu những công nghệ
-                mới.
-            </p>
-
-            <p>
-                Tôi mong muốn nâng cao kỹ năng lập trình web và có
-                thể áp dụng những kiến thức đã học vào các dự án
-                thực tế.
-            </p>
-
-        </article>
-
-
-        <!-- ===== SECTION: KỸ NĂNG ===== -->
-
-        <section>
-
-            <h2>Kỹ năng</h2>
+            <figure>
+                <img src="images/nguyen-tuan-nhat-thanh.jpg"
+                     alt="Ảnh chân dung Nguyễn Tuấn Nhật Thanh"
+                     width="200">
+                <figcaption>Nguyễn Tuấn Nhật Thanh</figcaption>
+            </figure>
 
             <ul>
-                <li>HTML5</li>
-                <li>CSS cơ bản</li>
-                <li>C++</li>
-                <li>Python</li>
-                <li>Git và GitHub</li>
+                <li><strong>Họ và tên:</strong> Nguyễn Tuấn Nhật Thanh</li>
+                <li><strong>Vai trò:</strong> Thành viên nhóm</li>
+                <li><strong>Lớp:</strong> ................................</li>
+                <li><strong>Trường:</strong> ................................</li>
+                <li><strong>Email:</strong> ................................</li>
             </ul>
-
         </section>
 
+        <article>
+            <h3>Dự án / Sở thích</h3>
 
-        <!-- ===== SECTION: THỜI KHÓA BIỂU ===== -->
+            <p>
+                Tôi yêu thích lập trình web và tìm hiểu các công nghệ mới.
+                Tôi đặc biệt quan tâm đến việc xây dựng các trang web có
+                giao diện đơn giản, dễ sử dụng.
+            </p>
+
+            <p>
+                Trong thời gian học tập, tôi muốn nâng cao kỹ năng HTML,
+                CSS, JavaScript và khả năng làm việc nhóm.
+            </p>
+        </article>
 
         <section>
+            <h3>Kỹ năng</h3>
 
-            <h2>Thời khóa biểu tuần</h2>
-
-            <table>
-
-                <caption>
-                    Thời khóa biểu học tập trong tuần
-                </caption>
-
-
-                <!-- Phần tiêu đề bảng -->
-
-                <thead>
-
-                    <tr>
-                        <th scope="col">Thứ</th>
-                        <th scope="col">Buổi sáng</th>
-                        <th scope="col">Buổi chiều</th>
-                        <th scope="col">Buổi tối</th>
-                    </tr>
-
-                </thead>
-
-
-                <!-- Nội dung bảng -->
-
-                <tbody>
-
-                    <tr>
-                        <th scope="row">Thứ 2</th>
-                        <td>An toàn thông tin</td>
-                        <td>Lịch sử ĐCS Việt Nam</td>
-                        <td>Tự học</td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">Thứ 3</th>
-                        <td> </td>
-                        <td>Tự học</td>
-                        <td>Ôn bài</td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">Thứ 4</th>
-                        <td>Hệ quản trị cơ sở dữ liệu</td>
-                        <td></td>
-                        <td>Tự học</td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">Thứ 5</th>
-                        <td>Khai phá dữ liệu</td>
-                        <td>Công nghệ phần mềm</td>
-                        <td>Ôn bài</td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">Thứ 6</th>
-                        <td></td>
-                        <td>Thực hành</td>
-                        <td>Tự học</td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">Thứ 7</th>
-                        <td>Lập trình Web</td>
-                        <td>Làm bài nhóm</td>
-                        <td>Giải trí</td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">Chủ nhật</th>
-                        <td>Nghỉ ngơi</td>
-                        <td>Ôn bài</td>
-                        <td>Chuẩn bị bài mới</td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
+            <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+                <li>Làm việc nhóm</li>
+                <li>Sử dụng Git và GitHub</li>
+            </ul>
         </section>
 
-    </main>
-
-
-    <!-- ================= FOOTER ================= -->
-
+     <section>
+      <h2>Thời khóa biểu tuần</h2>
+      <table border="1">
+        <caption>Thời khóa biểu học kỳ 1 năm học 2026 – 2027 (Nguyễn Tuấn Nhật Thanh)</caption>
+        <thead>
+          <tr>
+            <th scope="col">Tiết</th>
+            <th scope="col">Thứ 2</th>
+            <th scope="col">Thứ 3</th>
+            <th scope="col">Thứ 4</th>
+            <th scope="col">Thứ 5</th>
+            <th scope="col">Thứ 6</th>
+            <th scope="col">Thứ 7</th>
+            <th scope="col">Chủ nhật</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td rowspan="2"><strong>31221010 - 24-0101</strong><br>An toàn thông tin<br>Phòng: B3-206</td>  
+            <td></td>
+            <td rowspan="4"><strong>31241283 - 24-0102</strong><br>Hệ quản trị cơ sở dữ liệu<br>Phòng: A5-404B</td>
+            <td rowspan="3"><strong>31231330 - 24-0103</strong><br>Khai phá dữ liệu<br>Phòng: A5-210</td>
+            <td></td>
+            <td rowspan="3"><strong>31231755 - 24-0102</strong><br>Thiết kế và lập trình web<br>Phòng: B3-303</td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td rowspan="2"><strong>21221904 - 24-0123</strong><br>Lịch sử Đảng Cộng sản Việt Nam<br>Phòng: A5-404C></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">6</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">7</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td rowspan="3"><strong>31231016 - 24-0102</strong><br>Công nghệ phần mềm<br>Phòng: B3-503</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">8</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">9</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">10</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">11</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">12</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
     <footer>
-
         <p>
-            © 2026 Nhóm ZZ - Thiết kế và Lập trình Web
+            &copy; 2026 Website của nhóm
         </p>
 
         <p>
-            <a href="../../index.html">
-                ← Quay về trang chủ
-            </a>
+            Nguyễn Tuấn Nhật Thanh - Thành viên nhóm
         </p>
-
     </footer>
 
 </body>
-
 </html>
