@@ -1,0 +1,195 @@
+.trang {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: auto auto 1fr auto;
+  row-gap: 0;
+  min-height: 100vh;
+  width: 100%;
+  max-width: var(--chieu-rong-khung);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--khoang-cach);
+  padding-right: var(--khoang-cach);
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+header,
+.dau-trang {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+nav,
+.thanh-dieu-huong {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+main,
+.noi-dung-chinh {
+  grid-row: 3;
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  margin-top: var(--khoang-cach-md);
+  margin-bottom: var(--khoang-cach-lg);
+}
+
+footer,
+.chan-trang {
+  grid-row: 4;
+  grid-column: 1 / -1;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: auto;
+}
+
+.trang--hai-cot {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: auto auto auto auto auto;
+  row-gap: 0;
+}
+
+.trang--hai-cot > header,
+.trang--hai-cot .dau-trang {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.trang--hai-cot > nav,
+.trang--hai-cot .thanh-dieu-huong {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.trang--hai-cot > main,
+.trang--hai-cot .noi-dung-chinh {
+  grid-row: 3;
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+  margin-top: var(--khoang-cach-md);
+  margin-bottom: var(--khoang-cach-md);
+}
+
+.trang--hai-cot > aside,
+.trang--hai-cot .cot-phu {
+  grid-row: 4;
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+  margin-top: 0;
+  margin-bottom: var(--khoang-cach-lg);
+}
+
+.trang--hai-cot > footer,
+.trang--hai-cot .chan-trang {
+  grid-row: 5;
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: auto;
+}
+
+@media (min-width: 768px) {
+  .trang {
+    padding-left: var(--khoang-cach-md);
+    padding-right: var(--khoang-cach-md);
+  }
+
+  main,
+  .noi-dung-chinh {
+    margin-top: var(--khoang-cach-lg);
+    margin-bottom: var(--khoang-cach-xl);
+  }
+
+  .trang--hai-cot {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    grid-template-rows: auto auto 1fr auto;
+    column-gap: var(--khoang-cach-lg);
+    row-gap: 0;
+  }
+
+  .trang--hai-cot > header,
+  .trang--hai-cot .dau-trang {
+    grid-row: 1;
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .trang--hai-cot > nav,
+  .trang--hai-cot .thanh-dieu-huong {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .trang--hai-cot > main,
+  .trang--hai-cot .noi-dung-chinh {
+    grid-row: 3;
+    grid-column: 1 / 2;
+    margin-top: var(--khoang-cach-lg);
+    margin-bottom: var(--khoang-cach-xl);
+  }
+
+  .trang--hai-cot > aside,
+  .trang--hai-cot .cot-phu {
+    grid-row: 3;
+    grid-column: 2 / 3;
+    align-self: start;
+    position: static;
+    margin-top: var(--khoang-cach-lg);
+    margin-bottom: var(--khoang-cach-xl);
+  }
+
+  .trang--hai-cot > footer,
+  .trang--hai-cot .chan-trang {
+    grid-row: 4;
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-top: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .trang {
+    padding-left: var(--khoang-cach-lg);
+    padding-right: var(--khoang-cach-lg);
+  }
+
+  .trang--hai-cot {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    column-gap: var(--khoang-cach-xl);
+  }
+
+  .trang--hai-cot > footer,
+  .trang--hai-cot .chan-trang {
+    grid-row: 4;
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+.khung-hai-cot {
+  display: grid;
+  grid-template-columns: 100%;
+  row-gap: var(--khoang-cach-lg);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 860px) {
+  .khung-hai-cot {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    column-gap: var(--khoang-cach-xl);
+    row-gap: 0;
+    align-items: start;
+  }
+}

@@ -1,0 +1,60 @@
+:root {
+  --mau-chinh: #0f2b48;
+  --mau-chinh-dam: #071727;
+  --mau-phu: #2563eb;
+  --mau-phu-dam: #1d4ed8;
+  --mau-phu-nhat: #eff6ff;
+  --mau-nhan: #d97706;
+  --mau-nhan-dam: #b45309;
+  --mau-nhan-nhat: #fef3c7;
+
+  --mau-thanh-cong: #16a34a;
+  --mau-thanh-cong-nhat: #dcfce7;
+  --mau-thanh-cong-vien: #86efac;
+  --mau-loi: #dc2626;
+  --mau-loi-nhat: #fee2e2;
+
+  --nen: #f8fafc;
+  --nen-the: #ffffff;
+  --nen-phu: #f1f5f9;
+  --duong-vien: #e2e8f0;
+  --duong-vien-nhe: #f1f5f9;
+  --duong-vien-dam: #cbd5e1;
+
+  --chu: #0f172a;
+  --chu-phu: #475569;
+  --chu-mo: #64748b;
+  --chu-sang: #ffffff;
+
+  --phong-chu: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --phong-code: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  --co-chu-nho: 0.875rem;
+  --co-chu-chuan: 1rem;
+  --co-chu-vua: 1.125rem;
+  --co-chu-lon: 1.25rem;
+  --co-chu-xl: 1.5rem;
+  --co-chu-tieu-de: 2rem;
+
+  --bo-goc-sm: 6px;
+  --bo-goc: 10px;
+  --bo-goc-md: 14px;
+  --bo-goc-lg: 18px;
+  --bo-goc-tron: 9999px;
+
+  --khoang-cach-xs: 4px;
+  --khoang-cach-sm: 8px;
+  --khoang-cach: 16px;
+  --khoang-cach-md: 24px;
+  --khoang-cach-lg: 32px;
+  --khoang-cach-xl: 48px;
+
+  --bong-do-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  --bong-do: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --bong-do-md: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+  --bong-do-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+
+  --chieu-rong-khung: 1200px;
+  --chieu-rong-doc: 65ch;
+  --chuyen-dong-nhanh: all 0.15s ease-out;
+  --chuyen-dong: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}

@@ -1,0 +1,68 @@
+.ho-so-ca-nhan {
+  border-radius: var(--bo-goc-lg);
+  box-shadow: var(--bong-do-md);
+  border: 1px solid var(--duong-vien);
+  background-color: var(--nen-the);
+}
+
+.ho-so-ca-nhan__bia {
+  height: 140px;
+  background: linear-gradient(135deg, #0f2b48 0%, #1e3a8a 50%, #2563eb 100%);
+  position: relative;
+}
+
+.ho-so-ca-nhan__bia::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.ho-so-ca-nhan__anh {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ho-so-ca-nhan__anh:hover {
+  transform: scale(1.04);
+  box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.2);
+}
+
+.the-ky-nang {
+  position: relative;
+  overflow: hidden;
+  border-left: 3px solid var(--mau-phu);
+}
+
+.the-ky-nang:hover {
+  border-left-color: var(--mau-nhan);
+}
+
+.the-mon-hoc {
+  cursor: default;
+}
+
+.the-mon-hoc:hover {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bfdbfe 100%);
+}
+
+.ho-so-ca-nhan__anh {
+  width: 110px;
+  height: 110px;
+  margin-top: -40px;
+}
+
+@media (min-width: 640px) {
+  .ho-so-ca-nhan__anh {
+    width: 140px;
+    height: 140px;
+    margin-top: -60px;
+  }
+
+  .ho-so-ca-nhan__ten {
+    font-size: 1.85rem;
+  }
+}

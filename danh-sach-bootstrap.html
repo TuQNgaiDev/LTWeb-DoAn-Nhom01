@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Danh mục giáo trình Trường Đại học Sư phạm - Đại học Đà Nẵng được xây dựng bằng Bootstrap 5 song song với phiên bản tự viết CSS.">
+  <title>Danh mục giáo trình (Bản Bootstrap 5) | UEDBookHub</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="css/bootstrap-custom.css">
+</head>
+<body class="bg-body">
+
+  <header class="bg-white py-3 border-bottom shadow-sm">
+    <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between text-center text-md-start">
+      <img src="images/UEDBookHub.svg" alt="Biểu trưng UEDBookHub - Trường Đại học Sư phạm, Đại học Đà Nẵng" width="320" height="80" class="img-fluid mb-2 mb-md-0">
+      <p class="text-secondary small mb-0 fw-medium">Hệ thống học liệu &amp; Thư viện số – Trường Đại học Sư phạm, Đại học Đà Nẵng</p>
+    </div>
+  </header>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-sm" aria-label="Điều hướng chính Bootstrap">
+    <div class="container">
+      <span class="navbar-brand fw-bold d-lg-none">UEDBookHub</span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuChinh" aria-controls="menuChinh" aria-expanded="false" aria-label="Mở menu điều hướng">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menuChinh">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+          <li class="nav-item"><a class="nav-link active fw-bold" aria-current="page" href="danh-sach-bootstrap.html">Danh mục giáo trình (Bootstrap)</a></li>
+          <li class="nav-item"><a class="nav-link" href="danh-sach.html">Danh mục (Bản tự viết CSS)</a></li>
+          <li class="nav-item"><a class="nav-link" href="chi-tiet.html">Giáo trình tiêu biểu</a></li>
+          <li class="nav-item"><a class="nav-link" href="gioi-thieu.html">Giới thiệu nhóm</a></li>
+          <li class="nav-item"><a class="nav-link" href="lien-he.html">Đăng ký &amp; Liên hệ</a></li>
+        </ul>
+        <span class="navbar-text text-white-50 small d-none d-lg-inline">
+          Bản nguyên mẫu Bootstrap 5
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container my-4">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 pb-2 border-bottom">
+      <div>
+        <h1 class="h2 text-primary fw-bold mb-1">Danh mục Giáo trình UED (Bản Bootstrap 5)</h1>
+        <p class="text-secondary mb-0">Phiên bản đối chiếu song song được xây dựng bằng framework Bootstrap 5.</p>
+      </div>
+      <div class="mt-2 mt-md-0">
+        <a href="danh-sach.html" class="btn btn-outline-primary btn-sm">Chuyển sang bản tự viết CSS</a>
+      </div>
+    </div>
+
+    <div class="alert alert-info d-flex align-items-center shadow-sm" role="alert">
+      <div>
+        <strong>Ghi chú thực hành:</strong> Trang này sử dụng toàn bộ hệ thống lưới <code>container</code>, <code>row</code>, <code>col-*</code> và các thành phần dựng sẵn của Bootstrap 5, kết hợp tùy biến bảng màu UED qua tệp <code>css/bootstrap-custom.css</code>.
+      </div>
+    </div>
+
+    <section class="card shadow-sm mb-4 border-0">
+      <div class="card-body bg-light rounded">
+        <form class="row g-3 align-items-center" action="#" method="get">
+          <div class="col-12 col-md-5">
+            <label class="form-label small fw-semibold" for="tu-khoa">Tìm kiếm giáo trình:</label>
+            <input type="search" class="form-control" id="tu-khoa" placeholder="Nhập tên giáo trình, tác giả, môn học...">
+          </div>
+          <div class="col-12 col-md-4">
+            <label class="form-label small fw-semibold" for="khoa-chuyen-mon">Lọc theo Khoa:</label>
+            <select class="form-select" id="khoa-chuyen-mon">
+              <option selected>Tất cả các khoa chuyên môn</option>
+              <option value="1">Khoa Tâm lý – Giáo dục học</option>
+              <option value="2">Khoa Toán – Tin</option>
+              <option value="3">Khoa Ngữ văn</option>
+              <option value="4">Khoa Hóa học</option>
+              <option value="5">Khoa Vật lý</option>
+              <option value="6">Khoa Giáo dục Tiểu học</option>
+              <option value="7">Khoa Sinh – Môi trường</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-3 d-flex align-items-end">
+            <button type="button" class="btn btn-primary w-100 fw-semibold">Lọc dữ liệu</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="h4 text-primary fw-bold mb-3">Giáo trình tiêu biểu đang lưu hành</h2>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <img src="images/BiaSachGiaoDucHoc.svg" class="card-img-top" alt="Bìa sách Giáo trình Giáo dục học" width="300" height="420" loading="lazy">
+            <div class="card-body d-flex flex-column">
+              <span class="badge bg-secondary mb-2 align-self-start">Tâm lý – GDH</span>
+              <h3 class="card-title h6 fw-bold"><a href="chi-tiet.html" class="text-decoration-none text-primary">Giáo trình Giáo dục học</a></h3>
+              <p class="card-text small text-secondary flex-grow-1">PGS.TS. Trần Xuân Bách, TS. Hoàng Thế Hải</p>
+              <div class="d-flex justify-content-between align-items-center pt-2 border-top mt-auto">
+                <span class="badge bg-success">Còn 42 bản</span>
+                <a href="chi-tiet.html" class="btn btn-outline-primary btn-sm">Chi tiết</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <img src="images/BiaSachGiaoDucHoc.svg" class="card-img-top" alt="Bìa sách Giáo trình Cơ sở dữ liệu" width="300" height="420" loading="lazy">
+            <div class="card-body d-flex flex-column">
+              <span class="badge bg-secondary mb-2 align-self-start">Khoa Toán – Tin</span>
+              <h3 class="card-title h6 fw-bold"><a href="chi-tiet.html" class="text-decoration-none text-primary">Giáo trình Cơ sở dữ liệu</a></h3>
+              <p class="card-text small text-secondary flex-grow-1">PGS.TS. Nguyễn Trần Quốc Vinh</p>
+              <div class="d-flex justify-content-between align-items-center pt-2 border-top mt-auto">
+                <span class="badge bg-success">Còn 28 bản</span>
+                <a href="chi-tiet.html" class="btn btn-outline-primary btn-sm">Chi tiết</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <img src="images/BiaSachGiaoDucHoc.svg" class="card-img-top" alt="Bìa sách Văn học dân gian Việt Nam" width="300" height="420" loading="lazy">
+            <div class="card-body d-flex flex-column">
+              <span class="badge bg-secondary mb-2 align-self-start">Khoa Ngữ văn</span>
+              <h3 class="card-title h6 fw-bold"><a href="chi-tiet.html" class="text-decoration-none text-primary">Văn học dân gian VN</a></h3>
+              <p class="card-text small text-secondary flex-grow-1">PGS.TS. Lê Đức Luận (Chủ biên)</p>
+              <div class="d-flex justify-content-between align-items-center pt-2 border-top mt-auto">
+                <span class="badge bg-success">Còn 35 bản</span>
+                <a href="chi-tiet.html" class="btn btn-outline-primary btn-sm">Chi tiết</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <img src="images/BiaSachGiaoDucHoc.svg" class="card-img-top" alt="Bìa sách Giáo trình Hóa đại cương" width="300" height="420" loading="lazy">
+            <div class="card-body d-flex flex-column">
+              <span class="badge bg-secondary mb-2 align-self-start">Khoa Hóa học</span>
+              <h3 class="card-title h6 fw-bold"><a href="chi-tiet.html" class="text-decoration-none text-primary">Giáo trình Hóa đại cương</a></h3>
+              <p class="card-text small text-secondary flex-grow-1">GS.TS. Lê Tự Hải (Chủ biên)</p>
+              <div class="d-flex justify-content-between align-items-center pt-2 border-top mt-auto">
+                <span class="badge bg-warning text-dark">Còn 19 bản</span>
+                <a href="chi-tiet.html" class="btn btn-outline-primary btn-sm">Chi tiết</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="h4 text-primary fw-bold mb-3">Bảng lưu chiểu kho Thư viện (Bootstrap Table)</h2>
+      <div class="table-responsive shadow-sm">
+        <table class="table table-striped table-hover align-middle mb-0">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">Mã UED</th>
+              <th scope="col">Tên giáo trình</th>
+              <th scope="col">Tác giả</th>
+              <th scope="col">Khoa</th>
+              <th scope="col">NXB (Năm)</th>
+              <th scope="col">Tình trạng</th>
+              <th scope="col">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">GT-GDH-01</th>
+              <td class="fw-medium">Giáo trình Giáo dục học</td>
+              <td>PGS.TS. Trần Xuân Bách, TS. Hoàng Thế Hải</td>
+              <td>Tâm lý – GDH</td>
+              <td>ĐH Đà Nẵng (2020)</td>
+              <td><span class="badge bg-success">Còn 42 bản</span></td>
+              <td><a href="chi-tiet.html" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
+            </tr>
+            <tr>
+              <th scope="row">GT-CSDL-02</th>
+              <td class="fw-medium">Giáo trình Cơ sở dữ liệu</td>
+              <td>PGS.TS. Nguyễn Trần Quốc Vinh</td>
+              <td>Toán – Tin</td>
+              <td>ĐH Đà Nẵng (2021)</td>
+              <td><span class="badge bg-success">Còn 28 bản</span></td>
+              <td><a href="chi-tiet.html" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
+            </tr>
+            <tr>
+              <th scope="row">GT-VHDG-03</th>
+              <td class="fw-medium">Giáo trình Văn học dân gian Việt Nam</td>
+              <td>PGS.TS. Lê Đức Luận</td>
+              <td>Ngữ văn</td>
+              <td>ĐH Sư phạm (2019)</td>
+              <td><span class="badge bg-success">Còn 35 bản</span></td>
+              <td><a href="chi-tiet.html" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
+            </tr>
+            <tr>
+              <th scope="row">GT-HDC-04</th>
+              <td class="fw-medium">Giáo trình Hóa đại cương</td>
+              <td>GS.TS. Lê Tự Hải</td>
+              <td>Hóa học</td>
+              <td>ĐH Đà Nẵng (2020)</td>
+              <td><span class="badge bg-warning text-dark">Còn 19 bản</span></td>
+              <td><a href="chi-tiet.html" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
+            </tr>
+            <tr>
+              <th scope="row">GT-TNVL-05</th>
+              <td class="fw-medium">Giáo trình Thí nghiệm Vật lí THPT</td>
+              <td>TS. Phùng Việt Hải</td>
+              <td>Vật lý</td>
+              <td>ĐH Đà Nẵng (2021)</td>
+              <td><span class="badge bg-warning text-dark">Còn 15 bản</span></td>
+              <td><a href="chi-tiet.html" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <nav aria-label="Phân trang danh mục giáo trình" class="mb-4">
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trang trước</a></li>
+        <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Trang kế</a></li>
+      </ul>
+    </nav>
+  </main>
+
+  <footer class="bg-dark text-white-50 py-4 mt-5">
+    <div class="container text-center text-md-start">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <p class="mb-1 text-white">&copy; 2026 UEDBookHub – Nhóm 01 (Trần Văn Tú, Bhling Trường, Lê Trung Hậu, Nguyễn Tuấn Nhật Thanh).</p>
+          <p class="small mb-0">Khoa Toán – Tin, Trường Đại học Sư phạm – Đại học Đà Nẵng. Địa chỉ: 459 Tôn Đức Thắng, TP. Đà Nẵng.</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+          <a href="danh-sach.html" class="btn btn-sm btn-outline-light">Bản tự viết CSS</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

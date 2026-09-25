@@ -5,82 +5,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Đăng ký mượn giáo trình thư viện và đặt in sách học phần trực tuyến tại Trường Đại học Sư phạm - Đại học Đà Nẵng qua cổng UEDBookHub.">
   <title>Đăng ký mượn sách &amp; Đặt mua giáo trình | UEDBookHub</title>
+  <link rel="stylesheet" href="css/style.css?v=10">
 </head>
-<body>
-  <header>
-    <img src="images/UEDBookHub.svg" alt="Biểu trưng UEDBookHub - Trường Đại học Sư phạm, Đại học Đà Nẵng" width="320" height="80">
-    <p>Hệ thống học liệu &amp; Thư viện số – Trường Đại học Sư phạm, Đại học Đà Nẵng</p>
+<body class="trang">
+  <header class="dau-trang">
+    <img class="dau-trang__bieu-trung" src="images/UEDBookHub.svg" alt="Biểu trưng UEDBookHub - Trường Đại học Sư phạm, Đại học Đà Nẵng" width="320" height="80">
+    <p class="dau-trang__khau-hieu">Hệ thống học liệu &amp; Thư viện số – Trường Đại học Sư phạm, Đại học Đà Nẵng</p>
   </header>
 
-  <nav aria-label="Điều hướng chính">
-    <ul>
-      <li><a href="index.html">Trang chủ</a></li>
-      <li><a href="danh-sach.html">Danh mục giáo trình</a></li>
-      <li><a href="chi-tiet.html">Giáo trình tiêu biểu</a></li>
-      <li><a href="gioi-thieu.html">Giới thiệu nhóm</a></li>
-      <li><a href="lien-he.html" aria-current="page">Đăng ký &amp; Liên hệ</a></li>
+  <nav class="thanh-dieu-huong" aria-label="Điều hướng chính">
+    <ul class="thanh-dieu-huong__danh-sach">
+      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="index.html">Trang chủ</a></li>
+      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="danh-sach.html">Danh mục giáo trình</a></li>
+      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="chi-tiet.html">Giáo trình tiêu biểu</a></li>
+      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gioi-thieu.html">Giới thiệu nhóm</a></li>
+      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="lien-he.html" aria-current="page">Đăng ký &amp; Liên hệ</a></li>
     </ul>
   </nav>
 
-  <main>
+  <main class="noi-dung-chinh">
     <h1>Đăng ký Mượn Sách &amp; Mua Giáo trình</h1>
 
     <section>
-      <h2>Lưu ý khi gửi phiếu</h2>
-      <p>
-        Sau khi bạn gửi phiếu, thủ thư sẽ kiểm tra và gửi email xác nhận qua tài khoản sinh viên (@ued.udn.vn) trong vòng 24 giờ làm việc.
+      <h2>Lưu ý khi gửi phiếu trực tuyến</h2>
+      <p class="doan-van-dai">
+        Sau khi bạn gửi phiếu, thủ thư sẽ tiếp nhận, kiểm tra tình trạng sách tại kho và gửi email phản hồi xác nhận qua tài khoản sinh viên (@ued.udn.vn) trong vòng 24 giờ làm việc.
       </p>
     </section>
 
     <section>
       <h2>Mẫu phiếu đăng ký trực tuyến</h2>
-      <form action="#" method="post">
-        <!-- Nhóm 1: Thông tin người mượn / người đặt -->
-        <fieldset>
-          <legend>Thông tin sinh viên</legend>
+      <form class="bieu-mau" action="#" method="post">
 
-          <p>
-            <label for="ho-ten">Họ và tên đầy đủ <abbr title="Bắt buộc phải điền">*</abbr>:</label><br>
-            <input type="text" id="ho-ten" name="ho_ten" required minlength="3" maxlength="70" placeholder="Ví dụ: Trần Văn Tú">
-          </p>
+        <fieldset class="bieu-mau__khung">
+          <legend class="bieu-mau__tieu-de-khung">Thông tin sinh viên</legend>
 
-          <p>
-            <label for="ma-sinh-vien">Mã số sinh viên (9-10 chữ số) <abbr title="Bắt buộc phải điền">*</abbr>:</label><br>
-            <input type="text" id="ma-sinh-vien" name="ma_sinh_vien" required pattern="^[0-9]{9,10}$" placeholder="Ví dụ: 3112410123" title="Mã sinh viên gồm 9 đến 10 chữ số">
-          </p>
+          <div class="bieu-mau__nhom">
+            <label class="bieu-mau__nhan" for="ho-ten">Họ và tên đầy đủ <abbr title="Bắt buộc phải điền">*</abbr>:</label>
+            <input class="bieu-mau__o-nhap" type="text" id="ho-ten" name="ho_ten" required minlength="3" maxlength="70" placeholder="Ví dụ: Trần Văn Tú">
+          </div>
 
-          <p>
-            <label for="email-sv">Email sinh viên (tên miền @ued.udn.vn) <abbr title="Bắt buộc phải điền">*</abbr>:</label><br>
-            <input type="email" id="email-sv" name="email_sv" required placeholder="sv.tensv@ued.udn.vn">
-          </p>
+          <div class="bieu-mau__nhom">
+            <label class="bieu-mau__nhan" for="ma-sinh-vien">Mã số sinh viên (9-10 chữ số) <abbr title="Bắt buộc phải điền">*</abbr>:</label>
+            <input class="bieu-mau__o-nhap" type="text" id="ma-sinh-vien" name="ma_sinh_vien" required pattern="^[0-9]{9,10}$" placeholder="Ví dụ: 3112410123" title="Mã sinh viên gồm 9 đến 10 chữ số">
+          </div>
 
-          <p>
-            <label for="so-dien-thoai">Số điện thoại liên hệ (10 chữ số) <abbr title="Bắt buộc phải điền">*</abbr>:</label><br>
-            <input type="tel" id="so-dien-thoai" name="so_dien_thoai" required pattern="^(0[3|5|7|8|9])[0-9]{8}$" placeholder="0905123456" title="Số điện thoại di động Việt Nam gồm 10 chữ số, bắt đầu bằng 03, 05, 07, 08 hoặc 09">
-          </p>
+          <div class="bieu-mau__nhom">
+            <label class="bieu-mau__nhan" for="email-sv">Email sinh viên (tên miền @ued.udn.vn) <abbr title="Bắt buộc phải điền">*</abbr>:</label>
+            <input class="bieu-mau__o-nhap" type="email" id="email-sv" name="email_sv" required placeholder="sv.tensv@ued.udn.vn">
+          </div>
 
-          <p>
-            <label for="lop-hoc-phan">Lớp sinh hoạt / Khoa chuyên ngành:</label><br>
-            <input type="text" id="lop-hoc-phan" name="lop_hoc_phan" placeholder="Ví dụ: 24CT1 - Khoa Toán Tin">
-          </p>
+          <div class="bieu-mau__nhom">
+            <label class="bieu-mau__nhan" for="so-dien-thoai">Số điện thoại liên hệ (10 chữ số) <abbr title="Bắt buộc phải điền">*</abbr>:</label>
+            <input class="bieu-mau__o-nhap" type="tel" id="so-dien-thoai" name="so_dien_thoai" required pattern="^(0[3|5|7|8|9])[0-9]{8}$" placeholder="0905123456" title="Số điện thoại di động Việt Nam gồm 10 chữ số, bắt đầu bằng 03, 05, 07, 08 hoặc 09">
+          </div>
+
+          <div class="bieu-mau__nhom">
+            <label class="bieu-mau__nhan" for="lop-hoc-phan">Lớp sinh hoạt / Khoa chuyên ngành:</label>
+            <input class="bieu-mau__o-nhap" type="text" id="lop-hoc-phan" name="lop_hoc_phan" placeholder="Ví dụ: 24CT1 - Khoa Toán Tin">
+          </div>
         </fieldset>
 
-        <!-- Nhóm 2: Nhu cầu dịch vụ -->
-        <fieldset>
-          <legend>Nhu cầu học liệu</legend>
+        <fieldset class="bieu-mau__khung">
+          <legend class="bieu-mau__tieu-de-khung">Nhu cầu học liệu</legend>
 
-          <p>Hình thức yêu cầu <abbr title="Bắt buộc phải chọn">*</abbr>:</p>
-          <p>
-            <input type="radio" id="hinh-thuc-muon" name="hinh_thuc" value="muon" required checked>
-            <label for="hinh-thuc-muon">Đăng ký mượn đọc / mang về (tối đa 14 ngày)</label>
-            <br>
-            <input type="radio" id="hinh-thuc-mua" name="hinh_thuc" value="mua">
-            <label for="hinh-thuc-mua">Đặt mua giáo trình bản in chính khóa (giá ưu đãi)</label>
-          </p>
+          <div class="bieu-mau__nhom">
+            <span class="bieu-mau__nhan">Hình thức yêu cầu <abbr title="Bắt buộc phải chọn">*</abbr>:</span>
+            <label class="bieu-mau__lua-chon" for="hinh-thuc-muon">
+              <input type="radio" id="hinh-thuc-muon" name="hinh_thuc" value="muon" required checked>
+              <span>Đăng ký mượn đọc / mang về (tối đa 14 ngày)</span>
+            </label>
+            <label class="bieu-mau__lua-chon" for="hinh-thuc-mua">
+              <input type="radio" id="hinh-thuc-mua" name="hinh_thuc" value="mua">
+              <span>Đặt mua giáo trình bản in chính khóa (giá ưu đãi)</span>
+            </label>
+          </div>
 
-          <p>
-            <label for="chon-giao-trinh">Lựa chọn giáo trình / tài liệu UED <abbr title="Bắt buộc phải chọn">*</abbr>:</label><br>
-            <select id="chon-giao-trinh" name="chon_giao_trinh" required>
+          <div class="bieu-mau__nhom">
+            <label class="bieu-mau__nhan" for="chon-giao-trinh">Lựa chọn giáo trình / tài liệu UED <abbr title="Bắt buộc phải chọn">*</abbr>:</label>
+            <select class="bieu-mau__o-nhap" id="chon-giao-trinh" name="chon_giao_trinh" required>
               <option value="">-- Vui lòng chọn giáo trình --</option>
               <option value="gdh">Giáo trình Giáo dục học (PGS.TS. Trần Xuân Bách, TS. Hoàng Thế Hải)</option>
               <option value="csdl">Giáo trình Cơ sở dữ liệu (PGS.TS. Nguyễn Trần Quốc Vinh)</option>
@@ -93,54 +96,57 @@
               <option value="mdv">Giáo trình Môđun và Vành (GS.TSKH. Lê Văn Thuyết, TS. Trương Công Quỳnh)</option>
               <option value="trth">Toán rời rạc ứng dụng trong Tin học &amp; Công nghệ Tiểu học (TS. Kiều Mạnh Hùng)</option>
             </select>
-          </p>
+          </div>
 
-          <p>
-            <label for="so-luong">Số lượng bản yêu cầu (từ 1 đến 5 cuốn) <abbr title="Bắt buộc">*</abbr>:</label><br>
-            <input type="number" id="so-luong" name="so_luong" required min="1" max="5" value="1">
-          </p>
+          <div class="bieu-mau__nhom">
+            <label class="bieu-mau__nhan" for="so-luong">Số lượng bản yêu cầu (từ 1 đến 5 cuốn) <abbr title="Bắt buộc">*</abbr>:</label>
+            <input class="bieu-mau__o-nhap" type="number" id="so-luong" name="so_luong" required min="1" max="5" value="1">
+          </div>
 
-          <p>
-            <label for="ngay-hen">Ngày hẹn đến nhận sách tại thư viện <abbr title="Bắt buộc">*</abbr>:</label><br>
-            <input type="date" id="ngay-hen" name="ngay_hen" required min="2026-09-01" max="2027-01-31">
-          </p>
+          <div class="bieu-mau__nhom">
+            <label class="bieu-mau__nhan" for="ngay-hen">Ngày hẹn đến nhận sách tại thư viện <abbr title="Bắt buộc">*</abbr>:</label>
+            <input class="bieu-mau__o-nhap" type="date" id="ngay-hen" name="ngay_hen" required min="2026-09-01" max="2027-01-31">
+          </div>
 
-          <p>
-            <label for="ghi-chu">Ghi chú hoặc yêu cầu bổ sung:</label><br>
-            <textarea id="ghi-chu" name="ghi_chu" rows="4" cols="50" placeholder="Ghi rõ yêu cầu nếu cần nhận tài liệu số hoặc nhận sách theo nhóm lớp..."></textarea>
-          </p>
+          <div class="bieu-mau__nhom">
+            <label class="bieu-mau__nhan" for="ghi-chu">Ghi chú hoặc yêu cầu bổ sung:</label>
+            <textarea class="bieu-mau__o-nhap" id="ghi-chu" name="ghi_chu" rows="4" cols="50" placeholder="Ghi rõ yêu cầu nếu cần nhận tài liệu số hoặc nhận sách theo nhóm lớp..."></textarea>
+          </div>
 
-          <p>
-            <input type="checkbox" id="cam-ket" name="cam_ket" required>
-            <label for="cam-ket">Tôi cam kết giữ gìn sách cẩn thận và trả sách đúng thời hạn của Thư viện trường. <abbr title="Bắt buộc phải chọn">*</abbr></label>
-          </p>
+          <div class="bieu-mau__nhom">
+            <label class="bieu-mau__lua-chon" for="cam-ket">
+              <input type="checkbox" id="cam-ket" name="cam_ket" required>
+              <span>Tôi cam kết giữ gìn sách cẩn thận và trả sách đúng thời hạn của Thư viện trường. <abbr title="Bắt buộc phải chọn">*</abbr></span>
+            </label>
+          </div>
         </fieldset>
 
-        <p>
-          <button type="submit">Gửi phiếu đăng ký</button>
-          <button type="reset">Nhập lại từ đầu</button>
-        </p>
+        <div class="nhom-nut">
+          <button type="submit" class="nut nut--chinh">Gửi phiếu đăng ký</button>
+          <button type="reset" class="nut nut--phu">Nhập lại từ đầu</button>
+        </div>
       </form>
     </section>
 
     <section>
       <h2>Thông tin liên hệ Thư viện trường</h2>
-      <p>
-        Nếu bạn cần hỏi thêm thông tin hoặc cần hỗ trợ, xin vui lòng liên hệ:
-      </p>
-      <ul>
-        <li><strong>Địa chỉ:</strong> Quầy thư viện (Tầng 2, Nhà Thư viện, Trường ĐH Sư phạm – ĐH Đà Nẵng).</li>
-        <li><strong>Điện thoại:</strong> (0236) 3841 323 (Số máy lẻ: 104).</li>
-        <li><strong>Email:</strong> <a href="mailto:thuvien@ued.udn.vn">thuvien@ued.udn.vn</a></li>
-        <li><strong>Giờ làm việc:</strong> Sáng từ 07:30 – 11:30; Chiều từ 13:30 – 17:00 (Từ Thứ Hai đến Thứ Sáu).</li>
-      </ul>
+      <div class="khoi-phu">
+        <p>
+          Nếu bạn cần hỏi thêm thông tin hoặc cần hỗ trợ tra cứu trực tiếp, xin vui lòng liên hệ:
+        </p>
+        <ul class="khoi-phu__danh-sach">
+          <li class="khoi-phu__muc"><strong>Địa chỉ:</strong> Quầy thư viện (Tầng 2, Nhà Thư viện, Trường ĐH Sư phạm – ĐH Đà Nẵng).</li>
+          <li class="khoi-phu__muc"><strong>Điện thoại:</strong> (0236) 3841 323 (Số máy lẻ: 104).</li>
+          <li class="khoi-phu__muc"><strong>Email:</strong> <a href="mailto:thuvien@ued.udn.vn">thuvien@ued.udn.vn</a></li>
+          <li class="khoi-phu__muc"><strong>Giờ làm việc:</strong> Sáng từ 07:30 – 11:30; Chiều từ 13:30 – 17:00 (Từ Thứ Hai đến Thứ Sáu).</li>
+        </ul>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2026 UEDBookHub – Sinh viên thực hiện: Trần Văn Tú.</p>
+  <footer class="chan-trang">
+    <p>&copy; 2026 UEDBookHub – Nhóm 01 (Trần Văn Tú, Bhling Trường, Lê Trung Hậu, Nguyễn Tuấn Nhật Thanh).</p>
     <p>Khoa Toán – Tin, Trường Đại học Sư phạm – Đại học Đà Nẵng. Địa chỉ: 459 Tôn Đức Thắng, Quận Liên Chiểu, TP. Đà Nẵng.</p>
   </footer>
 </body>
 </html>
-

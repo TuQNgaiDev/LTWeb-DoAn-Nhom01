@@ -5,48 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Giới thiệu nhóm tác giả phát triển UEDBookHub thuộc Khoa Toán - Tin, Trường Đại học Sư phạm - Đại học Đà Nẵng và liên kết trang cá nhân từng thành viên.">
   <title>Giới thiệu nhóm phát triển | UEDBookHub</title>
+  <link rel="stylesheet" href="css/style.css?v=10">
 </head>
-<body>
-  <header>
-    <img src="images/UEDBookHub.svg" alt="Biểu trưng UEDBookHub - Trường Đại học Sư phạm, Đại học Đà Nẵng" width="320" height="80">
-    <p>Hệ thống học liệu &amp; Thư viện số – Trường Đại học Sư phạm, Đại học Đà Nẵng</p>
+<body class="trang">
+  <header class="dau-trang">
+    <img class="dau-trang__bieu-trung" src="images/UEDBookHub.svg" alt="Biểu trưng UEDBookHub - Trường Đại học Sư phạm, Đại học Đà Nẵng" width="320" height="80">
+    <p class="dau-trang__khau-hieu">Hệ thống học liệu &amp; Thư viện số – Trường Đại học Sư phạm, Đại học Đà Nẵng</p>
   </header>
 
-  <nav aria-label="Điều hướng chính">
-    <ul>
-      <li><a href="index.html">Trang chủ</a></li>
-      <li><a href="danh-sach.html">Danh mục giáo trình</a></li>
-      <li><a href="chi-tiet.html">Giáo trình tiêu biểu</a></li>
-      <li><a href="gioi-thieu.html" aria-current="page">Giới thiệu nhóm</a></li>
-      <li><a href="lien-he.html">Đăng ký &amp; Liên hệ</a></li>
+  <nav class="thanh-dieu-huong" aria-label="Điều hướng chính">
+    <ul class="thanh-dieu-huong__danh-sach">
+      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="index.html">Trang chủ</a></li>
+      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="danh-sach.html">Danh mục giáo trình</a></li>
+      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="chi-tiet.html">Giáo trình tiêu biểu</a></li>
+      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gioi-thieu.html" aria-current="page">Giới thiệu nhóm</a></li>
+      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="lien-he.html">Đăng ký &amp; Liên hệ</a></li>
     </ul>
   </nav>
 
-  <main>
-    <h1>Giới thiệu về UEDBookHub</h1>
+  <main class="noi-dung-chinh">
+    <h1>Giới thiệu về UEDBookHub &amp; Nhóm Phát triển</h1>
 
     <section>
       <h2>Mục đích xây dựng website</h2>
-      <p>
-        Website <strong>UEDBookHub</strong> được thực hiện trong môn học <em>Thiết kế và Lập trình Web</em> tại Khoa Toán – Tin, Trường Đại học Sư phạm – Đại học Đà Nẵng.
+      <p class="doan-van-dai">
+        Website <strong>UEDBookHub</strong> được nghiên cứu và xây dựng trong khuôn khổ học phần <em>Thiết kế và Lập trình Web</em> tại Khoa Toán – Tin, Trường Đại học Sư phạm – Đại học Đà Nẵng (năm học 2026 – 2027).
       </p>
-      <p>
-        Mục tiêu của Website là giúp các bạn sinh viên trong trường tìm kiếm và mượn sách thư viện nhanh chóng hơn, đồng thời đăng ký mua giáo trình học phần chính hãng với giá cả hợp lý.
+      <p class="doan-van-dai">
+        Mục tiêu trọng tâm của dự án là số hóa quy trình quản lý và tiếp cận học liệu cho sinh viên toàn trường: hỗ trợ tra cứu trực tuyến tình trạng sách thực tế trong kho thư viện, đơn giản hóa việc đăng ký mượn tài liệu, đồng thời tạo kênh tiếp cận chính thống giúp sinh viên đặt mua giáo trình xuất bản chính thức từ Nhà xuất bản Đại học Đà Nẵng với mức giá trợ giá học đường tốt nhất.
+      </p>
+      <p class="doan-van-dai">
+        Giao diện website được thiết kế theo tư duy <strong>Mobile-First</strong>, đảm bảo trải nghiệm người dùng mượt mà trên cả thiết bị di động, máy tính bảng và màn hình máy tính để bàn, tuân thủ các tiêu chuẩn nghiêm ngặt về tính ngữ nghĩa HTML5, khả năng tiếp cận (Accessibility - WCAG 2.1 AA) và tối ưu hiệu năng Lighthouse.
       </p>
     </section>
 
     <section>
-      <h2>Sinh viên thực hiện</h2>
-      <ul>
-        <li><a href="thanhvien/tu/gioithieu.html">Trần Văn Tú</a> (Trưởng nhóm)</li>
-      </ul>
+      <h2>Sinh viên thực hiện đề tài</h2>
+      <div class="danh-sach-thanh-vien">
+        <article class="the-thanh-vien">
+          <h3 class="the-thanh-vien__ten">Trần Văn Tú</h3>
+          <div class="the-thanh-vien__vai-tro">Trưởng nhóm – Quản trị kiến trúc hệ thống &amp; Thiết kế giao diện CSS</div>
+          <div class="the-thanh-vien__lien-ket">
+            <a href="thanhvien/3120224169_tu/gioithieu.html" class="nut nut--phu nut--day-du">Xem trang cá nhân Tú</a>
+          </div>
+        </article>
+
+        <article class="the-thanh-vien">
+          <h3 class="the-thanh-vien__ten">Bhling Trường</h3>
+          <div class="the-thanh-vien__vai-tro">Thành viên – Biên tập học liệu &amp; Giao diện trang cá nhân</div>
+          <div class="the-thanh-vien__lien-ket">
+            <a href="thanhvien/truong/gioithieu.html" class="nut nut--phu nut--day-du">Xem trang cá nhân Trường</a>
+          </div>
+        </article>
+
+        <article class="the-thanh-vien">
+          <h3 class="the-thanh-vien__ten">Lê Trung Hậu</h3>
+          <div class="the-thanh-vien__vai-tro">Thành viên – Thu thập dữ liệu giáo trình &amp; Giao diện trang cá nhân</div>
+          <div class="the-thanh-vien__lien-ket">
+            <a href="thanhvien/hau/gioithieu.html" class="nut nut--phu nut--day-du">Xem trang cá nhân Hậu</a>
+          </div>
+        </article>
+
+        <article class="the-thanh-vien">
+          <h3 class="the-thanh-vien__ten">Nguyễn Tuấn Nhật Thanh</h3>
+          <div class="the-thanh-vien__vai-tro">Thành viên – Kiểm chuẩn W3C/Lighthouse &amp; Giao diện trang cá nhân</div>
+          <div class="the-thanh-vien__lien-ket">
+            <a href="thanhvien/3120223132_thanh/gioithieu.html" class="nut nut--phu nut--day-du">Xem trang cá nhân Thanh</a>
+          </div>
+        </article>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2026 UEDBookHub – Sinh viên thực hiện: Trần Văn Tú.</p>
+  <footer class="chan-trang">
+    <p>&copy; 2026 UEDBookHub – Nhóm 01 (Trần Văn Tú, Bhling Trường, Lê Trung Hậu, Nguyễn Tuấn Nhật Thanh).</p>
     <p>Khoa Toán – Tin, Trường Đại học Sư phạm – Đại học Đà Nẵng. Địa chỉ: 459 Tôn Đức Thắng, Quận Liên Chiểu, TP. Đà Nẵng.</p>
   </footer>
 </body>
 </html>
-
