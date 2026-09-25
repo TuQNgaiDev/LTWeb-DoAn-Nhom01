@@ -1,0 +1,476 @@
+/* =========================
+   CSS RIÊNG TRANG CÁ NHÂN
+   ========================= */
+
+/* Biến màu chung của nhóm */
+:root {
+    --primary-color: #ee4d2d;
+    --secondary-color: #fff3f0;
+    --text-color: #333;
+    --background-color: #f5f5f5;
+    --white: #ffffff;
+    --border-color: #ddd;
+}
+
+
+/* =========================
+   THIẾT LẬP CHUNG
+   ========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+
+    font-family: Arial, sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    line-height: 1.6;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+header {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: var(--white);
+
+    padding: 28px 20px;
+    text-align: center;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+}
+
+header p {
+    margin: 0;
+    font-size: 15px;
+}
+
+
+/* =========================
+   MENU
+   ========================= */
+
+nav {
+    width: 100%;
+    background-color: var(--white);
+
+    padding: 12px 15px;
+    text-align: center;
+
+    border-bottom: 1px solid var(--border-color);
+}
+
+nav a {
+    display: inline-block;
+    color: var(--primary-color);
+    background-color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    margin: 3px 6px;
+    padding: 7px 12px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+}
+
+nav a:hover {
+    background-color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+nav a:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+    background-color: var(--secondary-color);
+}
+
+
+/* =========================
+   BỐ CỤC CHÍNH - GRID
+   ========================= */
+
+main {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: 25px auto;
+    padding: 0 20px;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 20px;
+}
+
+
+/* =========================
+   CÁC KHỐI NỘI DUNG
+   ========================= */
+
+section,
+article {
+    width: 100%;
+    min-width: 0;
+
+    background-color: var(--white);
+
+    padding: 22px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+
+/* =========================
+   TIÊU ĐỀ
+   ========================= */
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+
+    color: var(--primary-color);
+    font-size: 21px;
+}
+
+
+/* =========================
+   ẢNH CÁ NHÂN
+   ========================= */
+
+figure {
+    margin: 0 auto 18px;
+    text-align: center;
+}
+
+figure img {
+    display: block;
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: 3px solid var(--secondary-color);
+}
+
+figcaption {
+    margin-top: 10px;
+
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+
+/* =========================
+   NỘI DUNG DANH SÁCH
+   ========================= */
+
+section ul:not(.skills),
+article ul:not(.skills) {
+    padding-left: 22px;
+}
+
+section li,
+article li {
+    margin-bottom: 6px;
+}
+
+
+/* =========================
+   DANH SÁCH KỸ NĂNG
+   ========================= */
+
+.skills {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+}
+
+.skills li {
+    min-width: 0;
+
+    margin: 0;
+    padding: 9px 10px;
+
+    text-align: center;
+
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+.skills li:hover {
+    background-color: var(--secondary-color);
+}
+
+
+/* =========================
+   BẢNG THỜI KHÓA BIỂU
+   ========================= */
+
+/* Khung riêng cho bảng */
+.table-container {
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+
+    background-color: var(--white);
+
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* Bảng */
+.schedule {
+    width: 100%;
+    min-width: 700px;
+
+    border-collapse: collapse;
+
+    background-color: var(--white);
+}
+
+
+/* Tiêu đề bảng */
+.schedule caption {
+    padding: 10px;
+
+    color: var(--primary-color);
+
+    font-weight: bold;
+    text-align: center;
+}
+
+
+/* Ô trong bảng */
+.schedule th,
+.schedule td {
+    border: 1px solid var(--border-color);
+
+    padding: 8px;
+
+    text-align: center;
+    vertical-align: middle;
+
+    font-size: 14px;
+}
+
+
+/* Hàng tiêu đề */
+.schedule th {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+footer {
+    width: 100%;
+
+    background-color: var(--primary-color);
+    color: var(--white);
+
+    text-align: center;
+
+    padding: 18px 15px;
+
+    margin-top: 25px;
+}
+
+footer p {
+    margin: 4px 0;
+}
+
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (max-width: 768px) {
+
+    header {
+        padding: 24px 15px;
+    }
+
+    header h1 {
+        font-size: 24px;
+    }
+
+    nav {
+        padding: 10px;
+    }
+
+    nav a {
+        margin: 2px 4px;
+        padding: 6px 9px;
+    }
+
+    /* 2 cột → 1 cột */
+    main {
+        grid-template-columns: 1fr;
+
+        margin-top: 20px;
+        padding: 0 15px;
+
+        gap: 18px;
+    }
+
+    section,
+    article {
+        padding: 18px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    figure img {
+        width: 220px;
+    }
+
+    .skills {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================
+   ĐIỆN THOẠI
+   ========================= */
+
+@media (max-width: 480px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    header {
+        padding: 20px 10px;
+    }
+
+    header h1 {
+        font-size: 21px;
+    }
+
+    header p {
+        font-size: 14px;
+    }
+
+    nav {
+        padding: 8px;
+    }
+
+    nav a {
+        font-size: 13px;
+        margin: 2px;
+        padding: 5px 7px;
+    }
+
+    main {
+        width: 100%;
+        padding: 0 10px;
+
+        margin: 15px auto;
+
+        gap: 15px;
+    }
+
+    section,
+    article {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    figure img {
+        width: 200px;
+    }
+
+    /* Mỗi kỹ năng một dòng */
+    .skills {
+        grid-template-columns: 1fr;
+    }
+
+    .skills li {
+        padding: 8px;
+    }
+
+    /* Bảng chỉ cuộn trong khung */
+    .table-container {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .schedule {
+        min-width: 700px;
+    }
+
+    .schedule th,
+    .schedule td {
+        padding: 7px 6px;
+        font-size: 13px;
+    }
+
+    footer {
+        padding: 15px 10px;
+    }
+}
+/* =========================
+   RESPONSIVE - MÀN HÌNH TỪ 769px
+   ========================= */
+
+@media (min-width: 769px) {
+    main {
+        grid-template-columns: 1fr 1fr;
+        max-width: 1100px;
+    }
+
+    figure img {
+        max-width: 250px;
+    }
+
+    .skills {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}   
