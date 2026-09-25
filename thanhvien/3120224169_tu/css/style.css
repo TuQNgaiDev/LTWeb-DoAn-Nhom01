@@ -3,32 +3,112 @@
   box-shadow: var(--bong-do-md);
   border: 1px solid var(--duong-vien);
   background-color: var(--nen-the);
+  overflow: hidden;
+  margin-bottom: var(--khoang-cach-lg);
 }
 
-.ho-so-ca-nhan__bia {
-  height: 140px;
-  background: linear-gradient(135deg, #0f2b48 0%, #1e3a8a 50%, #2563eb 100%);
+.ho-so-ca-nhan__than {
+  padding: var(--khoang-cach-lg);
   position: relative;
 }
 
-.ho-so-ca-nhan__bia::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
-  pointer-events: none;
+.ho-so-ca-nhan__hang-dau {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--khoang-cach);
+  margin-top: 0;
+  margin-bottom: var(--khoang-cach-lg);
+  padding-bottom: var(--khoang-cach-lg);
+  border-bottom: 1px solid var(--duong-vien);
 }
 
 .ho-so-ca-nhan__anh {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--duong-vien);
+  box-shadow: var(--bong-do-md);
+  background-color: var(--nen-the);
+  flex-shrink: 0;
+  margin: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .ho-so-ca-nhan__anh:hover {
   transform: scale(1.04);
   box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.2);
+  border-color: var(--mau-phu);
+}
+
+.ho-so-ca-nhan__thong-tin {
+  flex: 1;
+}
+
+.ho-so-ca-nhan__ten {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--mau-chinh);
+  margin: 0 0 6px;
+  line-height: 1.25;
+}
+
+.ho-so-ca-nhan__vai-tro {
+  font-size: var(--co-chu-chuan);
+  color: var(--mau-phu-dam);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.ho-so-ca-nhan__thong-tin .nhom-nut {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--khoang-cach-sm);
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .ho-so-ca-nhan__than {
+    padding: var(--khoang-cach-xl);
+  }
+
+  .ho-so-ca-nhan__hang-dau {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: var(--khoang-cach-xl);
+  }
+
+  .ho-so-ca-nhan__anh {
+    width: 140px;
+    height: 140px;
+  }
+
+  .ho-so-ca-nhan__ten {
+    font-size: 2rem;
+  }
+
+  .ho-so-ca-nhan__thong-tin .nhom-nut {
+    justify-content: flex-start;
+  }
+}
+
+.the-phuong-cham {
+  margin: var(--khoang-cach-md) 0;
+  padding: var(--khoang-cach) var(--khoang-cach-lg);
+  background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
+  border-left: 4px solid var(--mau-phu-dam);
+  border-radius: 0 var(--bo-goc-md) var(--bo-goc-md) 0;
+  font-style: italic;
+  color: var(--mau-chinh);
+}
+
+.the-phuong-cham p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
 }
 
 .the-ky-nang {
@@ -41,6 +121,13 @@
   border-left-color: var(--mau-nhan);
 }
 
+.the-ky-nang__bieu-tuong {
+  font-size: 1.75rem;
+  line-height: 1;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
 .the-mon-hoc {
   cursor: default;
 }
@@ -49,20 +136,35 @@
   background: linear-gradient(135deg, #e0f2fe 0%, #bfdbfe 100%);
 }
 
-.ho-so-ca-nhan__anh {
-  width: 110px;
-  height: 110px;
-  margin-top: -40px;
+.the-mon-hoc--khai-pha { border-left: 3.5px solid #f59e0b; }
+.the-mon-hoc--lap-trinh-mang { border-left: 3.5px solid #8b5cf6; }
+.the-mon-hoc--web { border-left: 3.5px solid #2563eb; }
+.the-mon-hoc--lich-su { border-left: 3.5px solid #ef4444; }
+.the-mon-hoc--attt { border-left: 3.5px solid #10b981; }
+.the-mon-hoc--csdl { border-left: 3.5px solid #06b6d4; }
+.the-mon-hoc--cnpm { border-left: 3.5px solid #6366f1; }
+
+.khoi-thoi-khoa-bieu {
+  margin-bottom: var(--khoang-cach-lg);
 }
 
-@media (min-width: 640px) {
-  .ho-so-ca-nhan__anh {
-    width: 140px;
-    height: 140px;
-    margin-top: -60px;
-  }
+.khung-hanh-dong-ca-nhan {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--khoang-cach);
+  margin-top: var(--khoang-cach-md);
+  margin-bottom: var(--khoang-cach-lg);
+  justify-content: space-between;
+}
 
-  .ho-so-ca-nhan__ten {
-    font-size: 1.85rem;
-  }
+.nut--vien {
+  background-color: transparent;
+  color: var(--mau-chinh);
+  border: 1.5px solid var(--duong-vien-dam);
+}
+
+.nut--vien:hover {
+  background-color: var(--nen);
+  border-color: var(--mau-chinh);
+  color: var(--mau-chinh);
 }
