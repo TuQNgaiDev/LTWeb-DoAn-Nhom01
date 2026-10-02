@@ -12,9 +12,6 @@
   <header class="dau-trang">
     <img class="dau-trang__bieu-trung" src="../../images/UEDBookHub.svg" alt="Biểu trưng UEDBookHub - Trường Đại học Sư phạm, Đại học Đà Nẵng" width="320" height="80">
     <p class="dau-trang__khau-hieu">Hệ thống học liệu &amp; Thư viện số – Trường Đại học Sư phạm, Đại học Đà Nẵng</p>
-    <button id="nut-doi-giao-dien" type="button" class="nut-tien-ich" aria-pressed="false" aria-label="Chuyển đổi giao diện sáng tối">
-      🌓 Chế độ tối
-    </button>
   </header>
 
   <nav class="thanh-dieu-huong" aria-label="Điều hướng trang cá nhân">
@@ -43,12 +40,18 @@
               <span class="huy-hieu huy-hieu--sap-het">Lớp: 24SPT - Sư phạm Tin học</span>
               <span class="huy-hieu huy-hieu--con">Trường ĐH Sư phạm – ĐH Đà Nẵng</span>
               <p class="dong-email" style="margin-top: 10px;">
-              Email: <strong id="email-ca-nhan">truongbhlingnttinh@gmail.com</strong>
-              <button id="nut-chep-email" type="button" class="nut-tien-ich" aria-label="Sao chép địa chỉ email">
-                📋 Sao chép
-              </button>
-              <span id="thong-bao-chep" class="thong-bao-chep" aria-live="polite"></span>
-            </p>
+                Email: <strong id="email-ca-nhan">truongbhlingnttinh@gmail.com</strong>
+                <button id="nut-chep-email" type="button" class="nut-tien-ich" aria-label="Sao chép địa chỉ email">
+                  📋 Sao chép
+                </button>
+                <span id="thong-bao-chep" class="thong-bao-chep" aria-live="polite"></span>
+              </p>
+            </div>
+
+            <!-- KHỐI ĐẾM NGƯỢC THI CUỐI KỲ -->
+            <div class="hop-dem-nguoc" role="timer" aria-live="polite">
+              <span class="nhan-dem-nguoc">⏳ Đếm ngược thi cuối kỳ (25/12/2026):</span>
+              <span id="dong-ho-dem-nguoc" class="dong-ho-dem-nguoc">Đang tính toán...</span>
             </div>
           </div>
         </div>

@@ -2,40 +2,43 @@
  * Tệp: canhan.js - Xử lý tương tác trên trang cá nhân
  * Bhling Trường (MSSV: 3120124040)
  * Chức năng:
- *  1. Chuyển đổi giao diện Sáng / Tối và lưu trạng thái vào localStorage.
+ *  1. Đồng hồ đếm ngược thời gian thực đến ngày thi cuối kỳ (Date, setInterval, textContent).
  *  2. Sao chép địa chỉ Email vào bộ nhớ tạm (Clipboard API) kèm thông báo.
- * Cách thử: Nhấp nút 'Đổi giao diện' (hoặc Tab + Enter). Nhấp nút 'Sao chép Email'.
+ * Cách thử: 
+ *  - Quan sát bộ đếm thời gian lùi từng giây ở khối đếm ngược ngày thi.
+ *  - Nhấp nút 'Sao chép Email' (hoặc Tab + Enter) để copy và xem thông báo xác nhận.
  */
 
-// ========================================================
-// 1. TƯƠNG TÁC 1: ĐỔI GIAO DIỆN SÁNG / TỐI (THEME TOGGLE)
-// ========================================================
-const nutDoiGiaoDien = document.querySelector('#nut-doi-giao-dien');
-const KHOA_THEME = 'theme_3120124040_truong';
+//ĐỒNG HỒ ĐẾM NGƯỢC THI CUỐI KỲ
+const phanTuDemNguoc = document.querySelector('#dong-ho-dem-nguoc');
 
-// Khởi tạo: Đọc tùy chọn từ localStorage khi vừa mở trang
-const themeDaLuu = localStorage.getItem(KHOA_THEME);
-if (themeDaLuu === 'toi') {
-  document.body.classList.add('che-do-toi');
-  if (nutDoiGiaoDien) {
-    nutDoiGiaoDien.textContent = '☀️ Chế độ sáng';
-    nutDoiGiaoDien.setAttribute('aria-pressed', 'true');
+if (phanTuDemNguoc) {
+  // Mốc thi giả định cuối kỳ: 8:00 sáng ngày 25/12/2026
+  const thoiDiemThi = new Date('2026-12-25T08:00:00').getTime();
+
+  function capNhatDemNguoc() {
+    const bayGio = new Date().getTime();
+    const khoangCach = thoiDiemThi - bayGio;
+
+    if (khoangCach <= 0) {
+      phanTuDemNguoc.textContent = 'Đã đến giờ thi cuối kỳ!';
+      return;
+    }
+
+    const ngay = Math.floor(khoangCach / (1000 * 60 * 60 * 24));
+    const gio = Math.floor((khoangCach % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const phut = Math.floor((khoangCach % (1000 * 60 * 60)) / (1000 * 60));
+    const giay = Math.floor((khoangCach % (1000 * 60)) / 1000);
+
+    phanTuDemNguoc.textContent = `${ngay} ngày ${gio} giờ ${phut} phút ${giay} giây`;
   }
+
+  // Chạy ngay lần đầu để tránh độ trễ 1 giây rồi lặp mỗi 1000ms
+  capNhatDemNguoc();
+  setInterval(capNhatDemNguoc, 1000);
 }
 
-// Bắt sự kiện click trên nút đổi theme
-if (nutDoiGiaoDien) {
-  nutDoiGiaoDien.addEventListener('click', () => {
-    const laToi = document.body.classList.toggle('che-do-toi');
-    nutDoiGiaoDien.textContent = laToi ? '☀️ Chế độ sáng' : '🌓 Chế độ tối';
-    nutDoiGiaoDien.setAttribute('aria-pressed', String(laToi));
-    localStorage.setItem(KHOA_THEME, laToi ? 'toi' : 'sang');
-  });
-}
-
-// ========================================================
-// 2. TƯƠNG TÁC 2: SAO CHÉP EMAIL VÀO CLIPBOARD
-// ========================================================
+//SAO CHÉP EMAIL VÀO CLIPBOARD (GIỮ NGUYÊN)
 const nutChepEmail = document.querySelector('#nut-chep-email');
 const emailVanBan = document.querySelector('#email-ca-nhan');
 const thongBaoChep = document.querySelector('#thong-bao-chep');
@@ -44,10 +47,10 @@ if (nutChepEmail && emailVanBan && thongBaoChep) {
   nutChepEmail.addEventListener('click', async () => {
     const emailCanChep = emailVanBan.textContent.trim();
     try {
-      // Dùng Clipboard API theo đúng gợi ý của thầy
+      // Dùng Clipboard API theo đúng gợi ý của đề bài
       await navigator.clipboard.writeText(emailCanChep);
       
-      // Hiển thị phản hồi an toàn bằng textContent (tránh XSS)
+      // Hiển thị phản hồi an toàn bằng textContent
       thongBaoChep.textContent = '✓ Đã sao chép vào bộ nhớ tạm!';
       thongBaoChep.classList.add('hien');
 
