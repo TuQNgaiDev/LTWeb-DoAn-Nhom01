@@ -43,13 +43,42 @@
           </div>
         </div>
 
+        <!-- 👇 ĐÃ ĐƯA KHỐI TƯƠNG TÁC LÊN TRÊN GIỚI THIỆU BẢN THÂN 👇 -->
+        <section class="tuong-tac" aria-labelledby="tieu-de-tuong-tac">
+          <h2 id="tieu-de-tuong-tac" class="tuong-tac__tieu-de">✨ Góc tương tác cá nhân</h2>
+          
+          <!-- Hộp lời chào hiển thị theo buổi -->
+          <div id="loi-chao" class="tuong-tac__loi-chao" role="status" aria-live="polite"></div>
+          
+          <!-- Nhóm các nút bấm tương tác -->
+          <div class="tuong-tac__hanh-dong">
+            <button id="nut-thich" class="nut nut--thich" type="button" aria-label="Thả tim thích trang">
+              <span class="nut-thich__bieu-tuong" aria-hidden="true">❤️</span>
+              <span>Thích trang</span>
+              <span class="nut-thich__so" id="so-luot-thich">0</span>
+            </button>
+            <button id="nut-gioi-thieu" class="nut nut--gioi-thieu" type="button">
+              <span class="nut-gioi-thieu__bieu-tuong" aria-hidden="true">🎲</span>
+              <span>Tạo câu giới thiệu</span>
+            </button>
+          </div>
+          
+          <!-- Khung hiển thị câu giới thiệu ngẫu nhiên -->
+          <div class="tuong-tac__khung-noi-dung">
+            <p id="cau-gioi-thieu" class="tuong-tac__cau-noi">
+              Bấm nút "Tạo câu giới thiệu" để khám phá thêm về mình nhé!
+            </p>
+          </div>
+        </section>
+        <!-- 👆 HẾT KHỐI TƯƠNG TÁC 👆 -->
+
         <section>
           <h2>Giới thiệu bản thân</h2>
           <p class="doan-van-dai">
-            Mình là <strong>Lê Trung Hậu</strong> (MSSV: <strong>3120224052</strong>), Thành viên của nhóm 1 <strong>UEDBookHub</strong>, thành viên dự án <strong>CareHomeAI</strong> đạt giải Nhì cuộc thi khởi nghiệp UED và là <strong>.
-..</strong> Mình hiện đang là sinh viên năm 3, ngành <strong>Công nghệ thông tin</strong> tại <strong>Khoa Toán – Tin, Trường Đại học Sư phạm – Đại học Đà Nẵng</strong>. Mình có niềm đam mê với lập trình, công nghệ mới và luôn tìm kiếm cơ hội để học hỏi và phát triển kỹ năng của mình. Mình mong muốn đóng góp vào các dự án công nghệ thông tin có ý nghĩa và mang lại giá trị cho cộng đồng.
+            Mình là <strong>Lê Trung Hậu</strong> (MSSV: <strong>3120224052</strong>), Thành viên của nhóm 1 <strong>UEDBookHub</strong>, thành viên dự án <strong>CareHomeAI</strong> đạt giải Nhì cuộc thi khởi nghiệp UED. Mình hiện đang là sinh viên năm 3, ngành <strong>Công nghệ thông tin</strong> tại <strong>Khoa Toán – Tin, Trường Đại học Sư phạm – Đại học Đà Nẵng</strong>. Mình có niềm đam mê với lập trình, công nghệ mới và luôn tìm kiếm cơ hội để học hỏi và phát triển kỹ năng của mình. Mình mong muốn đóng góp vào các dự án công nghệ thông tin có ý nghĩa và mang lại giá trị cho cộng đồng.
           </p>
         </section>
+
         <section>
           <h2>Kỹ năng chuyên môn</h2>
           <ul class="luoi-ky-nang">
@@ -61,7 +90,7 @@
             <li class="the-ky-nang">
               <span class="the-ky-nang__bieu-tuong" aria-hidden="true">💻</span>
               <h3 class="the-ky-nang__tieu-de">Lập trình &amp; Các ngôn ngữ lập trình</h3>
-              <p class="the-ky-nang__mo-ta">sử dụng các ngôn ngữ lập trình như C++, Java, Python</p>
+              <p class="the-ky-nang__mo-ta">Sử dụng các ngôn ngữ lập trình như C++, Java, Python.</p>
             </li>
             <li class="the-ky-nang">
               <span class="the-ky-nang__bieu-tuong" aria-hidden="true">🌐</span>
@@ -77,7 +106,7 @@
             <li class="the-so-thich"><span aria-hidden="true">🎵</span> Nghe nhạc, sáng tạo nhạc &amp; Podcast</li>
             <li class="the-so-thich"><span aria-hidden="true">🍜</span> Ẩm thực &amp; Trải nghiệm</li>
             <li class="the-so-thich"><span aria-hidden="true">✈️</span> Du lịch khám phá</li>
-            <li class="the-so-thich"><span aria-hidden="true">📚</span> Đọc sách, nghiên cứu &amp; học hỏi</li>>
+            <li class="the-so-thich"><span aria-hidden="true">📚</span> Đọc sách, nghiên cứu &amp; học hỏi</li>
           </ul>
         </section>
       </div>
@@ -258,45 +287,22 @@
       </div>
     </section>
 
-        <div class="khung-hanh-dong-ca-nhan">
-        <a class="nut nut--vien" href="../../gioi-thieu.html">
-            &larr; Quay về danh sách nhóm
-        </a>
-        <a class="nut nut--chinh" href="../../chi-tiet.html">
-            Xem giáo trình tiêu biểu &rarr;
-        </a>
+    <div class="khung-hanh-dong-ca-nhan">
+      <a class="nut nut--vien" href="../../gioi-thieu.html">
+        &larr; Quay về danh sách nhóm
+      </a>
+      <a class="nut nut--chinh" href="../../chi-tiet.html">
+        Xem giáo trình tiêu biểu &rarr;
+      </a>
     </div>
-     <section class="tuong-tac" aria-labelledby="tieu-de-tuong-tac">
-      <h2 id="tieu-de-tuong-tac" class="tuong-tac__tieu-de">✨ Góc tương tác cá nhân</h2>
-      <!-- Hộp lời chào hiển thị theo buổi -->
-      <div id="loi-chao" class="tuong-tac__loi-chao" role="status" aria-live="polite"></div>
-      <!-- Nhóm các nút bấm tương tác -->
-      <div class="tuong-tac__hanh-dong">
-        <button id="nut-thich" class="nut nut--thich" type="button" aria-label="Thả tim thích trang">
-          <span class="nut-thich__bieu-tuong" aria-hidden="true">❤️</span>
-          <span>Thích trang</span>
-          <span class="nut-thich__so" id="so-luot-thich">0</span>
-        </button>
-        <button id="nut-gioi-thieu" class="nut nut--gioi-thieu" type="button">
-          <span class="nut-gioi-thieu__bieu-tuong" aria-hidden="true">🎲</span>
-          <span>Tạo câu giới thiệu</span>
-        </button>
-      </div>
-      <!-- Khung hiển thị câu giới thiệu ngẫu nhiên -->
-      <div class="tuong-tac__khung-noi-dung">
-        <p id="cau-gioi-thieu" class="tuong-tac__cau-noi">
-          Bấm nút "Tạo câu giới thiệu" để khám phá thêm về mình nhé!
-        </p>
-      </div>
-    </section>
-    <!-- 👆 HẾT ĐOẠN THAY THẾ 👆 -->
-</main>
+
+  </main>
 
   <footer class="chan-trang">
     <p>&copy; 2026 UEDBookHub – Nhóm 01 (Trần Văn Tú, Bhling Trường, Lê Trung Hậu, Nguyễn Tuấn Nhật Thanh).</p>
     <p>Khoa Toán – Tin, Trường Đại học Sư phạm – Đại học Đà Nẵng. Địa chỉ: 459 Tôn Đức Thắng, Quận Liên Chiểu, TP. Đà Nẵng.</p>
   </footer>
-   <script type="module" src="../../js/main.js"></script>
+  <script type="module" src="../../js/main.js"></script>
   <script type="module" src="js/canhan.js"></script>
 </body>
 </html>
