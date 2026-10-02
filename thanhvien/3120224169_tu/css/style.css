@@ -168,3 +168,76 @@
   border-color: var(--mau-chinh);
   color: var(--mau-chinh);
 }
+
+.bang-dieu-khien-ca-nhan {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--khoang-cach);
+  padding: var(--khoang-cach-md);
+  margin-bottom: var(--khoang-cach-md);
+  background-color: var(--nen-the);
+  border: 1px solid var(--duong-vien);
+  border-radius: var(--bo-goc-md);
+  box-shadow: var(--bong-do);
+}
+
+.bang-dieu-khien-ca-nhan p {
+  margin-bottom: 4px;
+}
+
+.bang-dieu-khien-ca-nhan__tieu-de {
+  color: var(--mau-chinh);
+  font-size: var(--co-chu-xl);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.bo-loc-ky-nang {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--khoang-cach-sm);
+  margin-bottom: var(--khoang-cach-sm);
+}
+
+.ket-qua-loc-ky-nang {
+  color: var(--chu-phu);
+  font-size: var(--co-chu-nho);
+}
+
+.the-ky-nang--an {
+  display: none;
+}
+
+html[data-giao-dien="toi"] {
+  --nen: #0f172a;
+  --nen-the: #172033;
+  --nen-phu: #202b40;
+  --duong-vien: #334155;
+  --duong-vien-nhe: #293548;
+  --duong-vien-dam: #64748b;
+  --chu: #f8fafc;
+  --chu-phu: #d5deea;
+  --chu-mo: #cbd5e1;
+  --mau-chinh: #dbeafe;
+  --mau-phu-nhat: #1e3a5f;
+}
+
+html[data-giao-dien="toi"] .the-phuong-cham {
+  background: linear-gradient(135deg, #172554, #1e3a5f);
+}
+
+html[data-giao-dien="toi"] .bang-tkb td,
+html[data-giao-dien="toi"] .bang-tkb tbody th[scope="row"] {
+  background-color: var(--nen-the);
+  color: var(--chu);
+}
+
+@media (max-width: 480px) {
+  .bang-dieu-khien-ca-nhan,
+  .bang-dieu-khien-ca-nhan .nut,
+  .bo-loc-ky-nang .nut {
+    width: 100%;
+  }
+}

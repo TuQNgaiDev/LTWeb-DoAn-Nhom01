@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Danh mục tổng hợp giáo trình thực tế do giảng viên Trường Đại học Sư phạm - Đại học Đà Nẵng biên soạn và xuất bản đang lưu hành tại thư viện trường.">
   <title>Danh mục giáo trình &amp; Học liệu UED | UEDBookHub</title>
-  <link rel="stylesheet" href="css/style.css?v=13">
+  <link rel="stylesheet" href="css/style.css?v=14">
 </head>
 <body class="trang">
   <header class="dau-trang">
@@ -33,26 +33,46 @@
       </p>
 
       
-      <div class="thanh-loc" aria-label="Thanh lọc theo khoa">
-        <span class="thanh-loc__nhan">Lọc theo khoa:</span>
-        <a href="#tat-ca" class="thanh-loc__the-loc thanh-loc__the-loc--kich-hoat">Tất cả khoa</a>
-        <a href="#tam-ly" class="thanh-loc__the-loc">Tâm lý – GDH</a>
-        <a href="#toan-tin" class="thanh-loc__the-loc">Toán – Tin</a>
-        <a href="#ngu-van" class="thanh-loc__the-loc">Ngữ văn</a>
-        <a href="#hoa-hoc" class="thanh-loc__the-loc">Hóa học</a>
-        <a href="#tieu-hoc" class="thanh-loc__the-loc">Giáo dục Tiểu học</a>
+      <div id="bo-loc-giao-trinh" class="bo-loc-giao-trinh" aria-label="Tìm kiếm, lọc và sắp xếp giáo trình">
+        <div class="bo-loc-giao-trinh__muc">
+          <label for="tim-kiem-giao-trinh">Tìm kiếm tức thời</label>
+          <input id="tim-kiem-giao-trinh" type="search" placeholder="Tên, mã, tác giả…" autocomplete="off">
+        </div>
+        <div class="bo-loc-giao-trinh__muc">
+          <label for="loc-khoa">Lọc theo khoa</label>
+          <select id="loc-khoa">
+            <option value="tat-ca">Tất cả khoa</option>
+            <option value="Tâm lý – Giáo dục học">Tâm lý – Giáo dục học</option>
+            <option value="Toán – Tin">Toán – Tin</option>
+            <option value="Ngữ văn">Ngữ văn</option>
+            <option value="Hóa học">Hóa học</option>
+            <option value="Vật lý">Vật lý</option>
+            <option value="Giáo dục Tiểu học">Giáo dục Tiểu học</option>
+            <option value="Sinh – Môi trường">Sinh – Môi trường</option>
+          </select>
+        </div>
+        <div class="bo-loc-giao-trinh__muc">
+          <label for="sap-xep-giao-trinh">Sắp xếp</label>
+          <select id="sap-xep-giao-trinh">
+            <option value="ten-a-z">Tên A–Z</option>
+            <option value="ten-z-a">Tên Z–A</option>
+            <option value="gia-tang">Giá tăng dần</option>
+            <option value="gia-giam">Giá giảm dần</option>
+          </select>
+        </div>
       </div>
 
       
       <h2>Giáo trình tiêu biểu đang lưu hành</h2>
-      <div class="luoi-the luoi-the--tu-dong">
+      <p id="trang-thai-danh-sach" class="trang-thai-du-lieu" aria-live="polite">Danh sách tĩnh dự phòng đang được hiển thị.</p>
+      <div id="danh-sach-dong" class="luoi-the luoi-the--tu-dong">
         
         <article class="the">
           <div class="the__anh-khung">
             <img class="the__anh" src="images/BiaSachGiaoDucHoc.svg" alt="Bìa sách Giáo trình Giáo dục học" width="300" height="420" loading="lazy">
           </div>
           <div class="the__than">
-            <h3 class="the__tieu-de"><a href="chi-tiet.html">Giáo trình Giáo dục học</a></h3>
+            <h3 class="the__tieu-de"><a href="chi-tiet.html?id=1">Giáo trình Giáo dục học</a></h3>
             <div class="the__thong-tin">
               <span><strong>Mã:</strong> GT-GDH-01</span>
               <span><strong>Tác giả:</strong> PGS.TS. Trần Xuân Bách, TS. Hoàng Thế Hải</span>
@@ -60,7 +80,7 @@
             </div>
             <div class="the__chan">
               <span class="huy-hieu huy-hieu--con">Còn 42 bản</span>
-              <a href="chi-tiet.html" class="nut nut--chinh">Chi tiết</a>
+              <a href="chi-tiet.html?id=1" class="nut nut--chinh">Chi tiết</a>
             </div>
           </div>
         </article>
@@ -71,7 +91,7 @@
             <img class="the__anh" src="images/BiaSachGiaoDucHoc.svg" alt="Bìa sách Giáo trình Cơ sở dữ liệu" width="300" height="420" loading="lazy">
           </div>
           <div class="the__than">
-            <h3 class="the__tieu-de"><a href="chi-tiet.html">Giáo trình Cơ sở dữ liệu</a></h3>
+            <h3 class="the__tieu-de"><a href="chi-tiet.html?id=2">Giáo trình Cơ sở dữ liệu</a></h3>
             <div class="the__thong-tin">
               <span><strong>Mã:</strong> GT-CSDL-02</span>
               <span><strong>Tác giả:</strong> PGS.TS. Nguyễn Trần Quốc Vinh</span>
@@ -79,7 +99,7 @@
             </div>
             <div class="the__chan">
               <span class="huy-hieu huy-hieu--con">Còn 28 bản</span>
-              <a href="chi-tiet.html" class="nut nut--chinh">Chi tiết</a>
+              <a href="chi-tiet.html?id=2" class="nut nut--chinh">Chi tiết</a>
             </div>
           </div>
         </article>
@@ -90,7 +110,7 @@
             <img class="the__anh" src="images/BiaSachGiaoDucHoc.svg" alt="Bìa sách Giáo trình Văn học dân gian Việt Nam" width="300" height="420" loading="lazy">
           </div>
           <div class="the__than">
-            <h3 class="the__tieu-de"><a href="chi-tiet.html">Văn học dân gian Việt Nam</a></h3>
+            <h3 class="the__tieu-de"><a href="chi-tiet.html?id=3">Văn học dân gian Việt Nam</a></h3>
             <div class="the__thong-tin">
               <span><strong>Mã:</strong> GT-VHDG-03</span>
               <span><strong>Tác giả:</strong> PGS.TS. Lê Đức Luận (Chủ biên)</span>
@@ -98,7 +118,7 @@
             </div>
             <div class="the__chan">
               <span class="huy-hieu huy-hieu--con">Còn 35 bản</span>
-              <a href="chi-tiet.html" class="nut nut--chinh">Chi tiết</a>
+              <a href="chi-tiet.html?id=3" class="nut nut--chinh">Chi tiết</a>
             </div>
           </div>
         </article>
@@ -109,7 +129,7 @@
             <img class="the__anh" src="images/BiaSachGiaoDucHoc.svg" alt="Bìa sách Giáo trình Hóa đại cương" width="300" height="420" loading="lazy">
           </div>
           <div class="the__than">
-            <h3 class="the__tieu-de"><a href="chi-tiet.html">Giáo trình Hóa đại cương</a></h3>
+            <h3 class="the__tieu-de"><a href="chi-tiet.html?id=4">Giáo trình Hóa đại cương</a></h3>
             <div class="the__thong-tin">
               <span><strong>Mã:</strong> GT-HDC-04</span>
               <span><strong>Tác giả:</strong> GS.TS. Lê Tự Hải (Chủ biên)</span>
@@ -117,7 +137,7 @@
             </div>
             <div class="the__chan">
               <span class="huy-hieu huy-hieu--sap-het">Còn 19 bản</span>
-              <a href="chi-tiet.html" class="nut nut--chinh">Chi tiết</a>
+              <a href="chi-tiet.html?id=4" class="nut nut--chinh">Chi tiết</a>
             </div>
           </div>
         </article>
@@ -149,7 +169,7 @@
               <td>Tâm lý – Giáo dục học</td>
               <td>NXB ĐH Đà Nẵng (2020)</td>
               <td>Còn 42 bản (Kho tầng 2)</td>
-              <td><a href="chi-tiet.html" class="nut nut--phu">Xem chi tiết</a></td>
+              <td><a href="chi-tiet.html?id=1" class="nut nut--phu">Xem chi tiết</a></td>
             </tr>
             <tr>
               <th scope="row">GT-CSDL-02</th>
@@ -158,7 +178,7 @@
               <td>Tin học (Khoa Toán – Tin)</td>
               <td>NXB ĐH Đà Nẵng (2021)</td>
               <td>Còn 28 bản (Kho tầng 2)</td>
-              <td><a href="chi-tiet.html" class="nut nut--phu">Xem chi tiết</a></td>
+              <td><a href="chi-tiet.html?id=2" class="nut nut--phu">Xem chi tiết</a></td>
             </tr>
             <tr>
               <th scope="row">GT-VHDG-03</th>
@@ -167,7 +187,7 @@
               <td>Ngữ văn</td>
               <td>NXB ĐH Sư phạm (2019)</td>
               <td>Còn 35 bản (Kho tầng 1)</td>
-              <td><a href="chi-tiet.html" class="nut nut--phu">Xem chi tiết</a></td>
+              <td><a href="chi-tiet.html?id=3" class="nut nut--phu">Xem chi tiết</a></td>
             </tr>
             <tr>
               <th scope="row">GT-HDC-04</th>
@@ -176,7 +196,7 @@
               <td>Hóa học</td>
               <td>NXB ĐH Đà Nẵng (2020)</td>
               <td>Còn 19 bản (Kho tầng 2)</td>
-              <td><a href="chi-tiet.html" class="nut nut--phu">Xem chi tiết</a></td>
+              <td><a href="chi-tiet.html?id=4" class="nut nut--phu">Xem chi tiết</a></td>
             </tr>
             <tr>
               <th scope="row">GT-TNVL-05</th>
@@ -185,7 +205,7 @@
               <td>Vật lý</td>
               <td>NXB ĐH Đà Nẵng (2021)</td>
               <td>Còn 15 bản (Kho tầng 2)</td>
-              <td><a href="chi-tiet.html" class="nut nut--phu">Xem chi tiết</a></td>
+              <td><a href="chi-tiet.html?id=5" class="nut nut--phu">Xem chi tiết</a></td>
             </tr>
             <tr>
               <th scope="row">GT-TVHD-06</th>
@@ -194,7 +214,7 @@
               <td>Tâm lý – Giáo dục học</td>
               <td>NXB ĐH Đà Nẵng (2019)</td>
               <td>Còn 22 bản (Kho tầng 2)</td>
-              <td><a href="chi-tiet.html" class="nut nut--phu">Xem chi tiết</a></td>
+              <td><a href="chi-tiet.html?id=6" class="nut nut--phu">Xem chi tiết</a></td>
             </tr>
             <tr>
               <th scope="row">GT-SLTE-07</th>
@@ -203,7 +223,7 @@
               <td>Giáo dục Tiểu học</td>
               <td>NXB ĐH Đà Nẵng (2024)</td>
               <td>Còn 30 bản (Kho tầng 1)</td>
-              <td><a href="chi-tiet.html" class="nut nut--phu">Xem chi tiết</a></td>
+              <td><a href="chi-tiet.html?id=7" class="nut nut--phu">Xem chi tiết</a></td>
             </tr>
             <tr>
               <th scope="row">GT-CNSH-08</th>
@@ -212,7 +232,7 @@
               <td>Sinh – Môi trường</td>
               <td>NXB ĐH Đà Nẵng (2023)</td>
               <td>Còn 14 bản (Kho tầng 2)</td>
-              <td><a href="chi-tiet.html" class="nut nut--phu">Xem chi tiết</a></td>
+              <td><a href="chi-tiet.html?id=8" class="nut nut--phu">Xem chi tiết</a></td>
             </tr>
             <tr>
               <th scope="row">GT-MDV-09</th>
@@ -221,7 +241,7 @@
               <td>Toán (Khoa Toán – Tin)</td>
               <td>NXB ĐH Đà Nẵng (2019)</td>
               <td>Còn 12 bản (Kho tầng 2)</td>
-              <td><a href="chi-tiet.html" class="nut nut--phu">Xem chi tiết</a></td>
+              <td><a href="chi-tiet.html?id=9" class="nut nut--phu">Xem chi tiết</a></td>
             </tr>
             <tr>
               <th scope="row">GT-TRTH-10</th>
@@ -230,7 +250,7 @@
               <td>Giáo dục Tiểu học</td>
               <td>NXB ĐH Sư phạm (2022)</td>
               <td>Còn 25 bản (Kho tầng 1)</td>
-              <td><a href="chi-tiet.html" class="nut nut--phu">Xem chi tiết</a></td>
+              <td><a href="chi-tiet.html?id=10" class="nut nut--phu">Xem chi tiết</a></td>
             </tr>
           </tbody>
         </table>
@@ -252,5 +272,7 @@
     <p>&copy; 2026 UEDBookHub – Sinh viên thực hiện: Trần Văn Tú.</p>
     <p>Khoa Toán – Tin, Trường Đại học Sư phạm – Đại học Đà Nẵng. Địa chỉ: 459 Tôn Đức Thắng, Quận Liên Chiểu, TP. Đà Nẵng.</p>
   </footer>
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/trang-danh-sach.js"></script>
 </body>
 </html>
