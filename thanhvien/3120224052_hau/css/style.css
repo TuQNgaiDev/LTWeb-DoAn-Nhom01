@@ -168,3 +168,118 @@
   border-color: var(--mau-chinh);
   color: var(--mau-chinh);
 }
+.tuong-tac {
+  background-color: var(--nen-the);
+  border: 1px solid var(--duong-vien);
+  border-radius: var(--bo-goc-lg);
+  box-shadow: var(--bong-do-md);
+  padding: var(--khoang-cach-lg);
+  margin-bottom: var(--khoang-cach-lg);
+}
+.tuong-tac__tieu-de {
+  color: var(--mau-chinh);
+  font-size: var(--co-chu-xl);
+  font-weight: 800;
+  margin-bottom: var(--khoang-cach);
+}
+/* Lời chào theo thời gian */
+.tuong-tac__loi-chao {
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+  border: 1px solid #bfdbfe;
+  border-left: 4px solid var(--mau-phu);
+  border-radius: var(--bo-goc-md);
+  padding: 12px 18px;
+  font-size: 1rem;
+  color: var(--mau-chinh);
+  font-weight: 500;
+  margin-bottom: var(--khoang-cach);
+  box-shadow: var(--bong-do-sm);
+}
+/* Khung nhóm nút bấm */
+.tuong-tac__hanh-dong {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--khoang-cach);
+  margin-bottom: var(--khoang-cach-md);
+}
+/* Nút Thích (Tone hồng đỏ chuyển sắc hiện đại) */
+.nut--thich {
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+  gap: 8px;
+}
+.nut--thich:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(225, 29, 72, 0.45);
+  filter: brightness(1.05);
+  color: #ffffff;
+}
+.nut--thich:active {
+  transform: translateY(0) scale(0.98);
+}
+/* Huy hiệu số lượt thích */
+.nut-thich__so {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 2px 10px;
+  border-radius: var(--bo-goc-tron);
+  font-size: 0.875rem;
+  font-weight: 700;
+  min-width: 24px;
+  text-align: center;
+}
+/* Nút Tạo câu giới thiệu (Tone xanh hoàng gia) */
+.nut--gioi-thieu {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+  gap: 8px;
+}
+.nut--gioi-thieu:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+  filter: brightness(1.05);
+  color: #ffffff;
+}
+.nut--gioi-thieu:hover .nut-gioi-thieu__bieu-tuong {
+  transform: rotate(25deg);
+}
+.nut-gioi-thieu__bieu-tuong {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+/* Khung hiển thị câu giới thiệu ngẫu nhiên */
+.tuong-tac__khung-noi-dung {
+  background-color: var(--nen-phu);
+  border-left: 4px solid var(--mau-nhan);
+  border-radius: 0 var(--bo-goc-md) var(--bo-goc-md) 0;
+  padding: 16px 20px;
+  box-shadow: var(--bong-do-sm);
+}
+.tuong-tac__cau-noi {
+  margin: 0;
+  color: var(--chu);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+/* Hiệu ứng nhịp tim khi bấm Thích */
+@keyframes nhipTim {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.4); }
+  60% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+.nut-thich--nhay .nut-thich__bieu-tuong {
+  animation: nhipTim 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}

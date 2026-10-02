@@ -266,27 +266,30 @@
             Xem giáo trình tiêu biểu &rarr;
         </a>
     </div>
-    <section class="tuong-tac" aria-labelledby="tieu-de-tuong-tac">
-
-        <h2 id="tieu-de-tuong-tac">Tương tác cá nhân</h2>
-
-        <div id="loi-chao"></div>
-
-        <button id="nut-thich" type="button">
-            ❤️ Thích
-            (<span id="so-luot-thich">0</span>)
+     <section class="tuong-tac" aria-labelledby="tieu-de-tuong-tac">
+      <h2 id="tieu-de-tuong-tac" class="tuong-tac__tieu-de">✨ Góc tương tác cá nhân</h2>
+      <!-- Hộp lời chào hiển thị theo buổi -->
+      <div id="loi-chao" class="tuong-tac__loi-chao" role="status" aria-live="polite"></div>
+      <!-- Nhóm các nút bấm tương tác -->
+      <div class="tuong-tac__hanh-dong">
+        <button id="nut-thich" class="nut nut--thich" type="button" aria-label="Thả tim thích trang">
+          <span class="nut-thich__bieu-tuong" aria-hidden="true">❤️</span>
+          <span>Thích trang</span>
+          <span class="nut-thich__so" id="so-luot-thich">0</span>
         </button>
-
-        <button id="nut-gioi-thieu" type="button">
-            🎲 Tạo câu giới thiệu
+        <button id="nut-gioi-thieu" class="nut nut--gioi-thieu" type="button">
+          <span class="nut-gioi-thieu__bieu-tuong" aria-hidden="true">🎲</span>
+          <span>Tạo câu giới thiệu</span>
         </button>
-
-        <p id="cau-gioi-thieu">
-            Bấm nút để tạo một câu giới thiệu ngẫu nhiên.
+      </div>
+      <!-- Khung hiển thị câu giới thiệu ngẫu nhiên -->
+      <div class="tuong-tac__khung-noi-dung">
+        <p id="cau-gioi-thieu" class="tuong-tac__cau-noi">
+          Bấm nút "Tạo câu giới thiệu" để khám phá thêm về mình nhé!
         </p>
-
+      </div>
     </section>
-
+    <!-- 👆 HẾT ĐOẠN THAY THẾ 👆 -->
 </main>
 
   <footer class="chan-trang">

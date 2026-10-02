@@ -29,18 +29,19 @@ const nutThich = document.querySelector('#nut-thich');
 const soLuotThich = document.querySelector('#so-luot-thich'); 
 const KHOA_LUOT_THICH = 'luotThich_hau_3120224052';
 
-// Đọc số lượt thích đã lưu trước đó (nếu có)
 let luotThich = Number(localStorage.getItem(KHOA_LUOT_THICH)) || 0;
 
 if (nutThich && soLuotThich) { 
-    // Khởi tạo hiển thị ban đầu
     soLuotThich.textContent = luotThich;
 
     nutThich.addEventListener('click', () => { 
         luotThich += 1; 
         soLuotThich.textContent = luotThich; 
         
-        // Lưu vào localStorage
+        // Hiệu ứng nhịp tim
+        nutThich.classList.add('nut-thich--nhay');
+        setTimeout(() => nutThich.classList.remove('nut-thich--nhay'), 450);
+
         try {
             localStorage.setItem(KHOA_LUOT_THICH, luotThich);
         } catch (e) {
@@ -68,11 +69,16 @@ let viTriHienTai = -1;
 if (nutGioiThieu && cauGioiThieu) { 
     nutGioiThieu.addEventListener('click', () => { 
         let viTriMoi = viTriHienTai;
-        // Tránh chọn trùng câu đang hiển thị
         while (danhSachGioiThieu.length > 1 && viTriMoi === viTriHienTai) {
             viTriMoi = Math.floor(Math.random() * danhSachGioiThieu.length);
         }
         viTriHienTai = viTriMoi;
-        cauGioiThieu.textContent = danhSachGioiThieu[viTriHienTai]; 
+
+        // Hiệu ứng mờ dần và hiện câu mới
+        cauGioiThieu.style.opacity = '0';
+        setTimeout(() => {
+            cauGioiThieu.textContent = danhSachGioiThieu[viTriHienTai];
+            cauGioiThieu.style.opacity = '1';
+        }, 150);
     }); 
 }
