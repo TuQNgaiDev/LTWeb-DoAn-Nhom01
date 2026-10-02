@@ -455,6 +455,25 @@ footer p {
     footer {
         padding: 15px 10px;
     }
+
+    @media (max-width: 600px) {
+    .countdown {
+        gap: 6px;
+    }
+
+    .countdown div {
+        min-width: 60px;
+        padding: 10px 5px;
+    }
+
+    .countdown strong {
+        font-size: 22px;
+    }
+
+    .countdown span {
+        font-size: 12px;
+    }
+}
 }
 /* =========================
    RESPONSIVE - MÀN HÌNH TỪ 769px
@@ -474,3 +493,302 @@ footer p {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }   
+/* =========================
+   GIAO DIỆN TỐI
+   ========================= */
+
+body.dark-mode {
+    background-color: #222;
+    color: #fff;
+}
+
+body.dark-mode header {
+    background-color: #111;
+    color: #fff;
+}
+
+body.dark-mode nav {
+    background-color: #333;
+    border-color: #555;
+}
+
+body.dark-mode nav a {
+    background-color: #333;
+    color: #66b3ff;
+}
+
+body.dark-mode nav a:hover {
+    background-color: #444;
+}
+
+body.dark-mode section,
+body.dark-mode article {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+}
+
+body.dark-mode h2 {
+    color: #ff765c;
+}
+
+body.dark-mode p,
+body.dark-mode li,
+body.dark-mode figcaption {
+    color: #fff;
+}
+
+body.dark-mode .skills li {
+    background-color: #444;
+    color: #fff;
+    border-color: #666;
+}
+
+body.dark-mode .table-container {
+    background-color: #333;
+    border-color: #555;
+}
+
+body.dark-mode .schedule {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode .schedule td {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode .schedule th,
+body.dark-mode .schedule td {
+    border-color: #666;
+}
+
+body.dark-mode button {
+    background-color: #555;
+    color: #fff;
+    border-color: #777;
+}
+
+body.dark-mode footer {
+    background-color: #111;
+    color: #fff;
+}
+
+/* ==============================
+   LỌC KỸ NĂNG THEO NHÓM
+   ============================== */
+
+.skill-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.filter-button {
+    padding: 8px 12px;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    background-color: var(--white);
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.filter-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.filter-button:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.filter-button.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+
+/* Nút lọc khi ở chế độ tối */
+
+body.dark-mode .filter-button {
+    background-color: #444;
+    color: #ffffff;
+    border-color: #777;
+}
+
+body.dark-mode .filter-button:hover {
+    background-color: #555;
+}
+
+body.dark-mode .filter-button.active {
+    background-color: #ee4d2d;
+    color: #ffffff;
+}
+
+/* ==========================================
+   ACCORDION
+   ========================================== */
+
+.accordion-item {
+    overflow: visible;
+
+}
+
+.accordion-button {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--white);
+    color: var(--primary-color);
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.accordion-button::before {
+    content: "▼";
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 13px;
+}
+
+.accordion-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.accordion-button:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.accordion-button[aria-expanded="false"]::before {
+    content: "▶";
+}
+
+.accordion-content {
+    padding-top: 15px;
+}
+
+.accordion-content.is-hidden {
+    display: none;
+}
+
+
+/* ==========================================
+   ACCORDION - CHẾ ĐỘ TỐI
+   ========================================== */
+
+body.dark-mode .accordion-button {
+    background-color: #444;
+    color: #ffffff;
+    border-color: #666;
+}
+
+body.dark-mode .accordion-button:hover {
+    background-color: #555;
+}
+
+body.dark-mode .accordion-content {
+    color: #ffffff;
+}
+.accordion-item h3 {
+    margin: 0;
+}
+
+.accordion-button {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--white);
+    color: var(--primary-color);
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.accordion-button::before {
+    content: "▼";
+    margin-right: 8px;
+    font-size: 12px;
+}
+
+.accordion-button[aria-expanded="false"]::before {
+    content: "▶";
+}
+
+.accordion-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.accordion-button:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.accordion-content {
+    padding-top: 15px;
+    display: block;
+}
+
+.accordion-content.is-hidden {
+    display: none !important;
+}
+
+.countdown-section {
+    margin-top: 20px;
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.countdown div {
+    min-width: 80px;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+}
+
+.countdown strong {
+    display: block;
+    font-size: 28px;
+    color: var(--primary-color);
+}
+
+.countdown span {
+    font-size: 14px;
+}
+
+#countdownMessage {
+    text-align: center;
+    margin-top: 10px;
+}   
+
+
+#profileImage {
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+#profileImage.large-image {
+    transform: scale(1.5);
+    cursor: zoom-out;
+    position: relative;
+    z-index: 100;
+}

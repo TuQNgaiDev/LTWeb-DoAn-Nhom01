@@ -19,62 +19,191 @@
             </ul>
         </nav>
         <h1>Thông Tin Cá Nhân Thành Viên</h1>
+      
     </header>
 
     <main>
 
         <h2>Giới thiệu Nguyễn Tuấn Nhật Thanh</h2>
 
-        <section>
-            <h3>Thông tin cá nhân</h3>
+        <section class="accordion-item">
 
-            <figure>
-                <img src="images/nguyen-tuan-nhat-thanh.jpg"
-                     alt="Ảnh chân dung Nguyễn Tuấn Nhật Thanh"
-                     width="200"
-                     class="ho-so-ca-nhan_anh">
-                <figcaption>                 Ảnh chân dung</figcaption>
-            </figure>
+    <h3>
+        <button
+            type="button"
+            class="accordion-button"
+            aria-expanded="true"
+            aria-controls="personal-content">
+            Thông tin cá nhân
+        </button>
+    </h3>
 
-            <ul>
-                <li><strong>Họ và tên:</strong> Nguyễn Tuấn Nhật Thanh</li>
-                <li><strong>Vai trò:</strong> Thành viên nhóm</li>
-                <li><strong>Lớp:</strong> 24CNTT1</li>
-                <li><strong>Trường:</strong> .Đại học Sư Phạm- Đại học Đà Nẵng</li>
-                <li><strong>Email:</strong> nguyentuannhatthanh06092006@gmail.com</li>
-            </ul>
-        </section>
+    <div id="personal-content" class="accordion-content">
+      <figure>
+    <img id="profileImage"
+         src="images/nguyen-tuan-nhat-thanh.jpg"
+         alt="Ảnh chân dung Nguyễn Tuấn Nhật Thanh"
+         width="200"
+         class="ho-so-ca-nhan_anh"
+         tabindex="0">
 
-        <article>
-            <h3>Dự án / Sở thích</h3>
+    <figcaption>Ảnh chân dung Nguyễn Tuấn Nhật Thanh</figcaption>
+</figure>
 
-            <p>
-                Tôi yêu thích lập trình web và tìm hiểu các công nghệ mới.
-                Tôi đặc biệt quan tâm đến việc xây dựng các trang web có
-                giao diện đơn giản, dễ sử dụng.
-            </p>
+<button id="downloadInfoBtn" type="button">
+    Tải thông tin cá nhân
+</button> 
 
-            <p>
-                Trong thời gian học tập, tôi muốn nâng cao kỹ năng HTML,
-                CSS, JavaScript và khả năng làm việc nhóm.
-            </p>
-        </article>
+        <ul>
+            <li>
+                <strong>Họ và tên:</strong>
+                Nguyễn Tuấn Nhật Thanh
+            </li>
 
-        <section>
-            <h3>Kỹ năng</h3>
+            <li>
+                <strong>Vai trò:</strong>
+                Thành viên nhóm
+            </li>
 
-            <ul class="skills">
-                <li>HTML</li>
-                <li>CSS</li>
-                <li>Biết lập trình C++ và Python</li>
-                <li>Làm việc nhóm</li>
-                <li>Thuyết trình</li>
-            </ul>
-        </section>
+            <li>
+                <strong>Lớp:</strong>
+                24CNTT1
+            </li>
 
-     <section>
-      <h2>Thời khóa biểu tuần</h2>
-     <div class="table-container">
+            <li>
+                <strong>Trường:</strong>
+                .Đại học Sư Phạm- Đại học Đà Nẵng
+            </li>
+
+            <li>
+    <strong>Email:</strong>
+
+    <span id="email">
+        nguyentuannhatthanh06092006@gmail.com
+    </span>
+
+    <button id="copyEmailBtn" type="button">
+        Sao chép email
+    </button>
+
+    <p id="copyMessage" aria-live="polite"></p>
+</li>
+
+        </ul>
+    </div>
+
+</section>
+
+        <article class="accordion-item">
+
+    <h3>
+        <button
+            type="button"
+            class="accordion-button"
+            aria-expanded="true"
+            aria-controls="project-content">
+            Dự án / Sở thích
+        </button>
+    </h3>
+
+    <div id="project-content" class="accordion-content">
+
+        <p>
+            Tôi yêu thích lập trình web và tìm hiểu các công nghệ mới.
+            Tôi đặc biệt quan tâm đến việc xây dựng các trang web có
+            giao diện đơn giản, dễ sử dụng.
+        </p>
+
+        <p>
+            Trong thời gian học tập, tôi muốn nâng cao kỹ năng HTML,
+            CSS, JavaScript và khả năng làm việc nhóm.
+        </p>
+
+    </div>
+
+</article>
+
+        <section class="accordion-item">
+
+    <h3>
+        <button
+            type="button"
+            class="accordion-button"
+            aria-expanded="true"
+            aria-controls="skills-content">
+            Kỹ năng
+        </button>
+    </h3>
+
+    <div id="skills-content" class="accordion-content">
+
+        <!-- Lọc kỹ năng theo nhóm -->
+        <div class="skill-filter">
+
+            <button
+                type="button"
+                class="filter-button active"
+                data-group="all">
+                Tất cả
+            </button>
+
+            <button
+                type="button"
+                class="filter-button"
+                data-group="programming">
+                Lập trình
+            </button>
+
+            <button
+                type="button"
+                class="filter-button"
+                data-group="soft-skill">
+                Kỹ năng mềm
+            </button>
+
+        </div>
+
+        <ul class="skills">
+
+            <li data-group="programming">
+                HTML
+            </li>
+
+            <li data-group="programming">
+                CSS
+            </li>
+
+            <li data-group="programming">
+                Biết lập trình C++ và Python
+            </li>
+
+            <li data-group="soft-skill">
+                Làm việc nhóm
+            </li>
+
+            <li data-group="soft-skill">
+                Thuyết trình
+            </li>
+
+        </ul>
+
+    </div>
+
+</section>
+
+    <section class="accordion-item">
+     <h2>
+    <button type="button"
+            class="accordion-button"
+            aria-expanded="false"
+            aria-controls="schedule-content">
+        Thời khóa biểu tuần
+    </button>
+</h2>
+
+   <div id="schedule-content" class="accordion-content is-hidden">
+    <div class="table-container">
+
     <table class="schedule">
         <caption>Thời khóa biểu học kỳ 1 năm học 2026 – 2027 (Nguyễn Tuấn Nhật Thanh)</caption>
         <thead>
@@ -203,12 +332,48 @@
             <td></td>
           </tr>
         </tbody>
-      </table>
-    </section>
+           </table>
+
+    </div>
+</div>
+
+</section>
+
+<section class="countdown-section">
+    <h2>Đếm ngược đến kỳ thi cuối kỳ</h2>
+    
+    <div id="countdown" class="countdown" aria-live="polite">
+        <div>
+            <strong id="days">0</strong>
+            <span>Ngày</span>
+        </div>
+
+        <div>
+            <strong id="hours">0</strong>
+            <span>Giờ</span>
+        </div>
+
+        <div>
+            <strong id="minutes">0</strong>
+            <span>Phút</span>
+        </div>
+
+        <div>
+            <strong id="seconds">0</strong>
+            <span>Giây</span>
+        </div>
+    </div>
+
+    <p id="countdownMessage"></p>
+</section>
+
   </main>
     <footer class="chan-trang">
     <p>&copy; 2026 UEDBookHub – Nhóm 01 (Trần Văn Tú, Bhling Trường, Lê Trung Hậu, Nguyễn Tuấn Nhật Thanh).</p>
     <p>Khoa Toán – Tin, Trường Đại học Sư phạm – Đại học Đà Nẵng. Địa chỉ: 459 Tôn Đức Thắng, Quận Liên Chiểu, TP. Đà Nẵng.</p>
-  </footer>
+ </footer>
+
+<script src="./js/canhan.js"></script>
+
 </body>
 </html>
