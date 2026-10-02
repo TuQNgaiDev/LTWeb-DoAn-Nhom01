@@ -139,6 +139,27 @@ a:focus-visible, button:focus-visible {
   display: inline-block;
 }
 
+.khung-hanh-dong-ca-nhan {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--khoang-cach);
+  margin-top: var(--khoang-cach-md);
+  margin-bottom: var(--khoang-cach-lg);
+  justify-content: space-between;
+}
+
+.nut--vien {
+  background-color: transparent;
+  color: var(--mau-chinh);
+  border: 1.5px solid var(--duong-vien-dam);
+}
+
+.nut--vien:hover {
+  background-color: var(--nen);
+  border-color: var(--mau-chinh);
+  color: var(--mau-chinh);
+}
+
 .khoi-thoi-khoa-bieu {
   margin-bottom: var(--khoang-cach-lg);
 }
@@ -175,23 +196,173 @@ a:focus-visible, button:focus-visible {
 .the-mon-hoc--csdl { border-left: 3.5px solid #06b6d4; }
 .the-mon-hoc--cnpm { border-left: 3.5px solid #6366f1; }
 
-.khung-hanh-dong-ca-nhan {
+.nut-tien-ich {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  background-color: #f8f9fa;
+  color: #212529;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.nut-tien-ich:hover {
+  background-color: #e2e6ea;
+  border-color: #adb5bd;
+}
+
+.nut-tien-ich:focus-visible {
+  outline: 3px solid #0d6efd;
+  outline-offset: 2px;
+}
+
+.dong-email {
+  margin-top: 10px;
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
-  gap: var(--khoang-cach);
-  margin-top: var(--khoang-cach-md);
-  margin-bottom: var(--khoang-cach-lg);
-  justify-content: space-between;
+  gap: 8px;
 }
 
-.nut--vien {
-  background-color: transparent;
-  color: var(--mau-chinh);
-  border: 1.5px solid var(--duong-vien-dam);
+.thong-bao-chep {
+  display: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #198754;
 }
 
-.nut--vien:hover {
-  background-color: var(--nen);
-  border-color: var(--mau-chinh);
-  color: var(--mau-chinh);
+.thong-bao-chep.hien {
+  display: inline-block;
+}
+
+body.che-do-toi {
+  background-color: #1a1a1a !important;
+  color: #e4e6eb !important;
+}
+
+body.che-do-toi .dau-trang,
+body.che-do-toi .thanh-dieu-huong,
+body.che-do-toi .ho-so-ca-nhan,
+body.che-do-toi section,
+body.che-do-toi .bang-tkb,
+body.che-do-toi .bang-tkb caption,
+body.che-do-toi .chan-trang {
+  background-color: #242526 !important;
+  color: #e4e6eb !important;
+  border-color: #3e4042 !important;
+}
+
+body.che-do-toi p,
+body.che-do-toi span,
+body.che-do-toi h1,
+body.che-do-toi h2,
+body.che-do-toi h3,
+body.che-do-toi strong,
+body.che-do-toi .ho-so-ca-nhan__ten,
+body.che-do-toi .doan-van-dai,
+body.che-do-toi .the-ky-nang__tieu-de,
+body.che-do-toi .the-ky-nang__mo-ta {
+  color: #f5f6f7 !important;
+}
+
+body.che-do-toi .ho-so-ca-nhan__vai-tro {
+  color: #93c5fd !important;
+  font-weight: 700 !important;
+}
+
+body.che-do-toi .the-phuong-cham {
+  background: #2b2b2b !important;
+  border-left-color: #3b82f6 !important;
+}
+
+body.che-do-toi .the-phuong-cham p {
+  color: #bfdbfe !important;
+}
+
+body.che-do-toi .dau-trang__khau-hieu {
+  background: #242526 !important;
+  color: #e4e6eb !important;
+  border: 1px solid #3e4042 !important;
+}
+
+body.che-do-toi .the-ky-nang,
+body.che-do-toi .the-so-thich,
+body.che-do-toi .nut-tien-ich {
+  background-color: #3a3b3c !important;
+  color: #ffffff !important;
+  border-color: #4e4f50 !important;
+}
+
+body.che-do-toi .nut-tien-ich:hover {
+  background-color: #4e4f50 !important;
+}
+
+body.che-do-toi .thong-bao-chep {
+  color: #20c997 !important;
+}
+
+body.che-do-toi .huy-hieu,
+body.che-do-toi .nhom-nut span {
+  background-color: #2d3748 !important;
+  color: #ffffff !important;
+  border: 1px solid #4a5568 !important;
+  font-weight: 600 !important;
+}
+
+body.che-do-toi .huy-hieu--sap-het {
+  border-color: #f59e0b !important;
+  color: #fef3c7 !important;
+}
+
+body.che-do-toi .huy-hieu--con {
+  border-color: #10b981 !important;
+  color: #d1fae5 !important;
+}
+
+body.che-do-toi .the-mon-hoc {
+  background: #1e293b !important;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+body.che-do-toi .the-mon-hoc:hover {
+  background: #334155 !important;
+}
+
+body.che-do-toi .the-mon-hoc__ma {
+  color: #94a3b8 !important;
+  font-size: 0.75rem;
+}
+
+body.che-do-toi .the-mon-hoc__ten {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+body.che-do-toi .the-mon-hoc__phong {
+  color: #38bdf8 !important;
+  font-weight: 600 !important;
+}
+
+body.che-do-toi .bang-tkb th,
+body.che-do-toi .bang-tkb td {
+  border-color: #334155 !important;
+}
+
+body.che-do-toi .nut--vien {
+  background-color: #242526 !important;
+  color: #f1f5f9 !important;
+  border-color: #475569 !important;
+}
+
+body.che-do-toi .nut--vien:hover {
+  background-color: #334155 !important;
+  border-color: #94a3b8 !important;
+  color: #ffffff !important;
 }
