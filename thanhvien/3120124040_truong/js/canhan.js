@@ -4,7 +4,7 @@
  * Chức năng:
  *  1. Đồng hồ đếm ngược thời gian thực đến ngày thi cuối kỳ (Date, setInterval, textContent).
  *  2. Sao chép địa chỉ Email vào bộ nhớ tạm (Clipboard API) kèm thông báo.
- * Cách thử: 
+ * Cách thử:
  *  - Quan sát bộ đếm thời gian lùi từng giây ở khối đếm ngược ngày thi.
  *  - Nhấp nút 'Sao chép Email' (hoặc Tab + Enter) để copy và xem thông báo xác nhận.
  */
@@ -49,7 +49,7 @@ if (nutChepEmail && emailVanBan && thongBaoChep) {
     try {
       // Dùng Clipboard API theo đúng gợi ý của đề bài
       await navigator.clipboard.writeText(emailCanChep);
-      
+
       // Hiển thị phản hồi an toàn bằng textContent
       thongBaoChep.textContent = '✓ Đã sao chép vào bộ nhớ tạm!';
       thongBaoChep.classList.add('hien');

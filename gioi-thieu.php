@@ -1,29 +1,11 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Giới thiệu nhóm tác giả phát triển UEDBookHub thuộc Khoa Toán - Tin, Trường Đại học Sư phạm - Đại học Đà Nẵng và liên kết trang cá nhân từng thành viên.">
-  <title>Giới thiệu nhóm phát triển | UEDBookHub</title>
-  <link rel="stylesheet" href="css/style.css?v=14">
-</head>
-<body class="trang">
-  <header class="dau-trang">
-    <img class="dau-trang__bieu-trung" src="images/UEDBookHub.svg" alt="Biểu trưng UEDBookHub - Trường Đại học Sư phạm, Đại học Đà Nẵng" width="320" height="80">
-    <p class="dau-trang__khau-hieu">Hệ thống học liệu &amp; Thư viện số – Trường Đại học Sư phạm, Đại học Đà Nẵng</p>
-  </header>
-
-  <nav class="thanh-dieu-huong" aria-label="Điều hướng chính">
-    <ul class="thanh-dieu-huong__danh-sach">
-      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="index.html">Trang chủ</a></li>
-      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="danh-sach.html">Danh mục giáo trình</a></li>
-      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="chi-tiet.html">Giáo trình tiêu biểu</a></li>
-      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gioi-thieu.html" aria-current="page">Giới thiệu nhóm</a></li>
-      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="lien-he.html">Đăng ký &amp; Liên hệ</a></li>
-    </ul>
-  </nav>
-
-  <main class="noi-dung-chinh">
+<?php
+/** Trang Giới thiệu nhóm dùng khung chung và dữ liệu từ máy chủ. */
+require __DIR__ . '/inc/config.php';
+$tieuDe = 'Giới thiệu nhóm';
+$trang = 'gioi-thieu';
+require __DIR__ . '/inc/header.php';
+?>
+<main class="noi-dung-chinh">
     <h1>Giới thiệu về UEDBookHub &amp; Nhóm Phát triển</h1>
 
     <section>
@@ -76,11 +58,4 @@
       </div>
     </section>
   </main>
-
-  <footer class="chan-trang">
-    <p>&copy; 2026 UEDBookHub – Nhóm 01 (Trần Văn Tú, Bhling Trường, Lê Trung Hậu, Nguyễn Tuấn Nhật Thanh).</p>
-    <p>Khoa Toán – Tin, Trường Đại học Sư phạm – Đại học Đà Nẵng. Địa chỉ: 459 Tôn Đức Thắng, Quận Liên Chiểu, TP. Đà Nẵng.</p>
-  </footer>
-  <script type="module" src="js/main.js"></script>
-</body>
-</html>
+<?php require __DIR__ . '/inc/footer.php'; ?>

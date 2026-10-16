@@ -1,29 +1,13 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="UEDBookHub là hệ thống học liệu trực tuyến và quản lý thư viện, đặt mua giáo trình dành cho sinh viên Trường Đại học Sư phạm - Đại học Đà Nẵng.">
-  <title>Trang chủ | UEDBookHub - Thư viện số ĐH Sư phạm Đà Nẵng</title>
-  <link rel="stylesheet" href="css/style.css?v=14">
-</head>
-<body class="trang">
-  <header class="dau-trang">
-    <img class="dau-trang__bieu-trung" src="images/UEDBookHub.svg" alt="Biểu trưng UEDBookHub - Trường Đại học Sư phạm, Đại học Đà Nẵng" width="320" height="80">
-    <p class="dau-trang__khau-hieu">Hệ thống học liệu &amp; Thư viện số – Trường Đại học Sư phạm, Đại học Đà Nẵng</p>
-  </header>
-
-  <nav class="thanh-dieu-huong" aria-label="Điều hướng chính">
-    <ul class="thanh-dieu-huong__danh-sach">
-      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="index.html" aria-current="page">Trang chủ</a></li>
-      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="danh-sach.html">Danh mục giáo trình</a></li>
-      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="chi-tiet.html">Giáo trình tiêu biểu</a></li>
-      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gioi-thieu.html">Giới thiệu nhóm</a></li>
-      <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="lien-he.html">Đăng ký &amp; Liên hệ</a></li>
-    </ul>
-  </nav>
-
-  <main class="noi-dung-chinh">
+<?php
+/** Trang Trang chủ dùng khung chung và dữ liệu từ máy chủ. */
+require __DIR__ . '/inc/config.php';
+$kho = khoGiaoTrinh();
+$ganDay = daXem($kho);
+$tieuDe = 'Trang chủ';
+$trang = 'index';
+require __DIR__ . '/inc/header.php';
+?>
+<main class="noi-dung-chinh">
     <h1>UEDBookHub – Hệ thống Học liệu &amp; Thư viện số UED</h1>
 
     <section class="hero">
@@ -33,8 +17,8 @@
         <strong>UEDBookHub</strong> là cổng thông tin học liệu trực tuyến giúp sinh viên Trường Đại học Sư phạm – Đại học Đà Nẵng tra cứu tài liệu, mượn sách thư viện nhanh chóng và đặt mua giáo trình học phần chính khóa có trợ giá.
       </p>
       <div class="hero__nhom-nut">
-        <a href="danh-sach.html" class="nut nut--nhan">Tra cứu giáo trình ngay</a>
-        <a href="lien-he.html" class="nut nut--phu">Đăng ký mượn &amp; mua sách</a>
+        <a href="danh-sach.php" class="nut nut--nhan">Tra cứu giáo trình ngay</a>
+        <a href="lien-he.php" class="nut nut--phu">Đăng ký mượn &amp; mua sách</a>
       </div>
     </section>
 
@@ -48,7 +32,7 @@
               Sinh viên có thể tra cứu giáo trình theo tên môn học, mã học phần, tên tác giả hoặc theo từng khoa chuyên môn một cách dễ dàng.
             </p>
             <div class="the__chan">
-              <a href="danh-sach.html" class="nut nut--phu">Khám phá kho sách</a>
+              <a href="danh-sach.php" class="nut nut--phu">Khám phá kho sách</a>
             </div>
           </div>
         </article>
@@ -60,7 +44,7 @@
               Kiểm tra nhanh tình trạng và số lượng sách còn trong kho thư viện, gửi phiếu hẹn mượn trực tuyến trước khi đến nhận trực tiếp tại quầy.
             </p>
             <div class="the__chan">
-              <a href="lien-he.html" class="nut nut--phu">Gửi phiếu mượn</a>
+              <a href="lien-he.php" class="nut nut--phu">Gửi phiếu mượn</a>
             </div>
           </div>
         </article>
@@ -72,7 +56,7 @@
               Đăng ký mua sách giáo trình in mới do Nhà xuất bản Đại học Đà Nẵng phát hành với mức giá ưu đãi trợ giá từ 30% đến 40% cho sinh viên UED.
             </p>
             <div class="the__chan">
-              <a href="chi-tiet.html" class="nut nut--phu">Xem sách tiêu biểu</a>
+              <a href="chi-tiet.php?id=1" class="nut nut--phu">Xem sách tiêu biểu</a>
             </div>
           </div>
         </article>
@@ -92,7 +76,7 @@
         </li>
         <li class="danh-sach-buoc__muc">
           <span class="danh-sach-buoc__so">3</span>
-          <p><strong>Gửi phiếu:</strong> Điền thông tin vào mẫu tại trang Đăng ký &amp; Liên hệ và nhận email xác nhận.</p>
+          <p><strong>Gửi phiếu:</strong> Điền thông tin vào mẫu tại trang Đăng ký &amp; Liên hệ và xem thông báo tiếp nhận trên website.</p>
         </li>
         <li class="danh-sach-buoc__muc">
           <span class="danh-sach-buoc__so">4</span>
@@ -100,7 +84,7 @@
         </li>
       </ol>
       <p>
-        Bạn có thể xem danh sách các cuốn sách tại trang <a href="danh-sach.html">Danh mục giáo trình</a> hoặc gửi thông tin tại trang <a href="lien-he.html">Đăng ký &amp; Liên hệ</a>.
+        Bạn có thể xem danh sách các cuốn sách tại trang <a href="danh-sach.php">Danh mục giáo trình</a> hoặc gửi thông tin tại trang <a href="lien-he.php">Đăng ký &amp; Liên hệ</a>.
       </p>
     </section>
 
@@ -112,13 +96,6 @@
       </div>
       <noscript><p>Hãy bật JavaScript để xem dữ liệu thời tiết cập nhật.</p></noscript>
     </section>
-  </main>
-
-  <footer class="chan-trang">
-    <p>&copy; 2026 UEDBookHub – Nhóm 01 (Trần Văn Tú, Bhling Trường, Lê Trung Hậu, Nguyễn Tuấn Nhật Thanh).</p>
-    <p>Khoa Toán – Tin, Trường Đại học Sư phạm – Đại học Đà Nẵng. Địa chỉ: 459 Tôn Đức Thắng, Quận Liên Chiểu, TP. Đà Nẵng.</p>
-  </footer>
-  <script type="module" src="js/main.js"></script>
-  <script type="module" src="js/trang-chu.js"></script>
-</body>
-</html>
+  <section><h2>Giáo trình tiêu biểu</h2><?php $danhSachThe = array_slice($kho->tatCa(), 0, 3); require __DIR__ . '/inc/danh-sach-the.php'; ?></section>
+<section><h2>Đã xem gần đây</h2><?php if (!$ganDay): ?><p>Bạn chưa xem giáo trình nào.</p><?php else: ?><?php $danhSachThe = $ganDay; require __DIR__ . '/inc/danh-sach-the.php'; ?><?php endif; ?></section></main>
+<?php require __DIR__ . '/inc/footer.php'; ?>

@@ -1,0 +1,7 @@
+{
+  "name": "nhom01/uedbookhub",
+  "description": "UEDBookHub - Bai tap nhom 5, PHP thuan",
+  "type": "project",
+  "require": {"php": ">=8.1", "ext-mbstring": "*", "ext-fileinfo": "*"},
+  "autoload": {"psr-4": {"App\\": "src/"}}
+}

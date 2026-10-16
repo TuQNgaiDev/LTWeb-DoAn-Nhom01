@@ -1,0 +1,29 @@
+/* Bổ sung giao diện PHP và bảng responsive, giữ hệ thống CSS bài 4. */
+[hidden] { display: none !important; }
+.bo-qua { position: absolute; top: -100px; padding: 12px; background: #fff; color: #122f50; z-index: 100; }
+.bo-qua:focus { top: 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+input, select, textarea { max-width: 100%; min-width: 0; font: inherit; }
+fieldset { min-width: 0; }
+.bieu-mau input[type=number], td input { width: 90px; padding: 8px; }
+.bieu-mau select { width: 100%; }
+.chi-tiet-php { display: grid; gap: 24px; }
+.chi-tiet-php img { max-width: 100%; object-fit: contain; }
+.bang-cuon { max-width: 100%; overflow-x: auto; }
+.bang-cuon table { width: 100%; border-collapse: collapse; }
+.bang-cuon th, .bang-cuon td { padding: 12px; border: 1px solid #cbd5e1; text-align: left; }
+.bang-cuon form { display: grid; gap: 8px; }
+.phieu-lien-he { margin: 24px 0; padding: 20px; border: 1px solid #cbd5e1; border-radius: 12px; background: #fff; }
+.phieu-lien-he dt { font-weight: bold; }
+.phieu-lien-he dd { margin: 0 0 12px; }
+.giu-dong { white-space: pre-wrap; overflow-wrap: anywhere; }
+.anh-dinh-kem { max-width: 100%; height: auto; }
+.the__anh { object-fit: contain; max-height: 240px; }
+.noi-dung-chinh, .the, .bieu-mau__nhom { min-width: 0; overflow-wrap: anywhere; }
+.nut { white-space: normal; }
+.bo-loc-giao-trinh { grid-template-columns: 1fr; }
+.bo-loc-giao-trinh > div { min-width: 0; }
+@media (min-width: 768px) {
+  .chi-tiet-php { grid-template-columns: 240px minmax(0, 1fr); }
+  .bo-loc-giao-trinh { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); }
+}

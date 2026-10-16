@@ -47,14 +47,14 @@ if (thanhDieuHuong && danhSachMenu) {
     }
   });
 
-  const lienKetDanhSach = danhSachMenu.querySelector('a[href$="danh-sach.html"]');
+  const lienKetDanhSach = danhSachMenu.querySelector('a[href$="danh-sach.php"]');
   const mucYeuThich = document.createElement('li');
   const lienKetYeuThich = document.createElement('a');
   const soYeuThich = document.createElement('span');
 
   mucYeuThich.className = 'thanh-dieu-huong__muc thanh-dieu-huong__muc--yeu-thich';
   lienKetYeuThich.className = 'thanh-dieu-huong__lien-ket';
-  lienKetYeuThich.href = `${lienKetDanhSach?.getAttribute('href') || 'danh-sach.html'}#danh-sach-dong`;
+  lienKetYeuThich.href = `${lienKetDanhSach?.getAttribute('href') || 'danh-sach.php'}#danh-sach-dong`;
   lienKetYeuThich.append('Yêu thích ');
   soYeuThich.className = 'dem-yeu-thich';
   soYeuThich.setAttribute('data-so-yeu-thich', '');
