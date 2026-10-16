@@ -9,3 +9,5 @@
 !/uploads/.gitkeep
 !/uploads/.htaccess
 /output/
+/bao-cao/
+/tests/

@@ -1,6 +1,6 @@
 # UEDBookHub — Bài tập nhóm 5
 
-Website PHP thuần của Nhóm 01, chuyển từ bộ trang bài 4. Giỏ hàng dùng để đặt mua giáo trình. Phạm vi bản này: Phần A, Phần C và tài liệu báo cáo; không thực hiện Phần B cá nhân.
+Website PHP thuần của Nhóm 01, chuyển từ bộ trang bài 4. Giỏ hàng dùng để đặt mua giáo trình. Kho Git lưu mã nguồn, tài nguyên chạy website, hướng dẫn cài đặt và ảnh minh chứng theo yêu cầu đề bài. Phần B cá nhân do từng thành viên bổ sung.
 
 ## Môi trường và chạy
 
@@ -64,20 +64,16 @@ Các trang cá nhân còn `.html` theo phạm vi loại trừ Phần B; chỉ s�
 
 ## Kiểm thử và minh chứng
 
-```sh
-python3 tests/kiem-thu.py
-```
-
-Script dùng thư viện chuẩn Python và PHP, tự sao chép ứng dụng sang thư mục tạm và khởi động cổng 8011/8012; không làm thay đổi dữ liệu thật. Script làm đủ 12 ca HTTP và các thử nghiệm C2/C3, ghi kết quả vào `tests/ket-qua/`. Các Warning trong `tests/ket-qua/log-thu-nghiem.txt` thuộc thử nghiệm cố ý thêm output trước header ở bản sao, không phải log vận hành ứng dụng.
-
 `kiemtra/btn5/` chỉ chứa ảnh minh chứng bài tập nhóm 5: ảnh chức năng, giao diện 360 px và điểm Lighthouse. `btn5` là tên thư mục con để phân biệt với ảnh các bài trước, không phải tên bắt buộc trong đề.
 
-`tests/kiem-thu.py` là mã kiểm thử; `tests/ket-qua/` lưu các tài liệu kiểm thử phụ trợ: bản HTML do PHP sinh, báo cáo Lighthouse HTML/JSON, phản hồi W3C, kết quả HTTP/giao diện và lệnh curl. Đây là tài liệu hỗ trợ đối chiếu, không phải mã nguồn chức năng hay ảnh minh chứng. Kiểm tra 360 px trên tám trang; Lighthouse Accessibility đo ở ba trang đề bắt buộc. Kiểm tra đường dẫn con thực hiện bằng PHP server, chưa chạy trực tiếp Apache/XAMPP trên máy này.
+Để đối chiếu Bảng 3 của đề, chạy website bằng PHP rồi thử các chức năng bằng trình duyệt và curl, gồm cả khi tắt JavaScript. Kiểm tra 360 px trên tám trang; dùng Lighthouse Mobile và W3C Nu Validator cho mã HTML do PHP sinh. Kết quả chi tiết, lệnh thử và số liệu được trình bày trong báo cáo nộp riêng. Kiểm tra đường dẫn con đã thực hiện bằng PHP server, chưa chạy trực tiếp Apache/XAMPP trên máy này.
+
+Các thư mục `bao-cao/`, `tests/` và `output/` là tài liệu hoặc công cụ dùng nội bộ trên máy, được loại khỏi Git bằng `.gitignore`. Không cần các thư mục này để cài đặt hoặc chạy website.
 
 ## Git và nộp bài
 
-Thẻ `btn4` chỉ phiên bản tĩnh trước khi chuyển PHP. Kiểm tra `git show btn4 --stat`, rồi nhóm tự push mốc đã xác nhận bằng `git push origin btn4`. Bản làm việc PHP chưa được commit/push; sau khi các thành viên kiểm tra và commit phần việc thực tế, điền mã commit cuối vào trang bìa. Không dùng mã `btn4` thay cho mã commit PHP cuối.
+Thẻ `btn4` chỉ phiên bản tĩnh trước khi chuyển PHP. Kiểm tra bằng `git show btn4 --stat`. Sau khi hợp nhất bản nộp cuối, lấy mã commit bằng `git rev-parse HEAD` để điền vào trang bìa. Không dùng mã `btn4` thay cho mã commit PHP cuối.
 
-Tài liệu trong `bao-cao/` là bản nội dung không có bìa, không bao gồm kết quả Phần B. Nhóm bổ sung Phần B/Bảng 5, trang bìa, mã commit cuối và phần đóng góp thực tế trước khi xuất PDF và nộp. Không tự điền tỷ lệ đóng góp hoặc tạo lịch sử commit thay thành viên.
+Báo cáo PDF và gói mã nguồn ZIP được nộp riêng theo quy cách đề bài. Nhóm bổ sung Phần B/Bảng 5, trang bìa, mã commit cuối và phần đóng góp thực tế trước khi xuất PDF và nộp. Không tự điền tỷ lệ đóng góp hoặc tạo lịch sử commit thay thành viên.
 
 AI (Codex) đã hỗ trợ chuyển mã PHP, soạn kiểm thử và nội dung báo cáo. Thành viên cần chạy lại, hiểu và giải thích phần được phân công; bảng phân công mô tả trách nhiệm, không phải bằng chứng đã tự viết/commit.
