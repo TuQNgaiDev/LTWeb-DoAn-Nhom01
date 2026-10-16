@@ -792,3 +792,31 @@ body.dark-mode .accordion-content {
     position: relative;
     z-index: 100;
 }
+
+.accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 18px 22px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: white;
+    color: #ff4938;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+    cursor: pointer;
+}
+
+.accordion-header:hover {
+    background: #fff5f2;
+}
+
+.accordion-content {
+    padding-top: 18px;
+}
+
+.accordion-header .mui-ten {
+    font-size: 18px;
+}
