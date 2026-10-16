@@ -1,19 +1,26 @@
 <?php
-/** Khung đầu trang dùng chung; hỗ trợ đường dẫn tương đối qua $goc. */
+/** Khung đầu trang dùng chung; hỗ trợ đường dẫn tương đối qua $goc.
+ * Trang con có thể truyền $moTa và danh sách $cssThem từ thư mục gốc.
+ */
 $goc ??= '';
 $trang ??= '';
+$cssThem ??= [];
+$dataGiaoDien ??= '';
 $gioDauTrang = new App\Services\GioHang();
 $menu = ['index' => 'Trang chủ', 'danh-sach' => 'Danh mục giáo trình', 'gioi-thieu' => 'Giới thiệu nhóm', 'lien-he' => 'Đăng ký & Liên hệ'];
 ?>
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi"<?= $dataGiaoDien !== '' ? ' data-giao-dien="' . e($dataGiaoDien) . '"' : '' ?>>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="UEDBookHub giúp tra cứu và đặt mua giáo trình, đăng ký học liệu trực tuyến.">
+  <meta name="description" content="<?= e($moTa ?? 'UEDBookHub giúp tra cứu và đặt mua giáo trình, đăng ký học liệu trực tuyến.') ?>">
   <title><?= e($tieuDe ?? 'UEDBookHub') ?> | UEDBookHub</title>
   <link rel="stylesheet" href="<?= e($goc) ?>css/style.css">
   <link rel="stylesheet" href="<?= e($goc) ?>css/php.css">
+  <?php foreach ($cssThem as $css): ?>
+  <link rel="stylesheet" href="<?= e($goc . $css) ?>">
+  <?php endforeach; ?>
 </head>
 <body class="trang">
 <a class="bo-qua" href="#noi-dung">Đến nội dung chính</a>

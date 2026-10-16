@@ -28,7 +28,7 @@ require __DIR__ . '/inc/header.php';
           <h3 class="the-thanh-vien__ten">Trần Văn Tú</h3>
           <div class="the-thanh-vien__vai-tro">Trưởng nhóm – Quản trị kiến trúc hệ thống &amp; Thiết kế giao diện CSS</div>
           <div class="the-thanh-vien__lien-ket">
-            <a href="thanhvien/3120224169_tu/gioithieu.html" class="nut nut--phu nut--day-du">Xem trang cá nhân Tú</a>
+            <a href="thanhvien/3120224169_tu/gioithieu.php" class="nut nut--phu nut--day-du">Xem trang cá nhân Tú</a>
           </div>
         </article>
 

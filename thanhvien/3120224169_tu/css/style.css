@@ -1,3 +1,7 @@
+/**
+ * Kiểu riêng cho hồ sơ Trần Văn Tú, bộ lọc GET và máy tính điểm PHP.
+ * Trang vẫn dùng các biến và thành phần chung của UEDBookHub.
+ */
 .ho-so-ca-nhan {
   border-radius: var(--bo-goc-lg);
   box-shadow: var(--bong-do-md);
@@ -201,16 +205,70 @@
   margin-bottom: var(--khoang-cach-sm);
 }
 
-.ket-qua-loc-ky-nang {
+.form-doi-giao-dien {
+  display: inline-block;
+  margin: 0;
+}
+
+.may-tinh-diem {
+  margin-bottom: var(--khoang-cach-lg);
+  padding: var(--khoang-cach-lg);
+  border: 1px solid var(--duong-vien);
+  border-radius: var(--bo-goc-lg);
+  background-color: var(--nen-the);
+  box-shadow: var(--bong-do);
+}
+
+.may-tinh-diem__mo-ta {
   color: var(--chu-phu);
-  font-size: var(--co-chu-nho);
+  margin-bottom: var(--khoang-cach);
+}
+
+.bieu-mau-diem {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--khoang-cach);
+  align-items: start;
+}
+
+.bieu-mau-diem .nut {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+.ket-qua-diem {
+  margin: var(--khoang-cach) 0;
+  padding: var(--khoang-cach);
+  border-radius: var(--bo-goc);
+  border-left: 4px solid var(--mau-thanh-cong);
+  background-color: var(--mau-thanh-cong-nhat);
+}
+
+.ket-qua-diem--dat {
+  border-left-color: var(--mau-thanh-cong);
+  background-color: var(--mau-thanh-cong-nhat);
+}
+
+.ket-qua-diem--truot {
+  border-left-color: var(--mau-nguy-hiem);
+  background-color: var(--mau-nguy-hiem-nhat);
+}
+
+.ket-qua-diem__chi-tiet,
+.ket-qua-diem__tong-ket {
+  margin: 4px 0;
+}
+
+.bieu-mau__o-nhap--loi {
+  border-color: var(--mau-nguy-hiem) !important;
 }
 
 .the-ky-nang--an {
   display: none;
 }
 
-html[data-giao-dien="toi"] {
+html[data-giao-dien="toi"],
+body[data-giao-dien="toi"] {
   --nen: #0f172a;
   --nen-the: #172033;
   --nen-phu: #202b40;
@@ -224,6 +282,11 @@ html[data-giao-dien="toi"] {
   --mau-phu-nhat: #1e3a5f;
 }
 
+html[data-giao-dien="toi"] body {
+  background-color: var(--nen);
+  color: var(--chu);
+}
+
 html[data-giao-dien="toi"] .the-phuong-cham {
   background: linear-gradient(135deg, #172554, #1e3a5f);
 }
@@ -234,10 +297,38 @@ html[data-giao-dien="toi"] .bang-tkb tbody th[scope="row"] {
   color: var(--chu);
 }
 
+html[data-giao-dien="toi"] .bieu-mau__o-nhap {
+  background-color: #0f172a;
+  color: #f8fafc;
+  border-color: #334155;
+}
+
+html[data-giao-dien="toi"] .bieu-mau__o-nhap:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+}
+
+html[data-giao-dien="toi"] .ket-qua-diem--dat {
+  background-color: rgba(16, 185, 129, 0.15);
+  border-left-color: #10b981;
+  color: #a7f3d0;
+}
+
+html[data-giao-dien="toi"] .ket-qua-diem--truot {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-left-color: #ef4444;
+  color: #fca5a5;
+}
+
 @media (max-width: 480px) {
   .bang-dieu-khien-ca-nhan,
   .bang-dieu-khien-ca-nhan .nut,
-  .bo-loc-ky-nang .nut {
+  .form-doi-giao-dien,
+  .form-doi-giao-dien .nut {
     width: 100%;
+  }
+
+  .bieu-mau-diem {
+    grid-template-columns: 1fr;
   }
 }

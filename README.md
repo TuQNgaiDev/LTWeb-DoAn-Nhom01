@@ -1,6 +1,6 @@
 # UEDBookHub — Bài tập nhóm 5
 
-Website PHP thuần của Nhóm 01, chuyển từ bộ trang bài 4. Giỏ hàng dùng để đặt mua giáo trình. Kho Git lưu mã nguồn, tài nguyên chạy website, hướng dẫn cài đặt và ảnh minh chứng theo yêu cầu đề bài. Phần B cá nhân do từng thành viên bổ sung.
+Website PHP thuần của Nhóm 01, chuyển từ bộ trang bài 4. Giỏ hàng dùng để đặt mua giáo trình. Kho Git lưu mã nguồn, tài nguyên chạy website, hướng dẫn cài đặt và ảnh minh chứng theo yêu cầu đề bài. Phần B hiện có trang cá nhân của Trần Văn Tú; các thành viên còn lại tự bổ sung phần của mình.
 
 ## Môi trường và chạy
 
@@ -39,6 +39,7 @@ Mở <http://localhost:8000/index.php>. Với XAMPP, chép kho vào `htdocs/ltwe
 | Xem phiếu mới nhất trước | `quan-tri.php` | `quan-tri.php`, `inc/bao-ve.php` |
 | Đăng xuất | `dang-xuat.php` | `dang-xuat.php` |
 | Giới thiệu nhóm | `gioi-thieu.php` | `gioi-thieu.php` |
+| Trang cá nhân Tú, giao diện Sáng/Tối Cookie và tính điểm POST | `thanhvien/3120224169_tu/gioithieu.php` | `thanhvien/3120224169_tu/gioithieu.php` |
 | Lỗi không có ID | `chi-tiet.php?id=abc` | `404.php` |
 | Trang lỗi máy chủ | `500.php` | `500.php` |
 
@@ -60,7 +61,7 @@ Mở <http://localhost:8000/index.php>. Với XAMPP, chép kho vào `htdocs/ltwe
 
 PSR-4 `App\\ → src/`; Composer sinh `vendor/`, không commit thư mục này. Lớp `GiaoTrinh` dùng thuộc tính readonly; `KhoGiaoTrinh` là nơi duy nhất đọc JSON giáo trình; `KhoLienHe` đọc/ghi JSONL; `GioHang` bọc session; `KiemTraLienHe` kiểm tra POST/FILES. Khung chung trong `inc/`, hàm escape `e()` áp dụng trong ngữ cảnh văn bản và thuộc tính HTML được đặt trong dấu nháy.
 
-Các trang cá nhân còn `.html` theo phạm vi loại trừ Phần B; chỉ sửa liên kết về các trang chính `.php`. Header/footer sẵn hỗ trợ `$goc` để thành viên tự tích hợp sau.
+Trang cá nhân Tú đã dùng PHP, header/footer chung, `$goc = '../../'`, CSS và JavaScript riêng. Hai chức năng phía máy chủ là giao diện Sáng / Tối ghi nhớ bằng Cookie và máy tính điểm học phần bằng POST/PRG. Ba trang cá nhân còn lại vẫn là `.html` để từng thành viên tự hoàn thành Phần B bằng tài khoản của mình.
 
 ## Kiểm thử và minh chứng
 
