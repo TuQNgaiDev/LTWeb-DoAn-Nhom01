@@ -44,7 +44,7 @@ require __DIR__ . '/inc/header.php';
           <h3 class="the-thanh-vien__ten">Lê Trung Hậu</h3>
           <div class="the-thanh-vien__vai-tro">Thành viên – Thu thập dữ liệu giáo trình &amp; Giao diện trang cá nhân</div>
           <div class="the-thanh-vien__lien-ket">
-            <a href="thanhvien/3120224052_hau/gioithieu.html" class="nut nut--phu nut--day-du">Xem trang cá nhân Hậu</a>
+            <a href="thanhvien/3120224052_hau/gioithieu.php" class="nut nut--phu nut--day-du">Xem trang cá nhân Hậu</a>
           </div>
         </article>
 

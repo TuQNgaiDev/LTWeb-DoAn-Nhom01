@@ -1,8 +1,8 @@
 /**
- * Ba tương tác cho trang cá nhân Lê Trung Hậu:
- * 1. Hiển thị lời chào theo thời gian.
- * 2. Đếm lượt thích (có ghi nhớ qua localStorage).
- * 3. Tạo câu giới thiệu ngẫu nhiên (không trùng câu liền kề).
+ * Các tương tác cho trang cá nhân Lê Trung Hậu (MSSV: 3120224052):
+ * 1. Hiển thị lời chào theo thời gian (kết hợp đồng bộ với máy chủ PHP).
+ * 2. Đếm lượt thích phía máy chủ (hỗ trợ AJAX mượt mà và form POST/PRG khi tắt JS).
+ * 3. Tạo câu giới thiệu ngẫu nhiên (chuyển động mượt mà khi bật JS).
  */
 
 // 1. HIỂN THỊ LỜI CHÀO THEO THỜI GIAN
@@ -24,28 +24,48 @@ function hienThiLoiChao() {
 
 hienThiLoiChao();
 
-// 2. ĐẾM LƯỢT THÍCH
+// 2. ĐẾM LƯỢT THÍCH MÁY CHỦ (PROGRESSIVE ENHANCEMENT)
+const formThich = document.querySelector('.form-thich');
 const nutThich = document.querySelector('#nut-thich');
 const soLuotThich = document.querySelector('#so-luot-thich');
-const KHOA_LUOT_THICH = 'luotThich_hau_3120224052';
+const nhanThich = document.querySelector('.nut-thich__nhan');
 
-let luotThich = Number(localStorage.getItem(KHOA_LUOT_THICH)) || 0;
-
-if (nutThich && soLuotThich) {
-    soLuotThich.textContent = luotThich;
-
-    nutThich.addEventListener('click', () => {
-        luotThich += 1;
-        soLuotThich.textContent = luotThich;
+if (formThich && nutThich && soLuotThich) {
+    formThich.addEventListener('submit', async (e) => {
+        // Tận dụng AJAX để tăng mượt không tải lại trang khi có JavaScript
+        e.preventDefault();
 
         // Hiệu ứng nhịp tim
         nutThich.classList.add('nut-thich--nhay');
         setTimeout(() => nutThich.classList.remove('nut-thich--nhay'), 450);
 
         try {
-            localStorage.setItem(KHOA_LUOT_THICH, luotThich);
-        } catch (e) {
-            console.warn('Không thể lưu lượt thích:', e);
+            const formData = new URLSearchParams();
+            formData.append('thich_trang', '1');
+            formData.append('ajax', '1');
+
+            const res = await fetch('gioithieu.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData.toString(),
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.thanhCong) {
+                    soLuotThich.textContent = data.soLuotThich;
+                    if (nhanThich) {
+                        nhanThich.textContent = 'Đã thích';
+                    }
+                    nutThich.classList.add('nut-thich--da-thich');
+                }
+            } else {
+                formThich.submit();
+            }
+        } catch {
+            formThich.submit();
         }
     });
 }
@@ -67,7 +87,9 @@ const danhSachGioiThieu = [
 let viTriHienTai = -1;
 
 if (nutGioiThieu && cauGioiThieu) {
-    nutGioiThieu.addEventListener('click', () => {
+    nutGioiThieu.addEventListener('click', (e) => {
+        e.preventDefault();
+
         let viTriMoi = viTriHienTai;
         while (danhSachGioiThieu.length > 1 && viTriMoi === viTriHienTai) {
             viTriMoi = Math.floor(Math.random() * danhSachGioiThieu.length);

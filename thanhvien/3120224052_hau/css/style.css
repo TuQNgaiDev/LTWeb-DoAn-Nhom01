@@ -283,3 +283,87 @@
 .nut-thich--nhay .nut-thich__bieu-tuong {
   animation: nhipTim 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
+/* Nút Thích - trạng thái Đã thích */
+.nut-thich--da-thich {
+  filter: brightness(0.95);
+  box-shadow: 0 2px 8px rgba(225, 29, 72, 0.25);
+}
+
+.thong-bao-thich {
+  padding: 10px 14px;
+  background: #ffe4e6;
+  color: #be123c;
+  border-radius: var(--bo-goc-md);
+  font-weight: 600;
+  margin-bottom: var(--khoang-cach);
+  border: 1px solid #fecdd3;
+}
+
+/* Máy tính điểm rèn luyện & Học bổng (Phần B) */
+.may-tinh-drl {
+  background-color: var(--nen-the);
+  border: 1px solid var(--duong-vien);
+  border-radius: var(--bo-goc-lg);
+  box-shadow: var(--bong-do-md);
+  padding: var(--khoang-cach-lg);
+  margin-bottom: var(--khoang-cach-lg);
+}
+
+.may-tinh-drl h2 {
+  color: var(--mau-chinh);
+  font-size: var(--co-chu-xl);
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.may-tinh-drl__mo-ta {
+  color: var(--chu-phu);
+  font-size: var(--co-chu-chuan);
+  margin-bottom: var(--khoang-cach);
+  line-height: 1.5;
+}
+
+.bieu-mau-drl {
+  display: grid;
+  gap: var(--khoang-cach);
+  max-width: 640px;
+}
+
+.ket-qua-drl {
+  padding: var(--khoang-cach);
+  border-radius: var(--bo-goc-md);
+  margin-bottom: var(--khoang-cach);
+  border: 1px solid transparent;
+}
+
+.ket-qua-drl--dat {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #166534;
+}
+
+.ket-qua-drl--chua-dat {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e40af;
+}
+
+.ket-qua-drl p {
+  margin: 0 0 6px;
+}
+
+.ket-qua-drl p:last-child {
+  margin-bottom: 0;
+}
+
+.ket-qua-drl__chi-tiet {
+  font-size: 0.95rem;
+}
+
+.ket-qua-drl__tong-ket {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-top: 8px !important;
+}
+
