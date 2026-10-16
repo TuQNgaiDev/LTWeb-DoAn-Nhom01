@@ -36,7 +36,7 @@ require __DIR__ . '/inc/header.php';
           <h3 class="the-thanh-vien__ten">Bhling Trường</h3>
           <div class="the-thanh-vien__vai-tro">Thành viên – Biên tập học liệu &amp; Giao diện trang cá nhân</div>
           <div class="the-thanh-vien__lien-ket">
-            <a href="thanhvien/3120124040_truong/gioithieu.html" class="nut nut--phu nut--day-du">Xem trang cá nhân Trường</a>
+            <a href="thanhvien/3120124040_truong/gioithieu.php" class="nut nut--phu nut--day-du">Xem trang cá nhân Trường</a>
           </div>
         </article>
 
