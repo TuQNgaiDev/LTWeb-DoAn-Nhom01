@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="UEDBookHub giúp tra cứu và đặt mua giáo trình, đăng ký học liệu trực tuyến.">
+  <title>Giáo trình Giáo dục học | UEDBookHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/php.css">
+</head>
+<body class="trang">
+<a class="bo-qua" href="#noi-dung">Đến nội dung chính</a>
+<header class="dau-trang">
+  <img class="dau-trang__bieu-trung" src="images/UEDBookHub.svg" alt="UEDBookHub" width="320" height="80">
+  <p class="dau-trang__khau-hieu">Hệ thống học liệu &amp; Thư viện số UED</p>
+</header>
+<nav class="thanh-dieu-huong" aria-label="Điều hướng chính">
+  <ul class="thanh-dieu-huong__danh-sach">
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="index.php" >Trang chủ</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="danh-sach.php" aria-current="page">Danh mục giáo trình</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gioi-thieu.php" >Giới thiệu nhóm</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="lien-he.php" >Đăng ký &amp; Liên hệ</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gio-hang.php" >Giỏ hàng (3)</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="quan-tri.php" >Quản trị · admin</a></li>
+    <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="dang-xuat.php">Đăng xuất</a></li>
+      </ul>
+</nav>
+<div id="noi-dung" tabindex="-1"></div>
+<main class="noi-dung-chinh">
+<p><a href="danh-sach.php">← Danh mục giáo trình</a></p>
+<h1>Giáo trình Giáo dục học</h1>
+<div class="chi-tiet-php"><img src="images/BiaSachGiaoDucHoc.svg" alt="Bìa Giáo trình Giáo dục học" width="240" height="300">
+<div><p>Hệ thống kiến thức nền tảng về lý luận dạy học, giáo dục nhân cách và nghiệp vụ sư phạm.</p><dl class="chi-tiet-dong__thong-tin">
+<div><dt>Mã giáo trình</dt><dd>GT-GDH-01</dd></div><div><dt>Tác giả</dt><dd>PGS.TS. Trần Xuân Bách, TS. Hoàng Thế Hải</dd></div><div><dt>Khoa</dt><dd>Tâm lý – Giáo dục học</dd></div><div><dt>Nhà xuất bản</dt><dd>NXB Đại học Đà Nẵng</dd></div><div><dt>Năm xuất bản</dt><dd>2020</dd></div><div><dt>Số trang</dt><dd>284</dd></div><div><dt>Số bản hiện có</dt><dd>42</dd></div></dl>
+<p>Giá đặt mua: <strong>55.000 đ</strong></p>
+<form action="gio-hang.php" method="post" class="bieu-mau"><input type="hidden" name="hanh_dong" value="them"><input type="hidden" name="id" value="1">
+<label for="sl">Số lượng đặt mua</label><input id="sl" type="number" name="so_luong" value="1" min="1" max="42" required>
+<button class="nut nut--chinh" type="submit" >Thêm vào giỏ</button></form>
+<p><button hidden class="nut nut--phu" type="button" data-hanh-dong="yeu-thich" data-id="1">Thêm yêu thích</button> <a href="lien-he.php?giao-trinh=1">Gửi yêu cầu về giáo trình</a></p>
+</div></div></main>
+<footer class="chan-trang">
+  <p>&copy; 2026 UEDBookHub · Nhóm 01</p>
+  <p>Trần Văn Tú · Lê Trung Hậu · Nguyễn Tuấn Nhật Thanh · Bhling Trường</p>
+</footer>
+<script type="module" src="js/main.js"></script>
+<script type="module" src="js/php.js"></script>
+</body>
+</html>

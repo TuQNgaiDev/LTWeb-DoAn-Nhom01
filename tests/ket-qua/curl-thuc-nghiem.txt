@@ -1,0 +1,182 @@
+$ curl -i -s -d ho_ten=A&email_sv=abc http://localhost:8000/lien-he.php
+HTTP/1.1 200 OK
+Host: localhost:8000
+Date: Fri, 16 Oct 2026 06:22:55 GMT
+Connection: close
+X-Powered-By: PHP/8.5.10
+Set-Cookie: PHPSESSID=e7b0a0359d308eb05d9a197305ab65a9; path=/; HttpOnly; SameSite=Lax
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-type: text/html; charset=UTF-8
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="UEDBookHub giúp tra cứu và đặt mua giáo trình, đăng ký học liệu trực tuyến.">
+  <title>Đăng ký và liên hệ | UEDBookHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/php.css">
+</head>
+<body class="trang">
+<a class="bo-qua" href="#noi-dung">Đến nội dung chính</a>
+<header class="dau-trang">
+  <img class="dau-trang__bieu-trung" src="images/UEDBookHub.svg" alt="UEDBookHub" width="320" height="80">
+  <p class="dau-trang__khau-hieu">Hệ thống học liệu &amp; Thư viện số UED</p>
+</header>
+<nav class="thanh-dieu-huong" aria-label="Điều hướng chính">
+  <ul class="thanh-dieu-huong__danh-sach">
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="index.php" >Trang chủ</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="danh-sach.php" >Danh mục giáo trình</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gioi-thieu.php" >Giới thiệu nhóm</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="lien-he.php" aria-current="page">Đăng ký &amp; Liên hệ</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gio-hang.php" >Giỏ hàng (0)</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="dang-nhap.php" >Đăng nhập</a></li>
+      </ul>
+</nav>
+<div id="noi-dung" tabindex="-1"></div>
+<main class="noi-dung-chinh"><h1>Đăng ký và liên hệ</h1>
+<p>Gửi yêu cầu mượn hoặc đặt mua giáo trình. Khi chọn đặt mua, phiếu lưu kèm các mục hiện có trong giỏ hàng để quản trị viên tiếp nhận.</p>
+<p class="bieu-mau__loi" role="alert">Chưa gửi phiếu. Vui lòng kiểm tra các trường báo lỗi bên dưới.</p><form id="bieu-mau-lien-he" class="bieu-mau" action="lien-he.php" method="post" enctype="multipart/form-data">
+<fieldset class="bieu-mau__khung"><legend>Thông tin đăng ký</legend>
+<div class="bieu-mau__nhom"><label class="bieu-mau__nhan" for="ho_ten">Họ và tên đầy đủ (bắt buộc)</label>
+<input class="bieu-mau__o-nhap" id="ho_ten" name="ho_ten" type="text" value="A" required minlength="3" maxlength="70" aria-describedby="loi-ho_ten" aria-invalid="true">
+<p class="bieu-mau__loi" id="loi-ho_ten">Họ tên cần từ 3 đến 70 ký tự.</p></div>
+<div class="bieu-mau__nhom"><label class="bieu-mau__nhan" for="ma_sinh_vien">Mã số sinh viên (bắt buộc)</label>
+<input class="bieu-mau__o-nhap" id="ma_sinh_vien" name="ma_sinh_vien" type="text" value="" required pattern="[0-9]{9,10}" maxlength="10" aria-describedby="loi-ma_sinh_vien" aria-invalid="true">
+<p class="bieu-mau__loi" id="loi-ma_sinh_vien">Mã sinh viên gồm 9 đến 10 chữ số.</p></div>
+<div class="bieu-mau__nhom"><label class="bieu-mau__nhan" for="email_sv">Email sinh viên @ued.udn.vn (bắt buộc)</label>
+<input class="bieu-mau__o-nhap" id="email_sv" name="email_sv" type="email" value="abc" required maxlength="254" aria-describedby="loi-email_sv" aria-invalid="true">
+<p class="bieu-mau__loi" id="loi-email_sv">Email không hợp lệ; cần dùng tên miền @ued.udn.vn.</p></div>
+<div class="bieu-mau__nhom"><label class="bieu-mau__nhan" for="so_dien_thoai">Số điện thoại (bắt buộc)</label>
+<input class="bieu-mau__o-nhap" id="so_dien_thoai" name="so_dien_thoai" type="tel" value="" required pattern="0[35789][0-9]{8}" maxlength="10" aria-describedby="loi-so_dien_thoai" aria-invalid="true">
+<p class="bieu-mau__loi" id="loi-so_dien_thoai">Số điện thoại gồm 10 chữ số, đầu 03, 05, 07, 08 hoặc 09.</p></div>
+<div class="bieu-mau__nhom"><label class="bieu-mau__nhan" for="lop_hoc_phan">Lớp sinh hoạt hoặc khoa chuyên ngành</label>
+<input class="bieu-mau__o-nhap" id="lop_hoc_phan" name="lop_hoc_phan" type="text" value="" maxlength="100" aria-describedby="loi-lop_hoc_phan" aria-invalid="false">
+<p class="bieu-mau__loi" id="loi-lop_hoc_phan"></p></div>
+<div class="bieu-mau__nhom"><label class="bieu-mau__nhan" for="so_luong">Số lượng bản yêu cầu từ 1 đến 5 (bắt buộc)</label>
+<input class="bieu-mau__o-nhap" id="so_luong" name="so_luong" type="number" value="" required min="1" max="5" aria-describedby="loi-so_luong" aria-invalid="true">
+<p class="bieu-mau__loi" id="loi-so_luong">Số lượng từ 1 đến 5 và không vượt số bản hiện có.</p></div>
+<div class="bieu-mau__nhom"><label class="bieu-mau__nhan" for="ngay_hen">Ngày hẹn nhận sách (bắt buộc)</label>
+<input class="bieu-mau__o-nhap" id="ngay_hen" name="ngay_hen" type="date" value="" required min="2026-09-01" max="2027-01-31" aria-describedby="loi-ngay_hen" aria-invalid="true">
+<p class="bieu-mau__loi" id="loi-ngay_hen">Ngày hẹn hợp lệ từ 01/09/2026 đến 31/01/2027.</p></div>
+<div class="bieu-mau__nhom"><label for="hinh_thuc">Hình thức yêu cầu (bắt buộc)</label><select class="bieu-mau__o-nhap" id="hinh_thuc" name="hinh_thuc" required aria-describedby="loi-hinh_thuc"><option value="">Chọn hình thức yêu cầu</option><option value="muon" >Đăng ký mượn</option><option value="mua" >Đặt mua giáo trình</option></select><p class="bieu-mau__loi" id="loi-hinh_thuc">Chọn hình thức mua hoặc mượn.</p></div>
+<div class="bieu-mau__nhom"><label for="chon_giao_trinh">Giáo trình cần liên hệ (bắt buộc)</label><select class="bieu-mau__o-nhap" id="chon_giao_trinh" name="chon_giao_trinh" required aria-describedby="loi-chon_giao_trinh"><option value="">Chọn giáo trình</option><option value="1" >Giáo trình Giáo dục học</option><option value="2" >Giáo trình Cơ sở dữ liệu</option><option value="3" >Văn học dân gian Việt Nam</option><option value="4" >Giáo trình Hóa đại cương</option><option value="5" >Thí nghiệm Vật lí ở trường THPT</option><option value="6" >Kỹ năng tham vấn học đường</option><option value="7" >Sinh lý học trẻ em lứa tuổi tiểu học</option><option value="8" >Công nghệ sinh học thực vật</option><option value="9" >Giáo trình Môđun và Vành</option><option value="10" >Toán rời rạc ứng dụng trong Tin học và Công nghệ Tiểu học</option><option value="11" >Lý luận và phương pháp dạy học Tin học</option><option value="12" >Ngôn ngữ học tiếng Việt</option></select><p class="bieu-mau__loi" id="loi-chon_giao_trinh">Vui lòng chọn giáo trình có trong danh mục.</p></div>
+<div class="bieu-mau__nhom"><label for="ghi_chu">Ghi chú hoặc yêu cầu bổ sung</label><textarea class="bieu-mau__o-nhap" id="ghi_chu" name="ghi_chu" rows="4" maxlength="2000" aria-describedby="loi-ghi_chu"></textarea><p class="bieu-mau__loi" id="loi-ghi_chu"></p></div>
+<div class="bieu-mau__nhom"><label for="anh">Ảnh đính kèm không bắt buộc</label><input id="anh" name="anh" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="huong-dan-anh loi-anh"><p id="huong-dan-anh">JPG, PNG hoặc WebP, tối đa 2 MB. Nếu biểu mẫu có lỗi, cần chọn lại ảnh.</p><p class="bieu-mau__loi" id="loi-anh"></p></div>
+<div class="bieu-mau__nhom"><label for="cam_ket"><input id="cam_ket" name="cam_ket" type="checkbox" value="1" required  aria-describedby="loi-cam_ket"> Tôi xác nhận thông tin và cam kết thực hiện quy định nhận, mượn hoặc mua sách (bắt buộc).</label><p class="bieu-mau__loi" id="loi-cam_ket">Bạn cần xác nhận cam kết.</p></div>
+</fieldset><div class="nhom-nut"><button class="nut nut--chinh" type="submit">Gửi phiếu đăng ký</button><a class="nut nut--phu" href="lien-he.php">Nhập lại từ đầu</a></div>
+</form></main>
+<footer class="chan-trang">
+  <p>&copy; 2026 UEDBookHub · Nhóm 01</p>
+  <p>Trần Văn Tú · Lê Trung Hậu · Nguyễn Tuấn Nhật Thanh · Bhling Trường</p>
+</footer>
+<script type="module" src="js/main.js"></script>
+<script type="module" src="js/php.js"></script>
+</body>
+</html>
+
+
+$ curl -i -s -c /tmp/ued-curl-cookie.txt -b /tmp/ued-curl-cookie.txt -d hanh_dong=them&id=1&so_luong=-3 http://localhost:8000/gio-hang.php
+HTTP/1.1 200 OK
+Host: localhost:8000
+Date: Fri, 16 Oct 2026 06:22:55 GMT
+Connection: close
+X-Powered-By: PHP/8.5.10
+Set-Cookie: PHPSESSID=9f6d4abc968b28385e9de0c1e74fa65f; path=/; HttpOnly; SameSite=Lax
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-type: text/html; charset=UTF-8
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="UEDBookHub giúp tra cứu và đặt mua giáo trình, đăng ký học liệu trực tuyến.">
+  <title>Giỏ đặt mua giáo trình | UEDBookHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/php.css">
+</head>
+<body class="trang">
+<a class="bo-qua" href="#noi-dung">Đến nội dung chính</a>
+<header class="dau-trang">
+  <img class="dau-trang__bieu-trung" src="images/UEDBookHub.svg" alt="UEDBookHub" width="320" height="80">
+  <p class="dau-trang__khau-hieu">Hệ thống học liệu &amp; Thư viện số UED</p>
+</header>
+<nav class="thanh-dieu-huong" aria-label="Điều hướng chính">
+  <ul class="thanh-dieu-huong__danh-sach">
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="index.php" >Trang chủ</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="danh-sach.php" >Danh mục giáo trình</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gioi-thieu.php" >Giới thiệu nhóm</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="lien-he.php" >Đăng ký &amp; Liên hệ</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gio-hang.php" aria-current="page">Giỏ hàng (0)</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="dang-nhap.php" >Đăng nhập</a></li>
+      </ul>
+</nav>
+<div id="noi-dung" tabindex="-1"></div>
+<main class="noi-dung-chinh"><h1>Giỏ đặt mua giáo trình</h1>
+<p class="bieu-mau__loi" role="alert">Số lượng phải là số nguyên từ 1 đến 99.</p><p>Giỏ hàng đang trống. <a href="danh-sach.php">Chọn giáo trình</a>.</p></main>
+<footer class="chan-trang">
+  <p>&copy; 2026 UEDBookHub · Nhóm 01</p>
+  <p>Trần Văn Tú · Lê Trung Hậu · Nguyễn Tuấn Nhật Thanh · Bhling Trường</p>
+</footer>
+<script type="module" src="js/main.js"></script>
+<script type="module" src="js/php.js"></script>
+</body>
+</html>
+
+
+$ curl -i -s http://localhost:8000/chi-tiet.php?id=abc
+HTTP/1.1 404 Not Found
+Host: localhost:8000
+Date: Fri, 16 Oct 2026 06:22:55 GMT
+Connection: close
+X-Powered-By: PHP/8.5.10
+Set-Cookie: PHPSESSID=fe21be0d84f68cd21b00b045e27b37a4; path=/; HttpOnly; SameSite=Lax
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-type: text/html; charset=UTF-8
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="UEDBookHub giúp tra cứu và đặt mua giáo trình, đăng ký học liệu trực tuyến.">
+  <title>Không tìm thấy trang | UEDBookHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/php.css">
+</head>
+<body class="trang">
+<a class="bo-qua" href="#noi-dung">Đến nội dung chính</a>
+<header class="dau-trang">
+  <img class="dau-trang__bieu-trung" src="images/UEDBookHub.svg" alt="UEDBookHub" width="320" height="80">
+  <p class="dau-trang__khau-hieu">Hệ thống học liệu &amp; Thư viện số UED</p>
+</header>
+<nav class="thanh-dieu-huong" aria-label="Điều hướng chính">
+  <ul class="thanh-dieu-huong__danh-sach">
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="index.php" >Trang chủ</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="danh-sach.php" >Danh mục giáo trình</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gioi-thieu.php" >Giới thiệu nhóm</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="lien-he.php" >Đăng ký &amp; Liên hệ</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gio-hang.php" >Giỏ hàng (0)</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="dang-nhap.php" >Đăng nhập</a></li>
+      </ul>
+</nav>
+<div id="noi-dung" tabindex="-1"></div>
+<main class="noi-dung-chinh"><h1>404 · Không tìm thấy trang</h1><p>Giáo trình hoặc địa chỉ bạn yêu cầu không tồn tại.</p><a class="nut nut--chinh" href="danh-sach.php">Về danh mục giáo trình</a></main>
+<footer class="chan-trang">
+  <p>&copy; 2026 UEDBookHub · Nhóm 01</p>
+  <p>Trần Văn Tú · Lê Trung Hậu · Nguyễn Tuấn Nhật Thanh · Bhling Trường</p>
+</footer>
+<script type="module" src="js/main.js"></script>
+<script type="module" src="js/php.js"></script>
+</body>
+</html>
+
+

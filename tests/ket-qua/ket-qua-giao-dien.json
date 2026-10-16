@@ -1,0 +1,66 @@
+[
+  {
+    "page": "index.php",
+    "status": 200,
+    "noJS": true,
+    "viewport": 360,
+    "scroll": 360,
+    "phpErrors": false
+  },
+  {
+    "page": "danh-sach.php",
+    "status": 200,
+    "noJS": true,
+    "viewport": 360,
+    "scroll": 360,
+    "phpErrors": false
+  },
+  {
+    "page": "chi-tiet.php?id=1",
+    "status": 200,
+    "noJS": true,
+    "viewport": 360,
+    "scroll": 360,
+    "phpErrors": false
+  },
+  {
+    "page": "gio-hang.php",
+    "status": 200,
+    "noJS": true,
+    "viewport": 360,
+    "scroll": 360,
+    "phpErrors": false
+  },
+  {
+    "page": "lien-he.php",
+    "status": 200,
+    "noJS": true,
+    "viewport": 360,
+    "scroll": 360,
+    "phpErrors": false
+  },
+  {
+    "page": "dang-nhap.php",
+    "status": 200,
+    "noJS": true,
+    "viewport": 360,
+    "scroll": 360,
+    "phpErrors": false
+  },
+  {
+    "page": "quan-tri.php",
+    "status": 200,
+    "noJS": true,
+    "viewport": 360,
+    "scroll": 360,
+    "phpErrors": false
+  },
+  {
+    "page": "gioi-thieu.php",
+    "status": 200,
+    "noJS": true,
+    "viewport": 360,
+    "scroll": 360,
+    "phpErrors": false
+  }
+]

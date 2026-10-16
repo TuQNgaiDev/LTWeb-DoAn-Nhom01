@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="UEDBookHub giúp tra cứu và đặt mua giáo trình, đăng ký học liệu trực tuyến.">
+  <title>Giỏ đặt mua giáo trình | UEDBookHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/php.css">
+</head>
+<body class="trang">
+<a class="bo-qua" href="#noi-dung">Đến nội dung chính</a>
+<header class="dau-trang">
+  <img class="dau-trang__bieu-trung" src="images/UEDBookHub.svg" alt="UEDBookHub" width="320" height="80">
+  <p class="dau-trang__khau-hieu">Hệ thống học liệu &amp; Thư viện số UED</p>
+</header>
+<nav class="thanh-dieu-huong" aria-label="Điều hướng chính">
+  <ul class="thanh-dieu-huong__danh-sach">
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="index.php" >Trang chủ</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="danh-sach.php" >Danh mục giáo trình</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gioi-thieu.php" >Giới thiệu nhóm</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="lien-he.php" >Đăng ký &amp; Liên hệ</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="gio-hang.php" aria-current="page">Giỏ hàng (3)</a></li>
+        <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="quan-tri.php" >Quản trị · admin</a></li>
+    <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="dang-xuat.php">Đăng xuất</a></li>
+      </ul>
+</nav>
+<div id="noi-dung" tabindex="-1"></div>
+<main class="noi-dung-chinh"><h1>Giỏ đặt mua giáo trình</h1>
+<div class="bang-cuon"><table><caption>Giá và số lượng giáo trình đặt mua</caption><thead><tr><th scope="col">Giáo trình</th><th scope="col">Đơn giá</th><th scope="col">Số lượng</th><th scope="col">Thành tiền</th><th scope="col">Thao tác</th></tr></thead><tbody>
+<tr><td><a href="chi-tiet.php?id=1">Giáo trình Giáo dục học</a></td><td>55.000 đ</td><td>
+<form action="gio-hang.php" method="post"><input type="hidden" name="hanh_dong" value="cap-nhat"><input type="hidden" name="id" value="1"><label for="sl-1">Số lượng</label><input id="sl-1" type="number" name="so_luong" min="1" max="42" value="2" required><button class="nut nut--phu" type="submit">Cập nhật</button></form>
+</td><td>110.000 đ</td><td><form action="gio-hang.php" method="post"><input type="hidden" name="hanh_dong" value="xoa"><input type="hidden" name="id" value="1"><button class="nut nut--phu" type="submit">Xóa <span class="sr-only">Giáo trình Giáo dục học</span></button></form></td></tr>
+<tr><td><a href="chi-tiet.php?id=2">Giáo trình Cơ sở dữ liệu</a></td><td>68.000 đ</td><td>
+<form action="gio-hang.php" method="post"><input type="hidden" name="hanh_dong" value="cap-nhat"><input type="hidden" name="id" value="2"><label for="sl-2">Số lượng</label><input id="sl-2" type="number" name="so_luong" min="1" max="28" value="1" required><button class="nut nut--phu" type="submit">Cập nhật</button></form>
+</td><td>68.000 đ</td><td><form action="gio-hang.php" method="post"><input type="hidden" name="hanh_dong" value="xoa"><input type="hidden" name="id" value="2"><button class="nut nut--phu" type="submit">Xóa <span class="sr-only">Giáo trình Cơ sở dữ liệu</span></button></form></td></tr>
+</tbody></table></div>
+<p><strong>Tổng tiền: 178.000 đ</strong></p>
+<div class="nhom-nut"><form action="gio-hang.php" method="post"><input type="hidden" name="hanh_dong" value="xoa-het"><button class="nut nut--phu" type="submit">Xóa hết giỏ hàng</button></form><a class="nut nut--chinh" href="lien-he.php">Gửi yêu cầu đặt mua</a></div>
+<p>Giỏ hàng ghi nhớ lựa chọn trong phiên. Phiếu liên hệ là yêu cầu tiếp nhận, chưa phải giao dịch thanh toán.</p>
+</main>
+<footer class="chan-trang">
+  <p>&copy; 2026 UEDBookHub · Nhóm 01</p>
+  <p>Trần Văn Tú · Lê Trung Hậu · Nguyễn Tuấn Nhật Thanh · Bhling Trường</p>
+</footer>
+<script type="module" src="js/main.js"></script>
+<script type="module" src="js/php.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "httpPassed": 12,
+  "httpTotal": 12,
+  "w3cErrors": {
+    "w3c-chi-tiet.php.html.json": 0,
+    "w3c-gioi-thieu.php.html.json": 0,
+    "w3c-index.php.html.json": 0,
+    "w3c-gio-hang.php.html.json": 0,
+    "w3c-dang-nhap.php.html.json": 0,
+    "w3c-quan-tri.php.html.json": 0,
+    "w3c-lien-he.php.html.json": 0,
+    "w3c-danh-sach.php.html.json": 0
+  },
+  "accessibility": {
+    "lighthouse-lien-he.php.json": 100,
+    "lighthouse-danh-sach.php.json": 100,
+    "lighthouse-index.php.json": 100
+  },
+  "zipCleanInstall": "PASS: composer install and seven HTTP 200 pages after extraction.",
+  "phpVersion": "8.5.10",
+  "xamppNativeTest": false,
+  "reportPages": 9
+}

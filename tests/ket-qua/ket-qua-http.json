@@ -1,0 +1,128 @@
+{
+  "results": [
+    {
+      "tt": 1,
+      "thucTe": "POST rỗng: lỗi từng trường bắt buộc, không lưu.",
+      "dat": true
+    },
+    {
+      "tt": 2,
+      "thucTe": "Sai email và SĐT: đúng hai thông báo, giữ họ tên và lớp.",
+      "dat": true
+    },
+    {
+      "tt": 3,
+      "thucTe": "Tệp PHP giả JPG bị từ chối; uploads không có tệp mới.",
+      "dat": true
+    },
+    {
+      "tt": 4,
+      "thucTe": "Ảnh trên 2 MB bị chặn; giữ dữ liệu, không Warning.",
+      "dat": true
+    },
+    {
+      "tt": 5,
+      "thucTe": "Gửi hợp lệ có ảnh: một dòng JSONL; GET lại không lưu trùng, flash chỉ một lần.",
+      "dat": true
+    },
+    {
+      "tt": 6,
+      "thucTe": "Tìm kiếm và nội dung quản trị escape chuỗi XSS.",
+      "dat": true
+    },
+    {
+      "tt": 7,
+      "thucTe": "ID chữ, không tồn tại và thiếu ID đều HTTP 404.",
+      "dat": true
+    },
+    {
+      "tt": 8,
+      "thucTe": "SL 0, -3, 1000 và ID lạ: báo lỗi, giỏ giữ trống.",
+      "dat": true
+    },
+    {
+      "tt": 9,
+      "thucTe": "Hai mục: tổng 233.000đ sau cập nhật; xóa mục 2 còn 165.000đ và header 3.",
+      "dat": true
+    },
+    {
+      "tt": 10,
+      "thucTe": "Chặn khách, báo lỗi chung; đăng nhập đổi SID; đăng xuất không vào lại quản trị.",
+      "dat": true
+    },
+    {
+      "tt": 11,
+      "thucTe": "Cookie abc,-1,999999 bị bỏ qua, trang chủ 200 không Warning.",
+      "dat": true
+    },
+    {
+      "tt": 12,
+      "thucTe": "Prod thiếu JSON: HTTP 500, không lộ đường dẫn; chi tiết ghi vào log.",
+      "dat": true
+    }
+  ],
+  "extras": {
+    "malformedContactFields": {
+      "passed": 33,
+      "cases": [
+        "ho_ten:utf8",
+        "ho_ten:nul",
+        "ho_ten:array",
+        "ma_sinh_vien:utf8",
+        "ma_sinh_vien:nul",
+        "ma_sinh_vien:array",
+        "email_sv:utf8",
+        "email_sv:nul",
+        "email_sv:array",
+        "so_dien_thoai:utf8",
+        "so_dien_thoai:nul",
+        "so_dien_thoai:array",
+        "lop_hoc_phan:utf8",
+        "lop_hoc_phan:nul",
+        "lop_hoc_phan:array",
+        "hinh_thuc:utf8",
+        "hinh_thuc:nul",
+        "hinh_thuc:array",
+        "chon_giao_trinh:utf8",
+        "chon_giao_trinh:nul",
+        "chon_giao_trinh:array",
+        "so_luong:utf8",
+        "so_luong:nul",
+        "so_luong:array",
+        "ngay_hen:utf8",
+        "ngay_hen:nul",
+        "ngay_hen:array",
+        "ghi_chu:utf8",
+        "ghi_chu:nul",
+        "ghi_chu:array",
+        "cam_ket:utf8",
+        "cam_ket:nul",
+        "cam_ket:array"
+      ],
+      "invalidDates": 4,
+      "invalidContactDoesNotSaveImage": true
+    },
+    "cartPurchaseContact": {
+      "defaultPurchase": true,
+      "invalidQueryIgnored": true,
+      "selectionKeptAfterError": true,
+      "snapshotSavedFromSession": true,
+      "validUnicodePreserved": true
+    },
+    "arrayInputs": "PASS: GET/POST dạng mảng không gây lỗi PHP.",
+    "recentCookie": "PASS: 3,5,4,2 sau khi xem 1,2,3,4,5,3; tối đa bốn, không lặp.",
+    "clearCart": "PASS: xóa hết giỏ.",
+    "C2": {
+      "unsafeScriptInHTML": true,
+      "restored": true
+    },
+    "C3a": {
+      "withoutPRGLinesAddedForTwoPOSTs": 2,
+      "method": "Hai POST cùng nội dung, mô phỏng gửi lại khi tải lại trang."
+    },
+    "C3b": {
+      "headersAlreadySent": true,
+      "daXemSet": false
+    }
+  }
+}

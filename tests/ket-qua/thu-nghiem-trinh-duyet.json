@@ -1,0 +1,19 @@
+{
+  "C2": {
+    "safeNoDialog": true,
+    "unsafeDialogs": [
+      {
+        "type": "alert",
+        "message": "1"
+      }
+    ],
+    "restored": true
+  },
+  "C3": {
+    "linesBeforeReload": 1,
+    "linesAfterReload": 2,
+    "reloadStatus": 200,
+    "dialogs": [],
+    "note": "Reload bằng Playwright trên Chromium; không suy diễn hộp thoại F5 trên các trình duyệt khác."
+  }
+}

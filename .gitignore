@@ -1,2 +1,11 @@
 .DS_Store
-*/.DS_Store
+**/.DS_Store
+/vendor/
+/logs/*
+!/logs/.htaccess
+/storage/*
+!/storage/.htaccess
+/uploads/*
+!/uploads/.gitkeep
+!/uploads/.htaccess
+/output/
