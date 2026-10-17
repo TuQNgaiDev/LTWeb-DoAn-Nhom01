@@ -4,7 +4,7 @@
 
 /* Biến màu chung của nhóm */
 :root {
-    --primary-color: #ee4d2d;
+    --primary-color: #b33218;
     --secondary-color: #fff3f0;
     --text-color: #333;
     --background-color: #f5f5f5;
@@ -38,6 +38,22 @@ body {
     line-height: 1.6;
 }
 
+
+/* Bảo vệ bố cục khỏi phần tử con rộng hơn khung */
+main,
+section,
+article,
+.countdown,
+.skill-filter {
+    min-width: 0;
+    max-width: 100%;
+}
+
+img,
+video,
+iframe {
+    max-width: 100%;
+}
 
 /* =========================
    HEADER
@@ -456,14 +472,19 @@ footer p {
         padding: 15px 10px;
     }
 
-    @media (max-width: 600px) {
+}
+/* =========================
+   RESPONSIVE - MÀN HÌNH TỪ 769px
+   ========================= */
+
+/* Bộ đếm thích ứng riêng cho điện thoại */
+@media (max-width: 600px) {
     .countdown {
         gap: 6px;
     }
 
     .countdown div {
-        min-width: 60px;
-        padding: 10px 5px;
+        padding: 10px 4px;
     }
 
     .countdown strong {
@@ -474,10 +495,6 @@ footer p {
         font-size: 12px;
     }
 }
-}
-/* =========================
-   RESPONSIVE - MÀN HÌNH TỪ 769px
-   ========================= */
 
 @media (min-width: 769px) {
     main {
@@ -748,16 +765,19 @@ body.dark-mode .accordion-content {
 }
 
 .countdown {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    max-width: 100%;
     margin-top: 15px;
 }
 
 .countdown div {
-    min-width: 80px;
-    padding: 15px;
+    min-width: 0;
+    padding: 12px 5px;
     text-align: center;
+    overflow-wrap: anywhere;
     border-radius: 8px;
     background-color: var(--secondary-color);
     border: 1px solid var(--border-color);
@@ -791,32 +811,4 @@ body.dark-mode .accordion-content {
     cursor: zoom-out;
     position: relative;
     z-index: 100;
-}
-
-.accordion-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-    padding: 18px 22px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background: white;
-    color: #ff4938;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: left;
-    cursor: pointer;
-}
-
-.accordion-header:hover {
-    background: #fff5f2;
-}
-
-.accordion-content {
-    padding-top: 18px;
-}
-
-.accordion-header .mui-ten {
-    font-size: 18px;
 }

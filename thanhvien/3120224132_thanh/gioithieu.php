@@ -5,6 +5,10 @@
  * Cách thử: Mở trang, lọc kỹ năng, tìm kiếm môn học và gửi lời nhắn.
  */
 
+
+declare(strict_types=1);
+
+
 $goc = '../../';
 $trang = '';
 $tieuDe = 'Trang giới thiệu cá nhân - Nguyễn Tuấn Nhật Thanh';
