@@ -35,3 +35,4 @@ Minh chứng cho **Phần B – Dữ liệu trên trang cá nhân của thành v
 | **`B6_thanh_loc_ky_nang_csdl.png`** | Lọc danh sách kỹ năng thuộc nhóm Cơ sở dữ liệu từ bảng CSDL `tv_thanh_ky_nang` (`?nhom=csdl`). |
 | **`B6_thanh_tim_kiem_tkb_thanhcong.png`** | Tìm kiếm môn học với từ khóa `"web"` hiển thị đúng học phần Thiết kế & lập trình web cùng phòng học và giảng viên từ bảng `tv_thanh_tkb`. |
 | **`B6_thanh_tim_kiem_tkb_khongthay.png`** | Tìm kiếm với từ khóa không tồn tại (`"xyz"`), hiển thị thông báo lỗi thân thiện không làm hỏng trang. |
+
