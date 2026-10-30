@@ -2,12 +2,15 @@
 /**
  * Trang cá nhân thành viên: Trần Văn Tú (MSSV: 3120224169) - Nhóm 01 UEDBookHub.
  * Hai chức năng CSDL MySQL (PDO) theo yêu cầu Phần B - Bài tập nhóm 6:
- * 1. Sổ lưu bút có phân trang (5 lời nhắn/trang, mới nhất trước) và chỉ chủ trang đăng nhập (admin@ued.vn) mới được quyền xóa lời nhắn (chống IDOR).
- * 2. Bộ đếm lượt xem theo ngày (INSERT ... ON DUPLICATE KEY UPDATE) kèm bảng thống kê 7 ngày gần nhất và tổng lượt xem.
+ * 1. Quản lý Bảng điểm học phần & Tính GPA tích lũy CSDL (bảng tv_tu_bang_diem):
+ *    - Nâng cấp từ Máy tính điểm Bài 5: Lưu học phần, số tín chỉ, điểm A1-A2-A3, tự tính tổng kết hệ 10, quy đổi điểm chữ và hệ 4.
+ *    - Phân quyền chủ trang: Chỉ khi chủ trang Tú đăng nhập (admin@ued.vn) mới được quyền xóa môn học (chống IDOR).
+ * 2. Bảng điều khiển Thống kê Đồ án (Business Intelligence Dashboard từ CSDL UEDBookHub):
+ *    - Khai thác trực tiếp CSDL đồ án bằng JOIN + GROUP BY + SUM + COUNT: Top giáo trình bán chạy và doanh thu theo danh mục.
  * Cách thử nghiệm:
- * - Gửi lời nhắn: Để trống (báo lỗi); nhập hợp lệ rồi gửi -> F5 không bị gửi lặp form (PRG pattern).
- * - Phân trang: Bấm trang 2 (?trang=2) xem các lời nhắn trước đó.
- * - Phân quyền xóa: Khi chưa đăng nhập (hoặc tài khoản khách), không có nút Xóa. Khi đăng nhập admin@ued.vn (mật khẩu matkhau123), nút Xóa xuất hiện cạnh từng lời nhắn.
+ * - Nhập điểm học phần: Báo lỗi nếu thiếu hoặc điểm ngoài [0, 10]; nhập hợp lệ lưu CSDL và F5 không bị gửi lặp form (PRG pattern).
+ * - Phân quyền xóa môn: Khi chưa đăng nhập, không có nút Xóa. Khi đăng nhập admin@ued.vn (mật khẩu matkhau123), nút Xóa xuất hiện cạnh từng môn học.
+ * - Thống kê đồ án: Đọc dữ liệu thực tế từ các bảng chi_tiet_don, giao_trinh, don_hang.
  */
 
 declare(strict_types=1);
@@ -34,110 +37,141 @@ $tv = $stTv->fetch();
 $ndHienTai = nguoiDung();
 $laChuTrang = $tv && !empty($tv['nguoi_dung_id']) && ($ndHienTai['id'] ?? 0) === (int) $tv['nguoi_dung_id'];
 
-// --- Chức năng CSDL 2: Bộ đếm lượt xem theo ngày (INSERT ... ON DUPLICATE KEY UPDATE) ---
-$khoaSessionXem = 'tu_da_xem_ngay_' . date('Ymd');
-if (empty($_SESSION[$khoaSessionXem])) {
-    $_SESSION[$khoaSessionXem] = true;
-    try {
-        $stDemXem = db()->prepare('INSERT INTO tv_tu_luot_xem (mssv, ngay, so_luot)
-            VALUES (?, CURDATE(), 1)
-            ON DUPLICATE KEY UPDATE so_luot = so_luot + 1');
-        $stDemXem->execute([MSSV]);
-    } catch (PDOException $e) {
-        error_log('Lỗi cập nhật lượt xem: ' . $e->getMessage());
-    }
+// --- Hàm hỗ trợ quy đổi điểm chữ và thang điểm 4 ---
+function quyDoiDiem(float $diem10): array {
+    if ($diem10 >= 8.5) return ['A', 4.0, 'xuất sắc'];
+    if ($diem10 >= 8.0) return ['B+', 3.5, 'giỏi'];
+    if ($diem10 >= 7.0) return ['B', 3.0, 'khá'];
+    if ($diem10 >= 6.5) return ['C+', 2.5, 'trung bình khá'];
+    if ($diem10 >= 5.5) return ['C', 2.0, 'trung bình'];
+    if ($diem10 >= 5.0) return ['D+', 1.5, 'trung bình yếu'];
+    if ($diem10 >= 4.0) return ['D', 1.0, 'yếu'];
+    return ['F', 0.0, 'kém'];
 }
 
-// Lấy thống kê lượt xem 7 ngày gần nhất và tổng lượt xem
-$dsLuotXem = [];
-$tongLuotXem = 0;
-try {
-    $stTk = db()->prepare('SELECT ngay, so_luot FROM tv_tu_luot_xem WHERE mssv = ? ORDER BY ngay DESC LIMIT 7');
-    $stTk->execute([MSSV]);
-    $dsLuotXem = $stTk->fetchAll();
-
-    $stTong = db()->prepare('SELECT COALESCE(SUM(so_luot), 0) FROM tv_tu_luot_xem WHERE mssv = ?');
-    $stTong->execute([MSSV]);
-    $tongLuotXem = (int) $stTong->fetchColumn();
-} catch (PDOException $e) {
-    error_log('Lỗi đọc thống kê lượt xem: ' . $e->getMessage());
-}
-
-// --- Chức năng CSDL 1: Xử lý Gửi và Xóa lưu bút (POST / PRG) ---
-$loiLuuBut = [];
-$duLuuBut = ['ten_khach' => '', 'loi_nhan' => ''];
+// --- CHỨC NĂNG CSDL 1: Xử lý Thêm & Xóa Bảng điểm học phần (POST / PRG) ---
+$loiBangDiem = [];
+$duBangDiem = ['ten_hoc_phan' => '', 'so_tin_chi' => '3', 'a1' => '', 'a2' => '', 'a3' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 1.1 Xóa lời nhắn (chỉ chủ trang đăng nhập mới được xóa)
-    if (isset($_POST['xoa_luu_but'])) {
+    // 1.1 Xóa môn học (chỉ chủ trang đăng nhập mới được xóa)
+    if (isset($_POST['xoa_mon_hoc'])) {
         $xoaId = filter_var($_POST['xoa_id'] ?? '', FILTER_VALIDATE_INT);
         if ($xoaId && $laChuTrang) {
-            $stXoa = db()->prepare('DELETE FROM tv_luu_but WHERE id = ? AND mssv = ?');
+            $stXoa = db()->prepare('DELETE FROM tv_tu_bang_diem WHERE id = ? AND mssv = ?');
             $stXoa->execute([$xoaId, MSSV]);
-            $_SESSION['flash'] = 'Đã xóa lời nhắn thành công.';
+            $_SESSION['flash'] = 'Đã xóa môn học thành công khỏi bảng điểm.';
         } elseif (!$laChuTrang) {
-            $_SESSION['flash_loi'] = 'Bạn không có quyền xóa lời nhắn này.';
+            $_SESSION['flash_loi'] = 'Bạn không có quyền xóa môn học này.';
         }
-        chuyenHuong('gioithieu.php#so-luu-but');
+        chuyenHuong('gioithieu.php#bang-diem-csdl');
         exit;
     }
 
-    // 1.2 Gửi lời nhắn mới
-    if (isset($_POST['gui_luu_but'])) {
-        $duLuuBut['ten_khach'] = trim($_POST['ten_khach'] ?? '');
-        $duLuuBut['loi_nhan'] = trim($_POST['loi_nhan'] ?? '');
+    // 1.2 Thêm môn học và tính điểm mới
+    if (isset($_POST['them_mon_hoc'])) {
+        $duBangDiem['ten_hoc_phan'] = trim($_POST['ten_hoc_phan'] ?? '');
+        $soTinChi = filter_var($_POST['so_tin_chi'] ?? '', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 10]]);
+        $a1 = filter_var($_POST['a1'] ?? '', FILTER_VALIDATE_FLOAT);
+        $a2 = filter_var($_POST['a2'] ?? '', FILTER_VALIDATE_FLOAT);
+        $a3 = filter_var($_POST['a3'] ?? '', FILTER_VALIDATE_FLOAT);
 
-        if ($duLuuBut['ten_khach'] === '') {
-            $loiLuuBut['ten_khach'] = 'Vui lòng nhập họ và tên của bạn.';
-        } elseif (mb_strlen($duLuuBut['ten_khach']) > 50) {
-            $loiLuuBut['ten_khach'] = 'Tên không được vượt quá 50 ký tự.';
+        if ($duBangDiem['ten_hoc_phan'] === '') {
+            $loiBangDiem['ten_hoc_phan'] = 'Vui lòng nhập tên học phần.';
+        } elseif (mb_strlen($duBangDiem['ten_hoc_phan']) > 120) {
+            $loiBangDiem['ten_hoc_phan'] = 'Tên học phần không được vượt quá 120 ký tự.';
         }
 
-        if ($duLuuBut['loi_nhan'] === '') {
-            $loiLuuBut['loi_nhan'] = 'Vui lòng nhập nội dung lời nhắn.';
-        } elseif (mb_strlen($duLuuBut['loi_nhan']) > 500) {
-            $loiLuuBut['loi_nhan'] = 'Lời nhắn không được vượt quá 500 ký tự.';
+        if ($soTinChi === false) {
+            $loiBangDiem['so_tin_chi'] = 'Số tín chỉ từ 1 đến 10.';
         }
 
-        if (!$loiLuuBut) {
-            $stThem = db()->prepare('INSERT INTO tv_luu_but (mssv, ten_khach, loi_nhan) VALUES (?, ?, ?)');
-            $stThem->execute([MSSV, $duLuuBut['ten_khach'], $duLuuBut['loi_nhan']]);
-            $_SESSION['flash'] = 'Cảm ơn bạn đã để lại lời nhắn lưu bút!';
-            chuyenHuong('gioithieu.php#so-luu-but');
+        if ($a1 === false || $a1 < 0 || $a1 > 10) {
+            $loiBangDiem['a1'] = 'Điểm A1 từ 0 đến 10.';
+        }
+        if ($a2 === false || $a2 < 0 || $a2 > 10) {
+            $loiBangDiem['a2'] = 'Điểm A2 từ 0 đến 10.';
+        }
+        if ($a3 === false || $a3 < 0 || $a3 > 10) {
+            $loiBangDiem['a3'] = 'Điểm A3 từ 0 đến 10.';
+        }
+
+        if (!$loiBangDiem) {
+            $tongKet = round(0.2 * (float)$a1 + 0.3 * (float)$a2 + 0.5 * (float)$a3, 1);
+            $stThem = db()->prepare('INSERT INTO tv_tu_bang_diem (mssv, ten_hoc_phan, so_tin_chi, a1, a2, a3, tong_ket) VALUES (?, ?, ?, ?, ?, ?, ?)');
+            $stThem->execute([MSSV, $duBangDiem['ten_hoc_phan'], $soTinChi, $a1, $a2, $a3, $tongKet]);
+            $_SESSION['flash'] = "Đã lưu học phần '{$duBangDiem['ten_hoc_phan']}' với điểm tổng kết {$tongKet} vào CSDL!";
+            chuyenHuong('gioithieu.php#bang-diem-csdl');
             exit;
         }
     }
 }
 
-// --- Chức năng CSDL 1 (tiếp): Phân trang danh sách lưu bút ---
-$tongLuuBut = 0;
-$dsLoiNhan = [];
-$moiTrangLuuBut = 5;
-$soTrangLuuBut = 1;
-$trangLuuBut = 1;
+// Đọc danh sách bảng điểm và tính GPA tích lũy
+$dsBangDiem = [];
+$tongTinChi = 0;
+$tongDiemHe10NhanTinChi = 0.0;
+$tongDiemHe4NhanTinChi = 0.0;
 
 try {
-    $stDem = db()->prepare('SELECT COUNT(*) FROM tv_luu_but WHERE mssv = ?');
-    $stDem->execute([MSSV]);
-    $tongLuuBut = (int) $stDem->fetchColumn();
+    $stBd = db()->prepare('SELECT id, ten_hoc_phan, so_tin_chi, a1, a2, a3, tong_ket, ngay_tao FROM tv_tu_bang_diem WHERE mssv = ? ORDER BY id DESC');
+    $stBd->execute([MSSV]);
+    $dsBangDiem = $stBd->fetchAll();
 
-    $soTrangLuuBut = max(1, (int) ceil($tongLuuBut / $moiTrangLuuBut));
-    $trangLuuBut = filter_var($_GET['trang'] ?? 1, FILTER_VALIDATE_INT, [
-        'options' => ['min_range' => 1, 'default' => 1]
-    ]);
-    $trangLuuBut = min($trangLuuBut, $soTrangLuuBut);
-
-    $stLb = db()->prepare('SELECT id, ten_khach, loi_nhan, thoi_gian
-        FROM tv_luu_but WHERE mssv = ?
-        ORDER BY thoi_gian DESC, id DESC
-        LIMIT 5 OFFSET ?');
-    $stLb->execute([MSSV, ($trangLuuBut - 1) * $moiTrangLuuBut]);
-    $dsLoiNhan = $stLb->fetchAll();
+    foreach ($dsBangDiem as $row) {
+        $tc = (int)$row['so_tin_chi'];
+        $tk = (float)$row['tong_ket'];
+        $qd = quyDoiDiem($tk);
+        $tongTinChi += $tc;
+        $tongDiemHe10NhanTinChi += ($tk * $tc);
+        $tongDiemHe4NhanTinChi += ($qd[1] * $tc);
+    }
 } catch (PDOException $e) {
-    error_log('Lỗi truy vấn lưu bút: ' . $e->getMessage());
+    error_log('Lỗi đọc bảng điểm: ' . $e->getMessage());
 }
 
-// --- Tiện ích phụ: Chuyển đổi giao diện Sáng / Tối ghi nhớ bằng Cookie ---
+$gpa10 = $tongTinChi > 0 ? round($tongDiemHe10NhanTinChi / $tongTinChi, 2) : 0.0;
+$gpa4 = $tongTinChi > 0 ? round($tongDiemHe4NhanTinChi / $tongTinChi, 2) : 0.0;
+
+// --- CHỨC NĂNG CSDL 2: Thống kê đồ án UEDBookHub (JOIN + GROUP BY) ---
+$topSachBanChay = [];
+$doanhThuDanhMuc = [];
+$tongDoanhThuHeThong = 0;
+$tongDonHangHeThong = 0;
+
+try {
+    // 2.1 Top 5 giáo trình bán chạy nhất
+    $sqlTop = 'SELECT g.id, g.ten, g.gia, d.ten AS ten_danh_muc,
+                      COALESCE(SUM(ct.so_luong), 0) AS tong_ban,
+                      COALESCE(SUM(ct.so_luong * ct.don_gia), 0) AS doanh_thu
+               FROM chi_tiet_don ct
+               JOIN giao_trinh g ON ct.giao_trinh_id = g.id
+               JOIN danh_muc d ON g.danh_muc_id = d.id
+               GROUP BY g.id, g.ten, g.gia, d.ten
+               ORDER BY tong_ban DESC, doanh_thu DESC
+               LIMIT 5';
+    $topSachBanChay = db()->query($sqlTop)->fetchAll();
+
+    // 2.2 Doanh thu và số lượng đầu sách theo từng danh mục
+    $sqlDm = 'SELECT d.ten AS ten_danh_muc,
+                     COUNT(DISTINCT g.id) AS so_dau_sach,
+                     COALESCE(SUM(ct.so_luong), 0) AS tong_sach_ban,
+                     COALESCE(SUM(ct.so_luong * ct.don_gia), 0) AS doanh_thu
+              FROM danh_muc d
+              LEFT JOIN giao_trinh g ON d.id = g.danh_muc_id
+              LEFT JOIN chi_tiet_don ct ON g.id = ct.giao_trinh_id
+              GROUP BY d.id, d.ten
+              ORDER BY doanh_thu DESC';
+    $doanhThuDanhMuc = db()->query($sqlDm)->fetchAll();
+
+    // 2.3 Tổng quan toàn hệ thống
+    $tongDoanhThuHeThong = (int)db()->query('SELECT COALESCE(SUM(so_luong * don_gia), 0) FROM chi_tiet_don')->fetchColumn();
+    $tongDonHangHeThong = (int)db()->query('SELECT COUNT(*) FROM don_hang')->fetchColumn();
+} catch (PDOException $e) {
+    error_log('Lỗi thống kê đồ án: ' . $e->getMessage());
+}
+
+// --- Tiện ích chuyển đổi giao diện Sáng / Tối ghi nhớ bằng Cookie ---
 $giaoDien = chuoi($_COOKIE, 'giao_dien_tu');
 if ($giaoDien !== 'toi' && $giaoDien !== 'sang') {
     $giaoDien = 'sang';
@@ -155,52 +189,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['doi_giao_dien'])) {
     exit;
 }
 
-// --- Tiện ích phụ: Máy tính điểm học phần (POST / PRG) ---
-$duDiem = ['a1' => '', 'a2' => '', 'a3' => ''];
-$loiDiem = [];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tinh_diem'])) {
-    foreach ($duDiem as $key => $_) {
-        $duDiem[$key] = chuoi($_POST, $key);
-        if ($duDiem[$key] === '') {
-            $loiDiem[$key] = 'Vui lòng nhập điểm.';
-        } else {
-            $giaTri = filter_var($duDiem[$key], FILTER_VALIDATE_FLOAT);
-            if ($giaTri === false || !is_finite((float) $giaTri) || $giaTri < 0 || $giaTri > 10) {
-                $loiDiem[$key] = 'Điểm phải là số từ 0 đến 10.';
-            }
-        }
-    }
-
-    if (!$loiDiem) {
-        $a1 = (float) $duDiem['a1'];
-        $a2 = (float) $duDiem['a2'];
-        $a3 = (float) $duDiem['a3'];
-        $tongKet = round($a1 * 0.2 + $a2 * 0.3 + $a3 * 0.5, 2);
-        $xepLoai = match (true) {
-            $tongKet >= 8.5 => 'Giỏi / Xuất sắc (A - Đạt)',
-            $tongKet >= 7.0 => 'Khá (B - Đạt)',
-            $tongKet >= 5.5 => 'Trung bình (C - Đạt)',
-            $tongKet >= 4.0 => 'Trung bình yếu (D - Đạt)',
-            default => 'Kém (F - Chưa đạt học phần)'
-        };
-
-        $_SESSION['tu_ket_qua_diem'] = [
-            'a1' => $a1,
-            'a2' => $a2,
-            'a3' => $a3,
-            'tongKet' => $tongKet,
-            'xepLoai' => $xepLoai,
-            'dat' => $tongKet >= 4.0,
-        ];
-        chuyenHuong('gioithieu.php#may-tinh-diem');
-        exit;
-    }
-}
-
-$ketQuaDiem = $_SESSION['tu_ket_qua_diem'] ?? null;
-unset($_SESSION['tu_ket_qua_diem']);
-
 $cacKyNang = [
     ['nhom' => 'quan-ly', 'bieuTuong' => '🎯', 'ten' => 'Quản lý & Vận hành nhóm', 'moTa' => 'Lập kế hoạch phân công công việc, điều phối mã nguồn Git/GitHub, chịu trách nhiệm chính về kiến trúc Website.'],
     ['nhom' => 'lap-trinh', 'bieuTuong' => '💻', 'ten' => 'Thiết kế & Lập trình Web', 'moTa' => 'Sử dụng HTML5 ngữ nghĩa, CSS (Grid, Flexbox, BEM), PHP chuẩn PDO, REST API và bảo mật Web.'],
@@ -212,9 +200,8 @@ $cacKyNang = [
 
 $tieuDe = 'Giới thiệu thành viên: Trần Văn Tú';
 $trang = '';
-$moTa = 'Trang giới thiệu thành viên Trần Văn Tú - Nhóm 01 UEDBookHub với 2 chức năng CSDL MySQL: Sổ lưu bút phân trang kèm kiểm soát quyền xóa và Bộ đếm lượt xem theo ngày.';
+$moTa = 'Trang cá nhân Trần Văn Tú - Nhóm 01 UEDBookHub với 2 chức năng CSDL: Quản lý Bảng điểm học phần tính GPA và Thống kê đồ án.';
 $cssThem = ['thanhvien/3120224169_tu/css/style.css'];
-$jsThem = ['thanhvien/3120224169_tu/js/canhan.js'];
 $dataGiaoDien = $giaoDien;
 require __DIR__ . '/../../inc/header.php';
 ?>
@@ -298,56 +285,193 @@ require __DIR__ . '/../../inc/header.php';
           <ul class="danh-sach-so-thich">
             <li class="the-so-thich"><span aria-hidden="true">🎵</span> Âm nhạc &amp; Podcast</li>
             <li class="the-so-thich"><span aria-hidden="true">📸</span> Chụp ảnh Concept</li>
-            <li class="the-so-thich"><span aria-hidden="true">🍜</span> Ẩm thực &amp; Trải nghiệm</li>
-            <li class="the-so-thich"><span aria-hidden="true">✈️</span> Du lịch khám phá</li>
-            <li class="the-so-thich"><span aria-hidden="true">🎮</span> Game thế giới mở &amp; Logic</li>
+            <li class="the-so-thich"><span aria-hidden="true">☕</span> Cà phê &amp; Coding đêm</li>
+            <li class="the-so-thich"><span aria-hidden="true">📖</span> Đọc sách công nghệ</li>
           </ul>
+        </section>
+
+        <section>
+          <h2>Mục tiêu nghề nghiệp</h2>
+          <ol class="danh-sach-muc-tieu">
+            <li><strong>Ngắn hạn:</strong> Nắm vững toàn bộ kiến thức Thiết kế &amp; Lập trình Web, dẫn dắt Nhóm 01 hoàn thành xuất sắc đồ án website UEDBookHub.</li>
+            <li><strong>Trung hạn:</strong> Trở thành một <strong>Full-stack Web Developer</strong> thành thạo xây dựng hệ thống web động bảo mật, kiến trúc mở rộng và REST API chuẩn mực.</li>
+            <li><strong>Dài hạn:</strong> Phát triển bản thân thành <strong>Solution Architect</strong> hoặc Lead Developer trong lĩnh vực công nghệ giáo dục và chuyển đổi số.</li>
+          </ol>
         </section>
       </div>
     </article>
 
-    <!-- CHỨC NĂNG CSDL 2: BỘ ĐẾM LƯỢT XEM THEO NGÀY -->
-    <section class="khoi-thong-ke-luot-xem" aria-labelledby="tieu-de-luot-xem">
-      <div class="thong-ke-header">
-        <div>
-          <h2 id="tieu-de-luot-xem">Thống kê lượt xem trang (CSDL MySQL)</h2>
-          <p class="thong-ke-mo-ta">Dữ liệu ghi nhận bằng câu lệnh <code>INSERT ... ON DUPLICATE KEY UPDATE</code> vào bảng <code>tv_tu_luot_xem</code>.</p>
-        </div>
-        <div class="the-tong-luot-xem">
-          <span class="the-tong-luot-xem__nhan">Tổng lượt xem tích lũy</span>
-          <span class="the-tong-luot-xem__so"><?= number_format($tongLuotXem, 0, ',', '.') ?></span>
-        </div>
-      </div>
-
+    <section class="khoi-thoi-khoa-bieu" aria-labelledby="tieu-de-tkb">
+      <h2 id="tieu-de-tkb">Thời khóa biểu cá nhân</h2>
       <div class="bang-cuon">
-        <table class="bang-tk-xem">
-          <caption>Lịch sử lượt xem 7 ngày gần nhất</caption>
+        <table>
+          <caption>Thời khóa biểu học kỳ 1 năm học 2026 – 2027 (Trần Văn Tú)</caption>
           <thead>
             <tr>
-              <th scope="col">Ngày</th>
-              <th scope="col">Số lượt xem</th>
-              <th scope="col">Trực quan</th>
+              <th scope="col">Thứ</th>
+              <th scope="col">Tiết</th>
+              <th scope="col">Môn học</th>
+              <th scope="col">Phòng học</th>
             </tr>
           </thead>
           <tbody>
-            <?php if (!$dsLuotXem): ?>
-              <tr><td colspan="3" class="o-trong">Chưa có dữ liệu thống kê.</td></tr>
+            <tr><th scope="row" rowspan="2">Thứ Hai</th><td>Tiết 1 – 3</td><td>Cơ sở dữ liệu</td><td>A5-404C</td></tr>
+            <tr><td>Tiết 7 – 9</td><td>Xác suất thống kê</td><td>A6-401</td></tr>
+            <tr><th scope="row" rowspan="2">Thứ Ba</th><td>Tiết 1 – 3</td><td>Cấu trúc dữ liệu &amp; Giải thuật</td><td>B1.104</td></tr>
+            <tr><td>Tiết 7 – 9</td><td>Toán rời rạc</td><td>A5-404B</td></tr>
+            <tr><th scope="row">Thứ Tư</th><td>Tiết 1 – 3</td><td>Lập trình Web (Thực hành)</td><td>B3-503</td></tr>
+            <tr><th scope="row">Thứ Năm</th><td>Tiết 7 – 9</td><td>Mạng máy tính</td><td>A5-403</td></tr>
+            <tr><th scope="row">Thứ Sáu</th><td>Tiết 7 – 9</td><td>Kiến trúc máy tính</td><td>B3-303</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CHỨC NĂNG CSDL 1: QUẢN LÝ BẢNG ĐIỂM & TÍNH GPA TÍCH LŨY (BẢNG tv_tu_bang_diem) -->
+    <section id="bang-diem-csdl" class="khoi-bang-diem" aria-labelledby="tieu-de-bang-diem">
+      <div class="so-luu-but__dau">
+        <div>
+          <h2 id="tieu-de-bang-diem">Bảng điểm học phần &amp; Tính GPA tích lũy (CSDL MySQL)</h2>
+          <p class="so-luu-but__mo-ta">
+            Chuyển đổi &amp; nâng cấp từ <em>Máy tính điểm học phần Bài 5</em> sang lưu trữ CSDL bảng <code>tv_tu_bang_diem</code>.
+            Tự động tính điểm tổng kết hệ 10: <code>0.2×A1 + 0.3×A2 + 0.5×A3</code>, quy đổi điểm chữ và thang điểm 4.
+            <?php if ($laChuTrang): ?>
+              <br><strong class="chu-xanh">Bạn đang đăng nhập quyền chủ trang (Tú) nên có quyền xóa môn học khỏi bảng điểm.</strong>
             <?php else: ?>
-              <?php
-              $maxXem = max(array_map(fn($r) => (int)$r['so_luot'], $dsLuotXem));
-              $maxXem = max(1, $maxXem);
-              foreach ($dsLuotXem as $lx):
-                $pt = round(((int)$lx['so_luot'] / $maxXem) * 100);
-              ?>
-              <tr>
-                <td><strong><?= e(date('d/m/Y', strtotime($lx['ngay']))) ?></strong><?= $lx['ngay'] === date('Y-m-d') ? ' <span class="nhan-hom-nay">(Hôm nay)</span>' : '' ?></td>
-                <td><strong><?= number_format((int)$lx['so_luot'], 0, ',', '.') ?></strong> lượt</td>
-                <td>
-                  <div class="thanh-truc-quan" style="--pt: <?= $pt ?>%;" title="<?= e((string)$lx['so_luot']) ?> lượt">
-                    <span class="thanh-truc-quan__ruot"></span>
-                  </div>
-                </td>
-              </tr>
+              <br><span>(Chỉ chủ trang đăng nhập <code>admin@ued.vn</code> mới hiển thị nút Xóa môn học).</span>
+            <?php endif; ?>
+          </p>
+        </div>
+      </div>
+
+      <!-- Khối tổng quan GPA tích lũy -->
+      <div class="luoi-thong-ke" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 16px 0;">
+        <div class="the-thong-ke" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; text-align: center;">
+          <div style="font-size: 0.9rem; color: #64748b; font-weight: 600;">TỔNG TÍN CHỈ TÍCH LŨY</div>
+          <div style="font-size: 1.8rem; font-weight: 700; color: #1e3a8a; margin-top: 4px;"><?= $tongTinChi ?> tín chỉ</div>
+        </div>
+        <div class="the-thong-ke" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; text-align: center;">
+          <div style="font-size: 0.9rem; color: #64748b; font-weight: 600;">ĐIỂM TRUNG BÌNH HỆ 10</div>
+          <div style="font-size: 1.8rem; font-weight: 700; color: #0284c7; margin-top: 4px;"><?= number_format($gpa10, 2) ?> / 10</div>
+        </div>
+        <div class="the-thong-ke" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; text-align: center;">
+          <div style="font-size: 0.9rem; color: #64748b; font-weight: 600;">GPA HỆ 4 &amp; XẾP LOẠI</div>
+          <div style="font-size: 1.8rem; font-weight: 700; color: #15803d; margin-top: 4px;">
+            <?= number_format($gpa4, 2) ?> / 4.0
+            <span style="font-size: 1rem; font-weight: 600; display: block; color: #166534; text-transform: uppercase;">
+              <?= $gpa4 >= 3.6 ? 'Xuất sắc' : ($gpa4 >= 3.2 ? 'Giỏi' : ($gpa4 >= 2.5 ? 'Khá' : 'Trung bình')) ?>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form nhập môn học mới -->
+      <form class="bieu-mau" action="gioithieu.php#bang-diem-csdl" method="post" novalidate style="margin-top: 16px;">
+        <input type="hidden" name="them_mon_hoc" value="1">
+        <h3 style="font-size: 1.15rem; margin-bottom: 12px; color: #1e293b;">+ Thêm học phần và lưu vào CSDL</h3>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+          <div class="bieu-mau__nhom" style="grid-column: span 2;">
+            <label for="ten_hoc_phan">Tên học phần <span class="dau-sao" aria-hidden="true">*</span></label>
+            <input class="bieu-mau__o-nhap <?= isset($loiBangDiem['ten_hoc_phan']) ? 'bieu-mau__o-nhap--loi' : '' ?>"
+                   id="ten_hoc_phan" name="ten_hoc_phan" type="text" maxlength="120"
+                   value="<?= e($duBangDiem['ten_hoc_phan']) ?>" required
+                   placeholder="Ví dụ: An toàn thông tin, Trí tuệ nhân tạo...">
+            <?php if (isset($loiBangDiem['ten_hoc_phan'])): ?>
+              <p class="bieu-mau__loi"><?= e($loiBangDiem['ten_hoc_phan']) ?></p>
+            <?php endif; ?>
+          </div>
+
+          <div class="bieu-mau__nhom">
+            <label for="so_tin_chi">Số tín chỉ <span class="dau-sao" aria-hidden="true">*</span></label>
+            <input class="bieu-mau__o-nhap <?= isset($loiBangDiem['so_tin_chi']) ? 'bieu-mau__o-nhap--loi' : '' ?>"
+                   id="so_tin_chi" name="so_tin_chi" type="number" min="1" max="10"
+                   value="<?= e($duBangDiem['so_tin_chi']) ?>" required>
+            <?php if (isset($loiBangDiem['so_tin_chi'])): ?>
+              <p class="bieu-mau__loi"><?= e($loiBangDiem['so_tin_chi']) ?></p>
+            <?php endif; ?>
+          </div>
+
+          <div class="bieu-mau__nhom">
+            <label for="a1">Điểm A1 (20%) <span class="dau-sao" aria-hidden="true">*</span></label>
+            <input class="bieu-mau__o-nhap <?= isset($loiBangDiem['a1']) ? 'bieu-mau__o-nhap--loi' : '' ?>"
+                   id="a1" name="a1" type="number" step="0.1" min="0" max="10"
+                   value="<?= e($duBangDiem['a1']) ?>" required placeholder="0 - 10">
+            <?php if (isset($loiBangDiem['a1'])): ?>
+              <p class="bieu-mau__loi"><?= e($loiBangDiem['a1']) ?></p>
+            <?php endif; ?>
+          </div>
+
+          <div class="bieu-mau__nhom">
+            <label for="a2">Điểm A2 (30%) <span class="dau-sao" aria-hidden="true">*</span></label>
+            <input class="bieu-mau__o-nhap <?= isset($loiBangDiem['a2']) ? 'bieu-mau__o-nhap--loi' : '' ?>"
+                   id="a2" name="a2" type="number" step="0.1" min="0" max="10"
+                   value="<?= e($duBangDiem['a2']) ?>" required placeholder="0 - 10">
+            <?php if (isset($loiBangDiem['a2'])): ?>
+              <p class="bieu-mau__loi"><?= e($loiBangDiem['a2']) ?></p>
+            <?php endif; ?>
+          </div>
+
+          <div class="bieu-mau__nhom">
+            <label for="a3">Điểm A3 (50%) <span class="dau-sao" aria-hidden="true">*</span></label>
+            <input class="bieu-mau__o-nhap <?= isset($loiBangDiem['a3']) ? 'bieu-mau__o-nhap--loi' : '' ?>"
+                   id="a3" name="a3" type="number" step="0.1" min="0" max="10"
+                   value="<?= e($duBangDiem['a3']) ?>" required placeholder="0 - 10">
+            <?php if (isset($loiBangDiem['a3'])): ?>
+              <p class="bieu-mau__loi"><?= e($loiBangDiem['a3']) ?></p>
+            <?php endif; ?>
+          </div>
+        </div>
+
+        <button class="nut nut--chinh" type="submit" style="margin-top: 10px;">Lưu học phần vào CSDL</button>
+      </form>
+
+      <!-- Bảng danh sách môn học từ CSDL -->
+      <div class="bang-cuon" style="margin-top: 20px;">
+        <table>
+          <caption>Danh sách học phần tích lũy của Trần Văn Tú trong CSDL (tv_tu_bang_diem)</caption>
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Tên học phần</th>
+              <th scope="col">Số TC</th>
+              <th scope="col">A1 (20%)</th>
+              <th scope="col">A2 (30%)</th>
+              <th scope="col">A3 (50%)</th>
+              <th scope="col">Tổng kết (10)</th>
+              <th scope="col">Điểm chữ</th>
+              <th scope="col">Thang 4</th>
+              <?php if ($laChuTrang): ?>
+                <th scope="col">Thao tác</th>
+              <?php endif; ?>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if (!$dsBangDiem): ?>
+              <tr><td colspan="<?= $laChuTrang ? 10 : 9 ?>" style="text-align: center; color: #64748b;">Chưa có học phần nào được lưu trong CSDL.</td></tr>
+            <?php else: ?>
+              <?php foreach ($dsBangDiem as $idx => $mh): ?>
+                <?php $qd = quyDoiDiem((float)$mh['tong_ket']); ?>
+                <tr>
+                  <td style="text-align: center;"><?= $idx + 1 ?></td>
+                  <td><strong><?= e($mh['ten_hoc_phan']) ?></strong></td>
+                  <td style="text-align: center;"><?= (int)$mh['so_tin_chi'] ?></td>
+                  <td style="text-align: center;"><?= number_format((float)$mh['a1'], 1) ?></td>
+                  <td style="text-align: center;"><?= number_format((float)$mh['a2'], 1) ?></td>
+                  <td style="text-align: center;"><?= number_format((float)$mh['a3'], 1) ?></td>
+                  <td style="text-align: center; font-weight: bold; color: #1e3a8a;"><?= number_format((float)$mh['tong_ket'], 1) ?></td>
+                  <td style="text-align: center; font-weight: bold;"><?= $qd[0] ?></td>
+                  <td style="text-align: center; font-weight: bold; color: #15803d;"><?= number_format($qd[1], 1) ?></td>
+                  <?php if ($laChuTrang): ?>
+                    <td style="text-align: center;">
+                      <form action="gioithieu.php#bang-diem-csdl" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa học phần này khỏi bảng điểm?');" style="display: inline;">
+                        <input type="hidden" name="xoa_mon_hoc" value="1">
+                        <input type="hidden" name="xoa_id" value="<?= (int)$mh['id'] ?>">
+                        <button class="nut nut--nguy-hiem nut--nho" type="submit">Xóa</button>
+                      </form>
+                    </td>
+                  <?php endif; ?>
+                </tr>
               <?php endforeach; ?>
             <?php endif; ?>
           </tbody>
@@ -355,300 +479,90 @@ require __DIR__ . '/../../inc/header.php';
       </div>
     </section>
 
-    <!-- CHỨC NĂNG CSDL 1: SỔ LƯU BÚT PHÂN TRANG & XÓA CÓ BẢO VỆ QUYỀN -->
-    <section id="so-luu-but" class="khoi-so-luu-but" aria-labelledby="tieu-de-so-luu-but">
-      <div class="so-luu-but__dau">
-        <div>
-          <h2 id="tieu-de-so-luu-but">Sổ lưu bút tương tác (CSDL MySQL)</h2>
-          <p class="so-luu-but__mo-ta">
-            Lời nhắn được lưu vào bảng <code>tv_luu_but</code>. Danh sách có phân trang (5 lời nhắn/trang).
-            <?php if ($laChuTrang): ?>
-              <strong class="chu-xanh">Bạn đang đăng nhập với tư cách chủ trang (Tú) nên có quyền xóa lời nhắn.</strong>
-            <?php else: ?>
-              <span>(Chỉ chủ trang đăng nhập <code>admin@ued.vn</code> mới được quyền xóa lời nhắn).</span>
-            <?php endif; ?>
-          </p>
+    <!-- CHỨC NĂNG CSDL 2: BẢNG ĐIỀU KHIỂN THỐNG KÊ ĐỒ ÁN UEDBOOKHUB (JOIN + GROUP BY) -->
+    <section id="thong-ke-do-an" class="khoi-thong-ke-do-an" aria-labelledby="tieu-de-thong-ke" style="margin-top: 36px;">
+      <h2 id="tieu-de-thong-ke">Thống kê dữ liệu Đồ án UEDBookHub (CSDL MySQL)</h2>
+      <p class="so-luu-but__mo-ta">
+        Truy vấn trực tiếp từ CSDL đồ án bằng các câu lệnh phức hợp <code>JOIN + GROUP BY + SUM + COUNT</code> để phân tích kinh doanh.
+      </p>
+
+      <!-- Khối tóm tắt toàn hệ thống -->
+      <div class="luoi-thong-ke" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 16px 0;">
+        <div class="the-thong-ke" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 14px; text-align: center;">
+          <div style="font-size: 0.9rem; color: #166534; font-weight: 600;">TỔNG DOANH THU ĐỒ ÁN</div>
+          <div style="font-size: 1.8rem; font-weight: 700; color: #15803d; margin-top: 4px;"><?= vnd($tongDoanhThuHeThong) ?></div>
         </div>
-        <div class="the-tong-luu-but">
-          <span class="huy-hieu huy-hieu--con"><?= $tongLuuBut ?> lời nhắn</span>
+        <div class="the-thong-ke" style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px; text-align: center;">
+          <div style="font-size: 0.9rem; color: #1e40af; font-weight: 600;">TỔNG SỐ ĐƠN HÀNG ĐÃ ĐẶT</div>
+          <div style="font-size: 1.8rem; font-weight: 700; color: #1d4ed8; margin-top: 4px;"><?= $tongDonHangHeThong ?> đơn hàng</div>
         </div>
       </div>
 
-      <!-- Form gửi lưu bút -->
-      <form class="bieu-mau bieu-mau-luu-but" action="gioithieu.php#so-luu-but" method="post" novalidate>
-        <input type="hidden" name="gui_luu_but" value="1">
-        <div class="bieu-mau__nhom">
-          <label for="ten_khach">Họ tên của bạn <span class="dau-sao" aria-hidden="true">*</span></label>
-          <input class="bieu-mau__o-nhap <?= isset($loiLuuBut['ten_khach']) ? 'bieu-mau__o-nhap--loi' : '' ?>"
-                 id="ten_khach" name="ten_khach" type="text" maxlength="50"
-                 value="<?= e($duLuuBut['ten_khach']) ?>" required
-                 placeholder="Nhập tên của bạn...">
-          <?php if (isset($loiLuuBut['ten_khach'])): ?>
-            <p class="bieu-mau__loi"><?= e($loiLuuBut['ten_khach']) ?></p>
-          <?php endif; ?>
-        </div>
-
-        <div class="bieu-mau__nhom">
-          <label for="loi_nhan">Lời nhắn gửi đến Tú <span class="dau-sao" aria-hidden="true">*</span></label>
-          <textarea class="bieu-mau__o-nhap bieu-mau__o-nhap--textarea <?= isset($loiLuuBut['loi_nhan']) ? 'bieu-mau__o-nhap--loi' : '' ?>"
-                    id="loi_nhan" name="loi_nhan" rows="3" maxlength="500" required
-                    placeholder="Viết lời nhắn lưu bút tại đây (tối đa 500 ký tự)..."><?= e($duLuuBut['loi_nhan']) ?></textarea>
-          <?php if (isset($loiLuuBut['loi_nhan'])): ?>
-            <p class="bieu-mau__loi"><?= e($loiLuuBut['loi_nhan']) ?></p>
-          <?php endif; ?>
-        </div>
-
-        <button class="nut nut--chinh" type="submit">Gửi lưu bút</button>
-      </form>
-
-      <!-- Danh sách lời nhắn -->
-      <div class="danh-sach-loi-nhan">
-        <?php if (!$dsLoiNhan): ?>
-          <p class="thong-bao-rong">Chưa có lời nhắn nào trong sổ lưu bút. Hãy là người đầu tiên để lại lời nhắn!</p>
-        <?php else: ?>
-          <?php foreach ($dsLoiNhan as $lb): ?>
-          <div class="the-loi-nhan" id="loi-nhan-<?= (int)$lb['id'] ?>">
-            <div class="the-loi-nhan__dau">
-              <div>
-                <strong class="the-loi-nhan__ten"><?= e($lb['ten_khach']) ?></strong>
-                <time class="the-loi-nhan__ngay" datetime="<?= e($lb['thoi_gian']) ?>">
-                  <?= e(date('H:i - d/m/Y', strtotime($lb['thoi_gian']))) ?>
-                </time>
-              </div>
-
-              <?php if ($laChuTrang): ?>
-              <!-- Nút xóa chỉ hiển thị khi đã xác thực chủ trang -->
-              <form class="form-xoa-luu-but" action="gioithieu.php#so-luu-but" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lời nhắn này không?');">
-                <input type="hidden" name="xoa_luu_but" value="1">
-                <input type="hidden" name="xoa_id" value="<?= (int)$lb['id'] ?>">
-                <button class="nut nut--nguy-hiem nut--nho" type="submit" title="Xóa lời nhắn này">Xóa</button>
-              </form>
-              <?php endif; ?>
-            </div>
-            <p class="the-loi-nhan__noi-dung"><?= nl2br(e($lb['loi_nhan'])) ?></p>
-          </div>
-          <?php endforeach; ?>
-
-          <!-- Phân trang -->
-          <?php if ($soTrangLuuBut > 1): ?>
-          <nav class="dieu-huong-phan-trang" aria-label="Phân trang sổ lưu bút">
-            <ul class="danh-sach-phan-trang">
-              <?php if ($trangLuuBut > 1): ?>
-                <li><a class="nut nut--phu nut--nho" href="?trang=<?= $trangLuuBut - 1 ?>#so-luu-but">&larr; Trước</a></li>
-              <?php endif; ?>
-
-              <?php for ($i = 1; $i <= $soTrangLuuBut; $i++): ?>
-                <li>
-                  <a class="nut nut--nho <?= $i === $trangLuuBut ? 'nut--chinh' : 'nut--phu' ?>"
-                     href="?trang=<?= $i ?>#so-luu-but"
-                     <?= $i === $trangLuuBut ? 'aria-current="page"' : '' ?>>
-                    <?= $i ?>
-                  </a>
-                </li>
-              <?php endfor; ?>
-
-              <?php if ($trangLuuBut < $soTrangLuuBut): ?>
-                <li><a class="nut nut--phu nut--nho" href="?trang=<?= $trangLuuBut + 1 ?>#so-luu-but">Sau &rarr;</a></li>
-              <?php endif; ?>
-            </ul>
-          </nav>
-          <?php endif; ?>
-        <?php endif; ?>
-      </div>
-    </section>
-
-    <!-- TIỆN ÍCH PHỤ: MÁY TÍNH ĐIỂM HỌC PHẦN -->
-    <section id="may-tinh-diem" class="may-tinh-diem" aria-labelledby="tieu-de-may-tinh-diem">
-      <div>
-        <h2 id="tieu-de-may-tinh-diem">Máy tính điểm học phần (Xử lý máy chủ PHP)</h2>
-        <p class="may-tinh-diem__mo-ta">Công thức tính điểm: <strong>Điểm tổng kết = 0,2 × A1 + 0,3 × A2 + 0,5 × A3</strong>. Máy chủ kiểm tra dữ liệu hợp lệ trong khoảng từ 0 đến 10.</p>
-      </div>
-
-      <?php if (is_array($ketQuaDiem)): ?>
-      <div class="ket-qua-diem <?= $ketQuaDiem['dat'] ? 'ket-qua-diem--dat' : 'ket-qua-diem--truot' ?>" role="status" aria-live="polite">
-        <p><strong>Kết quả tính điểm:</strong></p>
-        <p class="ket-qua-diem__chi-tiet">
-          Điểm thành phần: A1 (Chuyên cần) = <strong><?= e(number_format((float) $ketQuaDiem['a1'], 2, ',', '.')) ?></strong> · A2 (Giữa kỳ) = <strong><?= e(number_format((float) $ketQuaDiem['a2'], 2, ',', '.')) ?></strong> · A3 (Cuối kỳ) = <strong><?= e(number_format((float) $ketQuaDiem['a3'], 2, ',', '.')) ?></strong>
-        </p>
-        <p class="ket-qua-diem__tong-ket">
-          Điểm tổng kết: <strong><?= e(number_format((float) $ketQuaDiem['tongKet'], 2, ',', '.')) ?> / 10</strong> — Xếp loại: <strong><?= e($ketQuaDiem['xepLoai']) ?></strong>
-        </p>
-      </div>
-      <?php endif; ?>
-
-      <?php if ($loiDiem): ?>
-      <p class="bieu-mau__loi" role="alert">Chưa thể tính điểm. Vui lòng kiểm tra và sửa lại các ô báo lỗi bên dưới.</p>
-      <?php endif; ?>
-
-      <form class="bieu-mau bieu-mau-diem" action="gioithieu.php#may-tinh-diem" method="post" novalidate>
-        <input type="hidden" name="tinh_diem" value="1">
-        <div class="bieu-mau__nhom">
-          <label for="a1">Điểm A1 (Chuyên cần - 20%) <span class="dau-sao" aria-hidden="true">*</span></label>
-          <input class="bieu-mau__o-nhap <?= isset($loiDiem['a1']) ? 'bieu-mau__o-nhap--loi' : '' ?>" id="a1" name="a1" type="number" min="0" max="10" step="0.01" value="<?= e($duDiem['a1']) ?>" required aria-describedby="loi-a1" aria-invalid="<?= isset($loiDiem['a1']) ? 'true' : 'false' ?>" placeholder="0.0 - 10.0">
-          <p class="bieu-mau__loi" id="loi-a1"><?= e($loiDiem['a1'] ?? '') ?></p>
-        </div>
-
-        <div class="bieu-mau__nhom">
-          <label for="a2">Điểm A2 (Giữa kỳ - 30%) <span class="dau-sao" aria-hidden="true">*</span></label>
-          <input class="bieu-mau__o-nhap <?= isset($loiDiem['a2']) ? 'bieu-mau__o-nhap--loi' : '' ?>" id="a2" name="a2" type="number" min="0" max="10" step="0.01" value="<?= e($duDiem['a2']) ?>" required aria-describedby="loi-a2" aria-invalid="<?= isset($loiDiem['a2']) ? 'true' : 'false' ?>" placeholder="0.0 - 10.0">
-          <p class="bieu-mau__loi" id="loi-a2"><?= e($loiDiem['a2'] ?? '') ?></p>
-        </div>
-
-        <div class="bieu-mau__nhom">
-          <label for="a3">Điểm A3 (Cuối kỳ - 50%) <span class="dau-sao" aria-hidden="true">*</span></label>
-          <input class="bieu-mau__o-nhap <?= isset($loiDiem['a3']) ? 'bieu-mau__o-nhap--loi' : '' ?>" id="a3" name="a3" type="number" min="0" max="10" step="0.01" value="<?= e($duDiem['a3']) ?>" required aria-describedby="loi-a3" aria-invalid="<?= isset($loiDiem['a3']) ? 'true' : 'false' ?>" placeholder="0.0 - 10.0">
-          <p class="bieu-mau__loi" id="loi-a3"><?= e($loiDiem['a3'] ?? '') ?></p>
-        </div>
-
-        <button class="nut nut--chinh" type="submit">Tính điểm trên máy chủ PHP</button>
-      </form>
-    </section>
-
-    <!-- THỜI KHÓA BIỂU -->
-    <section class="khoi-thoi-khoa-bieu">
-      <h2>Thời khóa biểu học tập trong tuần</h2>
-
+      <!-- 2.1 Bảng Top 5 giáo trình bán chạy nhất -->
+      <h3 style="font-size: 1.15rem; margin-top: 20px; color: #1e3a8a;">1. Top 5 Giáo trình bán chạy nhất (chi_tiet_don JOIN giao_trinh)</h3>
       <div class="bang-cuon">
-        <table class="bang-tkb">
-          <caption>Lịch học các học phần chính khóa (Trần Văn Tú - MSSV: 3120224169)</caption>
+        <table>
+          <caption>Top 5 giáo trình có số lượng đặt mua nhiều nhất trong hệ thống</caption>
           <thead>
             <tr>
-              <th scope="col">Tiết</th>
-              <th scope="col">Thứ 2</th>
-              <th scope="col">Thứ 3</th>
-              <th scope="col">Thứ 4</th>
-              <th scope="col">Thứ 5</th>
-              <th scope="col">Thứ 6</th>
-              <th scope="col">Thứ 7</th>
-              <th scope="col">Chủ nhật</th>
+              <th scope="col">Top</th>
+              <th scope="col">Tên giáo trình</th>
+              <th scope="col">Danh mục</th>
+              <th scope="col">Đơn giá</th>
+              <th scope="col">Số lượng đã bán</th>
+              <th scope="col">Tổng doanh thu</th>
             </tr>
           </thead>
           <tbody>
+            <?php if (!$topSachBanChay): ?>
+              <tr><td colspan="6" style="text-align: center; color: #64748b;">Chưa có dữ liệu đặt hàng.</td></tr>
+            <?php else: ?>
+              <?php foreach ($topSachBanChay as $idx => $s): ?>
+                <tr>
+                  <td style="text-align: center; font-weight: bold;">#<?= $idx + 1 ?></td>
+                  <td><strong><?= e($s['ten']) ?></strong></td>
+                  <td><?= e($s['ten_danh_muc']) ?></td>
+                  <td style="text-align: right;"><?= vnd((int)$s['gia']) ?></td>
+                  <td style="text-align: center; font-weight: bold; color: #0284c7;"><?= (int)$s['tong_ban'] ?> cuốn</td>
+                  <td style="text-align: right; font-weight: bold; color: #15803d;"><?= vnd((int)$s['doanh_thu']) ?></td>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 2.2 Bảng Thống kê doanh thu theo danh mục -->
+      <h3 style="font-size: 1.15rem; margin-top: 24px; color: #1e3a8a;">2. Doanh thu &amp; Số lượng đầu sách theo Danh mục (danh_muc JOIN giao_trinh)</h3>
+      <div class="bang-cuon">
+        <table>
+          <caption>Thống kê số lượng đầu sách và doanh thu phân bổ theo từng chuyên ngành</caption>
+          <thead>
             <tr>
-              <th scope="row">1</th>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td rowspan="3">
-                <div class="the-mon-hoc the-mon-hoc--khai-pha">
-                  <span class="the-mon-hoc__ma">31231330 - 24-0101</span>
-                  <span class="the-mon-hoc__ten">Khai phá dữ liệu</span>
-                  <span class="the-mon-hoc__phong">Phòng A5-404B</span>
-                </div>
-              </td>
-              <td rowspan="3">
-                <div class="the-mon-hoc the-mon-hoc--lap-trinh-mang">
-                  <span class="the-mon-hoc__ma">31231398 - 24-0101</span>
-                  <span class="the-mon-hoc__ten">Lập trình mạng</span>
-                  <span class="the-mon-hoc__phong">Phòng A5-403</span>
-                </div>
-              </td>
-              <td rowspan="3">
-                <div class="the-mon-hoc the-mon-hoc--web">
-                  <span class="the-mon-hoc__ma">31231755 - 24-0102</span>
-                  <span class="the-mon-hoc__ten">Thiết kế &amp; Lập trình web</span>
-                  <span class="the-mon-hoc__phong">Phòng B3-303</span>
-                </div>
-              </td>
-              <td></td>
+              <th scope="col">STT</th>
+              <th scope="col">Danh mục chuyên ngành</th>
+              <th scope="col">Số đầu sách hiện có</th>
+              <th scope="col">Số lượng sách đã bán</th>
+              <th scope="col">Tổng doanh thu phát sinh</th>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">5</th>
-              <td rowspan="2">
-                <div class="the-mon-hoc the-mon-hoc--lich-su">
-                  <span class="the-mon-hoc__ma">21221904 - 24-0314</span>
-                  <span class="the-mon-hoc__ten">Lịch sử Đảng CSVN</span>
-                  <span class="the-mon-hoc__phong">Phòng A5-404C</span>
-                </div>
-              </td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">6</th>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">7</th>
-              <td rowspan="2">
-                <div class="the-mon-hoc the-mon-hoc--attt">
-                  <span class="the-mon-hoc__ma">31221010 - 24-0102</span>
-                  <span class="the-mon-hoc__ten">An toàn thông tin</span>
-                  <span class="the-mon-hoc__phong">Phòng A6-401</span>
-                </div>
-              </td>
-              <td></td>
-              <td rowspan="3">
-                <div class="the-mon-hoc the-mon-hoc--csdl">
-                  <span class="the-mon-hoc__ma">31241283 - 24-0301</span>
-                  <span class="the-mon-hoc__ten">Hệ quản trị CSDL</span>
-                  <span class="the-mon-hoc__phong">Phòng B1.104</span>
-                </div>
-              </td>
-              <td rowspan="3">
-                <div class="the-mon-hoc the-mon-hoc--cnpm">
-                  <span class="the-mon-hoc__ma">31231016 - 24-0102</span>
-                  <span class="the-mon-hoc__ten">Công nghệ phần mềm</span>
-                  <span class="the-mon-hoc__phong">Phòng B3-503</span>
-                </div>
-              </td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">8</th>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">9</th>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($doanhThuDanhMuc as $idx => $dm): ?>
+              <tr>
+                <td style="text-align: center;"><?= $idx + 1 ?></td>
+                <td><strong><?= e($dm['ten_danh_muc']) ?></strong></td>
+                <td style="text-align: center;"><?= (int)$dm['so_dau_sach'] ?> giáo trình</td>
+                <td style="text-align: center;"><?= (int)$dm['tong_sach_ban'] ?> cuốn</td>
+                <td style="text-align: right; font-weight: bold; color: <?= (int)$dm['doanh_thu'] > 0 ? '#15803d' : '#64748b' ?>;">
+                  <?= (int)$dm['doanh_thu'] > 0 ? vnd((int)$dm['doanh_thu']) : 'Chưa có đơn' ?>
+                </td>
+              </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>
     </section>
 
-    <div class="khung-hanh-dong-ca-nhan">
-      <a class="nut nut--vien" href="../../gioi-thieu.php">&larr; Quay về danh sách nhóm</a>
-      <a class="nut nut--chinh" href="../../chi-tiet.php?id=1">Xem giáo trình tiêu biểu &rarr;</a>
-    </div>
   </main>
+
 <?php require __DIR__ . '/../../inc/footer.php'; ?>

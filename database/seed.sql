@@ -72,22 +72,30 @@ INSERT INTO thanh_vien (mssv, ho_ten, nguoi_dung_id) VALUES
  ('3120224132', 'Nguyễn Tuấn Nhật Thanh', NULL),
  ('3120124040', 'Bhling Trường', NULL);
 
--- Dữ liệu mẫu Phần B: Sổ lưu bút trang cá nhân Trần Văn Tú (3120224169) - có 7 lời nhắn để kiểm thử phân trang (5 mục/trang)
-INSERT INTO tv_luu_but (mssv, ten_khach, loi_nhan, thoi_gian) VALUES
- ('3120224169', 'Nguyễn Thị Lan', 'Giao diện website UEDBookHub rất đẹp và dễ sử dụng! Chúc trưởng nhóm hoàn thành xuất sắc đồ án.', '2026-10-24 09:15:00'),
- ('3120224169', 'Trần Văn An', 'Kho giáo trình phong phú, tính năng tìm kiếm rất nhanh và mượt mà.', '2026-10-25 14:30:00'),
- ('3120224169', 'Lê Trung Hậu', 'Trang cá nhân của Tú code mượt mà, layout responsive chuẩn chỉ.', '2026-10-26 10:20:00'),
- ('3120224169', 'Bhling Trường', 'Chúc mừng anh Tú đã dẫn dắt nhóm 01 hoàn thành tốt bài tập lớn!', '2026-10-27 16:45:00'),
- ('3120224169', 'Nguyễn Tuấn Nhật Thanh', 'Hệ thống chạy rất ổn định, tính năng đặt hàng trừ kho quá xịn.', '2026-10-28 08:30:00'),
- ('3120224169', 'Thầy Nguyễn Hữu Hải', 'Thiết kế CSDL chuẩn hóa tốt, mã nguồn phân tầng rõ ràng.', '2026-10-29 15:10:00'),
- ('3120224169', 'Bạn học K22', 'Rất ấn tượng với các dự án và kỹ năng chuyên môn của bạn Tú.', '2026-10-30 11:00:00');
+-- Dữ liệu mẫu Phần B: Bảng điểm học phần cá nhân của Trần Văn Tú (3120224169)
+INSERT INTO tv_tu_bang_diem (mssv, ten_hoc_phan, so_tin_chi, a1, a2, a3, tong_ket) VALUES
+ ('3120224169', 'Thiết kế và Lập trình Web', 3, 9.0, 9.5, 9.5, 9.4),
+ ('3120224169', 'Cơ sở dữ liệu', 3, 8.5, 8.0, 8.5, 8.4),
+ ('3120224169', 'Cấu trúc dữ liệu và Giải thuật', 4, 8.0, 8.5, 9.0, 8.7),
+ ('3120224169', 'Lập trình Hướng đối tượng', 3, 9.0, 8.5, 8.5, 8.6),
+ ('3120224169', 'Mạng máy tính', 3, 8.0, 8.0, 8.5, 8.3);
 
--- Dữ liệu mẫu Phần B: Thống kê lượt xem theo ngày của Trần Văn Tú (7 ngày gần nhất)
-INSERT INTO tv_tu_luot_xem (mssv, ngay, so_luot) VALUES
- ('3120224169', DATE_SUB(CURDATE(), INTERVAL 6 DAY), 12),
- ('3120224169', DATE_SUB(CURDATE(), INTERVAL 5 DAY), 18),
- ('3120224169', DATE_SUB(CURDATE(), INTERVAL 4 DAY), 25),
- ('3120224169', DATE_SUB(CURDATE(), INTERVAL 3 DAY), 31),
- ('3120224169', DATE_SUB(CURDATE(), INTERVAL 2 DAY), 28),
- ('3120224169', DATE_SUB(CURDATE(), INTERVAL 1 DAY), 42),
- ('3120224169', CURDATE(), 56);
+-- Dữ liệu mẫu Phần B: Sổ lưu bút (dành cho Bhling Trường - 3120124040, có 7 lời nhắn kiểm thử phân trang 5 mục/trang)
+INSERT INTO tv_luu_but (mssv, ten_khach, loi_nhan, thoi_gian) VALUES
+ ('3120124040', 'Nguyễn Thị Lan', 'Website UEDBookHub rất tiện lợi, chúc nhóm 01 bảo vệ thành công!', '2026-10-24 09:15:00'),
+ ('3120124040', 'Trần Văn An', 'Tính năng phân quyền và tài khoản hoạt động rất tốt.', '2026-10-25 14:30:00'),
+ ('3120124040', 'Trần Văn Tú', 'Trường hoàn thành tốt phần đăng ký/đăng nhập của Phần A nhé!', '2026-10-26 10:20:00'),
+ ('3120124040', 'Lê Trung Hậu', 'Trang cá nhân của Trường giao diện rất thoáng và đẹp.', '2026-10-27 16:45:00'),
+ ('3120124040', 'Nguyễn Tuấn Nhật Thanh', 'Đã kiểm tra thử sổ lưu bút, phân trang chạy chuẩn chỉ.', '2026-10-28 08:30:00'),
+ ('3120124040', 'Thầy Nguyễn Hữu Hải', 'Trường đã chuyển đổi thành công tệp JSONL sang bảng MySQL.', '2026-10-29 15:10:00'),
+ ('3120124040', 'Bạn học K22', 'Chúc mừng bạn Trường đã hoàn thành xuất sắc đồ án!', '2026-10-30 11:00:00');
+
+-- Dữ liệu mẫu Phần B: Lượt xem theo ngày của Bhling Trường (3120124040)
+INSERT INTO tv_truong_luot_xem (mssv, ngay, so_luot) VALUES
+ ('3120124040', DATE_SUB(CURDATE(), INTERVAL 6 DAY), 10),
+ ('3120124040', DATE_SUB(CURDATE(), INTERVAL 5 DAY), 15),
+ ('3120124040', DATE_SUB(CURDATE(), INTERVAL 4 DAY), 22),
+ ('3120124040', DATE_SUB(CURDATE(), INTERVAL 3 DAY), 28),
+ ('3120124040', DATE_SUB(CURDATE(), INTERVAL 2 DAY), 25),
+ ('3120124040', DATE_SUB(CURDATE(), INTERVAL 1 DAY), 38),
+ ('3120124040', CURDATE(), 45);

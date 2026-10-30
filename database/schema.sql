@@ -97,7 +97,7 @@ CREATE TABLE thanh_vien (
         REFERENCES nguoi_dung(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
--- Phần B: Sổ lưu bút theo MSSV thành viên (Gợi ý 2, Gợi ý 5)
+-- Phần B: Sổ lưu bút theo MSSV thành viên (dành cho Bhling Trường chuyển từ tệp luubut.jsonl Bài 5)
 CREATE TABLE tv_luu_but (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     mssv CHAR(10) NOT NULL,
@@ -109,13 +109,32 @@ CREATE TABLE tv_luu_but (
         REFERENCES thanh_vien(mssv) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- Phần B: Bảng thống kê lượt xem theo ngày của Trần Văn Tú (MSSV: 3120224169)
-CREATE TABLE tv_tu_luot_xem (
+-- Phần B: Bộ đếm lượt xem theo ngày của Bhling Trường (Chuyển từ tệp views.txt Bài 5)
+CREATE TABLE tv_truong_luot_xem (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     mssv CHAR(10) NOT NULL,
     ngay DATE NOT NULL,
     so_luot INT UNSIGNED NOT NULL DEFAULT 1,
-    UNIQUE KEY uq_tv_tu_luot_xem_ngay (mssv, ngay),
-    CONSTRAINT fk_tv_tu_luot_xem_thanh_vien FOREIGN KEY (mssv)
+    UNIQUE KEY uq_tv_truong_luot_xem_ngay (mssv, ngay),
+    CONSTRAINT fk_tv_truong_luot_xem_thanh_vien FOREIGN KEY (mssv)
+        REFERENCES thanh_vien(mssv) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Phần B: Bảng điểm học phần cá nhân của Trần Văn Tú (MSSV: 3120224169) - Chuyển đổi & nâng cấp từ Máy tính điểm Bài 5
+CREATE TABLE tv_tu_bang_diem (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    mssv CHAR(10) NOT NULL,
+    ten_hoc_phan VARCHAR(120) NOT NULL,
+    so_tin_chi TINYINT UNSIGNED NOT NULL DEFAULT 3,
+    a1 DECIMAL(3,1) NOT NULL,
+    a2 DECIMAL(3,1) NOT NULL,
+    a3 DECIMAL(3,1) NOT NULL,
+    tong_ket DECIMAL(3,1) NOT NULL,
+    ngay_tao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT chk_tu_a1 CHECK (a1 BETWEEN 0.0 AND 10.0),
+    CONSTRAINT chk_tu_a2 CHECK (a2 BETWEEN 0.0 AND 10.0),
+    CONSTRAINT chk_tu_a3 CHECK (a3 BETWEEN 0.0 AND 10.0),
+    CONSTRAINT chk_tu_tin_chi CHECK (so_tin_chi BETWEEN 1 AND 10),
+    CONSTRAINT fk_tv_tu_bang_diem_thanh_vien FOREIGN KEY (mssv)
         REFERENCES thanh_vien(mssv) ON DELETE CASCADE
 ) ENGINE=InnoDB;
