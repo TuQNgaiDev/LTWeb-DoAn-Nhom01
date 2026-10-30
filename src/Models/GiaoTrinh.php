@@ -10,20 +10,20 @@ use JsonSerializable;
 final class GiaoTrinh implements JsonSerializable
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $ma,
-        public readonly string $ten,
-        public readonly string $tacGia,
-        public readonly string $khoa,
-        public readonly int $danhMucId,
-        public readonly int $namXuatBan,
-        public readonly string $nhaXuatBan,
-        public readonly int $gia,
-        public readonly int $giaGoc,
-        public readonly int $soLuong,
-        public readonly int $soTrang,
-        public readonly string $anh,
-        public readonly string $moTa
+        public int $id,
+        public string $ma,
+        public string $ten,
+        public string $tacGia,
+        public string $khoa,
+        public int $danhMucId,
+        public int $namXuatBan,
+        public string $nhaXuatBan,
+        public int $gia,
+        public int $giaGoc,
+        public int $soLuong,
+        public int $soTrang,
+        public string $anh,
+        public string $moTa
     ) {}
 
     public static function tuDong(array $d): self
@@ -43,7 +43,7 @@ final class GiaoTrinh implements JsonSerializable
             'id' => $this->id, 'ma' => $this->ma, 'ten' => $this->ten,
             'tac_gia' => $this->tacGia, 'danh_muc' => $this->khoa,
             'gia' => $this->gia, 'ton_kho' => $this->soLuong,
-            'anh' => $this->anh, 'mo_ta' => $this->moTa,
+            'anh' => $this->anh, 'moTa' => $this->moTa,
         ];
     }
 }

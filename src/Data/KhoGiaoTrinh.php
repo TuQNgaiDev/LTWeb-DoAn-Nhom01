@@ -18,14 +18,14 @@ final class KhoGiaoTrinh
 
     public function tatCa(): array
     {
-        return array_map($this->doiTuong(...), $this->db->query(self::CHON . ' ORDER BY g.id DESC')->fetchAll());
+        return array_map([$this, 'doiTuong'], $this->db->query(self::CHON . ' ORDER BY g.id DESC')->fetchAll());
     }
 
     public function moiNhat(int $gioiHan = 3): array
     {
         $st = $this->db->prepare(self::CHON . ' ORDER BY g.ngay_tao DESC, g.id DESC LIMIT ?');
         $st->execute([$gioiHan]);
-        return array_map($this->doiTuong(...), $st->fetchAll());
+        return array_map([$this, 'doiTuong'], $st->fetchAll());
     }
 
     public function timTheoId(int $id): ?GiaoTrinh
@@ -54,7 +54,7 @@ final class KhoGiaoTrinh
     {
         $st = $this->db->prepare(self::CHON . ' WHERE g.danh_muc_id = ? AND g.id <> ? ORDER BY g.id DESC LIMIT ?');
         $st->execute([$danhMucId, $id, $gioiHan]);
-        return array_map($this->doiTuong(...), $st->fetchAll());
+        return array_map([$this, 'doiTuong'], $st->fetchAll());
     }
 
     public function cacDanhMuc(): array
@@ -92,7 +92,7 @@ final class KhoGiaoTrinh
         };
         $st = $this->db->prepare(self::CHON . $where . " ORDER BY $orderBy LIMIT ? OFFSET ?");
         $st->execute([...$ts, $soDong, $boQua]);
-        return array_map($this->doiTuong(...), $st->fetchAll());
+        return array_map([$this, 'doiTuong'], $st->fetchAll());
     }
 
     public function them(array $du): int
