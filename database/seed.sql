@@ -99,3 +99,26 @@ INSERT INTO tv_truong_luot_xem (mssv, ngay, so_luot) VALUES
  ('3120124040', DATE_SUB(CURDATE(), INTERVAL 2 DAY), 25),
  ('3120124040', DATE_SUB(CURDATE(), INTERVAL 1 DAY), 38),
  ('3120124040', CURDATE(), 45);
+
+-- Dữ liệu mẫu Phần B: Kỹ năng cá nhân của Nguyễn Tuấn Nhật Thanh (3120224132)
+INSERT INTO tv_thanh_ky_nang (mssv, nhom, ten_ky_nang, muc_do, bieu_tuong) VALUES
+ ('3120224132', 'laptrinh', 'HTML5 ngữ nghĩa & CSS3 BEM', 'Thành thạo', '🌐'),
+ ('3120224132', 'laptrinh', 'Lập trình JavaScript (ES6+)', 'Khá', '⚡'),
+ ('3120224132', 'laptrinh', 'Lập trình C/C++ thuật toán', 'Khá', '💻'),
+ ('3120224132', 'laptrinh', 'Lập trình PHP thuần & PDO', 'Thành thạo', '🐘'),
+ ('3120224132', 'laptrinh', 'Python ứng dụng & cơ bản', 'Cơ bản', '🐍'),
+ ('3120224132', 'csdl', 'Thiết kế & Chuẩn hóa CSDL quan hệ 3NF', 'Thành thạo', '🗄️'),
+ ('3120224132', 'csdl', 'Truy vấn MySQL (JOIN, GROUP BY, Index)', 'Khá', '🔍'),
+ ('3120224132', 'csdl', 'Vẽ sơ đồ thực thể liên kết ERD chuẩn', 'Thành thạo', '📊'),
+ ('3120224132', 'kynangmem', 'Làm việc nhóm & Phối hợp Git/GitHub', 'Thành thạo', '🤝'),
+ ('3120224132', 'kynangmem', 'Thuyết trình & Viết tài liệu kỹ thuật', 'Khá', '🎤'),
+ ('3120224132', 'kynangmem', 'Quản lý tiến độ đồ án & thời gian', 'Khá', '⏱️');
+
+-- Dữ liệu mẫu Phần B: Thời khóa biểu của Nguyễn Tuấn Nhật Thanh (3120224132)
+INSERT INTO tv_thanh_tkb (mssv, ma_hoc_phan, ten_mon, so_tin_chi, thu, tiet_hoc, phong_hoc, giang_vien) VALUES
+ ('3120224132', '31221010', 'An toàn thông tin', 3, 'Thứ 2', 'Tiết 1 – 2', 'B3-206', 'ThS. Nguyễn Văn A'),
+ ('3120224132', '21221904', 'Lịch sử Đảng Cộng sản Việt Nam', 2, 'Thứ 2', 'Tiết 3 – 4', 'A5-404C', 'TS. Trần Thị B'),
+ ('3120224132', '31241283', 'Hệ quản trị cơ sở dữ liệu', 3, 'Thứ 4', 'Tiết 1 – 4', 'A5-404B', 'ThS. Lê Hoàng C'),
+ ('3120224132', '31231330', 'Khai phá dữ liệu', 3, 'Thứ 5', 'Tiết 1 – 3', 'A5-210', 'TS. Phạm Minh D'),
+ ('3120224132', '31231016', 'Công nghệ phần mềm', 3, 'Thứ 5', 'Tiết 7 – 9', 'B3-503', 'ThS. Đỗ Tuấn E'),
+ ('3120224132', '31231755', 'Thiết kế và lập trình web', 3, 'Thứ 7', 'Tiết 1 – 3', 'B3-303', 'ThS. Nguyễn Hữu Hải');

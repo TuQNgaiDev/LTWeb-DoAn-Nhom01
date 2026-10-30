@@ -138,3 +138,31 @@ CREATE TABLE tv_tu_bang_diem (
     CONSTRAINT fk_tv_tu_bang_diem_thanh_vien FOREIGN KEY (mssv)
         REFERENCES thanh_vien(mssv) ON DELETE CASCADE
 ) ENGINE=InnoDB;
+
+-- Phần B: Bảng kỹ năng cá nhân của Nguyễn Tuấn Nhật Thanh (MSSV: 3120224132) - Chức năng lọc CSDL
+CREATE TABLE tv_thanh_ky_nang (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    mssv CHAR(10) NOT NULL,
+    nhom VARCHAR(50) NOT NULL, -- laptrinh, csdl, kynangmem
+    ten_ky_nang VARCHAR(100) NOT NULL,
+    muc_do VARCHAR(50) NOT NULL DEFAULT 'Khá', -- Thành thạo, Khá, Cơ bản
+    bieu_tuong VARCHAR(20) NOT NULL DEFAULT '⭐',
+    CONSTRAINT fk_tv_thanh_ky_nang_thanh_vien FOREIGN KEY (mssv)
+        REFERENCES thanh_vien(mssv) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Phần B: Bảng thời khóa biểu cá nhân của Nguyễn Tuấn Nhật Thanh (MSSV: 3120224132) - Chức năng tìm kiếm CSDL
+CREATE TABLE tv_thanh_tkb (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    mssv CHAR(10) NOT NULL,
+    ma_hoc_phan VARCHAR(30) NOT NULL,
+    ten_mon VARCHAR(150) NOT NULL,
+    so_tin_chi TINYINT UNSIGNED NOT NULL DEFAULT 3,
+    thu VARCHAR(20) NOT NULL,
+    tiet_hoc VARCHAR(30) NOT NULL,
+    phong_hoc VARCHAR(50) NOT NULL,
+    giang_vien VARCHAR(100) NULL,
+    CONSTRAINT fk_tv_thanh_tkb_thanh_vien FOREIGN KEY (mssv)
+        REFERENCES thanh_vien(mssv) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
