@@ -16,7 +16,8 @@ INSERT INTO danh_muc (id, ten, slug) VALUES
 INSERT INTO nguoi_dung (id, email, ho_ten, mat_khau, vai_tro) VALUES
  (1, 'admin@ued.vn', 'Quản trị viên', '$2y$12$QQ6wiD.RCevq5OzZhMc1v.mhHNmGDuIoZTG4gNQ1zq2snB5Qta08i', 'quan_tri'),
  (2, 'lan@ued.vn', 'Nguyễn Thị Lan', '$2y$12$qgy./oJIhP8ACNMOJD.3POR0A.anxKdKDgsWAtWkKP9GTZxa4WAUm', 'khach_hang'),
- (3, 'an@ued.vn', 'Trần Văn An', '$2y$12$SDkHi50JUahksHWJQYazl.n9Wcy4M.uhYDJgFgNIoFDhZogcAlacu', 'khach_hang');
+ (3, 'an@ued.vn', 'Trần Văn An', '$2y$12$SDkHi50JUahksHWJQYazl.n9Wcy4M.uhYDJgFgNIoFDhZogcAlacu', 'khach_hang'),
+ (4, 'truong@ued.vn', 'Bhling Trường', '$2y$12$QQ6wiD.RCevq5OzZhMc1v.mhHNmGDuIoZTG4gNQ1zq2snB5Qta08i', 'khach_hang');
 
 INSERT INTO giao_trinh
  (id, danh_muc_id, ma, ten, tac_gia, nam_xuat_ban, nha_xuat_ban, gia, gia_goc, ton_kho, so_trang, anh, mo_ta) VALUES
@@ -70,7 +71,7 @@ INSERT INTO thanh_vien (mssv, ho_ten, nguoi_dung_id) VALUES
  ('3120224169', 'Trần Văn Tú', 1),
  ('3120224052', 'Lê Trung Hậu', NULL),
  ('3120224132', 'Nguyễn Tuấn Nhật Thanh', NULL),
- ('3120124040', 'Bhling Trường', NULL);
+ ('3120124040', 'Bhling Trường', 4);
 
 -- Dữ liệu mẫu Phần B: Bảng điểm học phần cá nhân của Trần Văn Tú (3120224169)
 INSERT INTO tv_tu_bang_diem (mssv, ten_hoc_phan, so_tin_chi, a1, a2, a3, tong_ket) VALUES
