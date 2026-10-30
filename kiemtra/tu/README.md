@@ -1,37 +1,35 @@
 # Thư mục kiểm tra & minh chứng của Trần Văn Tú (MSSV: 3120224169)
 
-Thư mục lưu trữ toàn bộ ảnh chụp màn hình minh chứng kiểm thử theo yêu cầu đề bài của sinh viên Trần Văn Tú:
+Thư mục lưu trữ toàn bộ ảnh chụp màn hình minh chứng kiểm thử theo yêu cầu đề bài Bài tập nhóm số 6 của sinh viên **Trần Văn Tú**:
 
 ---
 
-## 1. Bài tập nhóm số 5 (Chương 5 – Lập trình PHP phía máy chủ)
+## Bài tập thực hành nhóm số 6 (Chương 6 – PHP và cơ sở dữ liệu MySQL)
 
-Minh chứng cho **Phần B – Chức năng PHP trên trang cá nhân** (`thanhvien/3120224169_tu/gioithieu.php`):
+Minh chứng cho **Phần B – Dữ liệu trên trang cá nhân của thành viên** (`thanhvien/3120224169_tu/gioithieu.php`):
 
-- **`B_tu_cookie_darkmode.png`**:
-  - *Chức năng 1*: Chuyển đổi giao diện Sáng / Tối ghi nhớ bằng **Cookie phía máy chủ PHP**.
-  - *Mô tả ảnh*: Chụp trang cá nhân ở chế độ tối, mở bảng DevTools (*Application > Cookies*) hiển thị cookie `giao_dien_tu = toi`, thời hạn 30 ngày. Chức năng chạy mượt mà ngay cả khi tắt JavaScript.
-- **`B_tu_tinh_diem_thanh_cong.png`**:
-  - *Chức năng 2 (Ca hợp lệ)*: Máy tính điểm học phần theo công thức $0,2 \times A1 + 0,3 \times A2 + 0,5 \times A3$.
-  - *Mô tả ảnh*: Nhập 3 điểm hợp lệ ($A1 = 8.5, A2 = 9.0, A3 = 8.0$), máy chủ PHP xử lý tính toán ra kết quả $8.40/10$, xếp loại **Khá (B - Đạt)** và hiển thị thông báo flash (áp dụng chuẩn PRG, F5 không bị gửi lặp).
-- **`B_tu_tinh_diem_loi.png`**:
-  - *Chức năng 2 (Ca kiểm tra lỗi máy chủ)*: Kiểm tra tính hợp lệ của dữ liệu đầu vào.
-  - *Mô tả ảnh*: Nhập điểm sai quy tắc (vượt quá 10, số âm hoặc để trống), máy chủ PHP phát hiện và hiển thị dòng báo lỗi màu đỏ cụ thể dưới từng ô: *"Điểm phải là số từ 0 đến 10"*, giữ lại dữ liệu cũ đã nhập.
-- **`B_tu_mobile_360px.png`**:
-  - *Kiểm chuẩn chất lượng*: Độ tương thích di động và độ sạch của mã nguồn.
-  - *Mô tả ảnh*: Trang cá nhân hiển thị chuẩn trên màn hình hẹp **360px**, không bị tràn viền hay cuộn ngang, tab Console đạt chuẩn **0 Warning, 0 Error**.
+### 1. Bảng CSDL riêng trong hệ thống
+- **`tv_luu_but`**: Lưu trữ lời nhắn lưu bút của khách, có khóa ngoại `mssv` tham chiếu `thanh_vien(mssv)` với `ON DELETE CASCADE`.
+- **`tv_tu_luot_xem`**: Lưu trữ số lượt xem theo ngày của Trần Văn Tú (khóa duy nhất `(mssv, ngay)`), hỗ trợ thống kê 7 ngày gần nhất.
+
+### 2. Hai chức năng CSDL MySQL đã cài đặt
+1. **Chức năng 1 - Sổ lưu bút có phân trang & Bảo vệ quyền xóa của chủ trang**:
+   - Gửi lời nhắn có kiểm tra tính hợp lệ tại máy chủ PHP (Tên: 1–50 ký tự, Lời nhắn: 1–500 ký tự).
+   - Áp dụng mẫu **PRG (Post/Redirect/Get)** kèm thông báo flash trong Session (F5 không bị gửi lặp dữ liệu).
+   - Phân trang 5 lời nhắn/trang với prepared statement: `LIMIT 5 OFFSET ?` và `SELECT COUNT(*)`.
+   - **Phân quyền xóa máy chủ (chống IDOR)**: Khách truy cập hoặc người dùng thông thường **không thấy nút Xóa**. Chỉ khi đăng nhập đúng tài khoản chủ trang (`admin@ued.vn`) thì nút Xóa màu đỏ mới xuất hiện. Khi nhận POST xóa, máy chủ kiểm tra `$laChuTrang` và thực thi `DELETE FROM tv_luu_but WHERE id = ? AND mssv = ?`.
+2. **Chức năng 2 - Bộ đếm lượt xem theo ngày bằng CSDL**:
+   - Tự động ghi nhận lượt xem bằng câu lệnh SQL chuẩn: `INSERT INTO tv_tu_luot_xem (mssv, ngay, so_luot) VALUES (?, CURDATE(), 1) ON DUPLICATE KEY UPDATE so_luot = so_luot + 1`.
+   - Quản lý theo phiên để tránh tăng ảo khi F5 liên tục trong cùng một ngày.
+   - Hiển thị bảng thống kê 7 ngày gần nhất và thanh trực quan tỷ lệ phần trăm; tính tổng lượt xem tích lũy qua `COALESCE(SUM(so_luot), 0)`.
 
 ---
 
-## 2. Bài tập nhóm số 4 (Chương 4 – JavaScript và lập trình phía máy khách)
+### 3. Danh mục tệp ảnh minh chứng kiểm thử trong thư mục
 
-Minh chứng lưu trữ từ bài tập nhóm 4:
-- `B1_menu_mobile.png`: Menu thu gọn trên màn hình hẹp (bật/tắt bằng JavaScript, phím Esc và hỗ trợ aria-expanded).
-- `B2_trang_thai_dang_tai.png`: Trạng thái đang tải spinner khi fetch JSON dữ liệu giáo trình.
-- `B2_trang_thai_loi.png`: Trạng thái hiển thị thông báo lỗi và nút "Thử tải lại" khi fetch thất bại.
-- `B2_trang_thai_rong.png`: Trạng thái rỗng khi không tìm thấy kết quả phù hợp khi tìm kiếm/lọc.
-- `B5_thoi_tiet_danang.png`: Dữ liệu thời tiết Đà Nẵng tải thành công từ Open-Meteo REST API.
-- `C_darkmode.png`: Chuyển đổi giao diện Tối/Sáng lưu `theme=dark` trong Local Storage.
-- `C_loc_ky_nang.png`: Lọc tương tác danh sách kỹ năng theo nhóm chuyên môn phía client.
-- `C_mobile_360px_console.png`: Trang cá nhân hiển thị ở độ rộng 360px, Console 0 lỗi JS.
-- `C_lighthouse_a11y.png`: Điểm Google Lighthouse Mobile đạt Accessibility $\ge 90$.
+| Tên tệp ảnh | Nội dung minh chứng |
+|:---|:---|
+| **`B6_tu_luu_but_chutrang_xoa.png`** | Đăng nhập tài khoản `admin@ued.vn` (chủ trang Tú), hệ thống hiển thị huy hiệu `Đã xác thực chủ trang 🔑` và xuất hiện nút Xóa màu đỏ cạnh từng lời nhắn. |
+| **`B6_tu_luu_but_khach_an_nut_xoa.png`** | Khi xem với tư cách khách vãng lai, nút Xóa hoàn toàn bị ẩn, đảm bảo an toàn phân quyền. |
+| **`B6_tu_luu_but_phantrang.png`** | Phân trang sổ lưu bút 5 lời nhắn/trang tải dữ liệu từ CSDL, hiển thị các nút chuyển trang và xem trang 2 (`?trang=2`). |
+| **`B6_tu_thong_ke_luot_xem.png`** | Thẻ tổng lượt xem tích lũy và bảng thống kê 7 ngày gần nhất kèm thanh tỷ lệ từ bảng `tv_tu_luot_xem`. |
