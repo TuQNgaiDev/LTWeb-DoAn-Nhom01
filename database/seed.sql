@@ -16,7 +16,8 @@ INSERT INTO danh_muc (id, ten, slug) VALUES
 INSERT INTO nguoi_dung (id, email, ho_ten, mat_khau, vai_tro) VALUES
  (1, 'admin@ued.vn', 'Quản trị viên', '$2y$12$QQ6wiD.RCevq5OzZhMc1v.mhHNmGDuIoZTG4gNQ1zq2snB5Qta08i', 'quan_tri'),
  (2, 'lan@ued.vn', 'Nguyễn Thị Lan', '$2y$12$qgy./oJIhP8ACNMOJD.3POR0A.anxKdKDgsWAtWkKP9GTZxa4WAUm', 'khach_hang'),
- (3, 'an@ued.vn', 'Trần Văn An', '$2y$12$SDkHi50JUahksHWJQYazl.n9Wcy4M.uhYDJgFgNIoFDhZogcAlacu', 'khach_hang');
+ (3, 'an@ued.vn', 'Trần Văn An', '$2y$12$SDkHi50JUahksHWJQYazl.n9Wcy4M.uhYDJgFgNIoFDhZogcAlacu', 'khach_hang'),
+ (4, 'truong@ued.vn', 'Bhling Trường', '$2y$12$QQ6wiD.RCevq5OzZhMc1v.mhHNmGDuIoZTG4gNQ1zq2snB5Qta08i', 'khach_hang');
 
 INSERT INTO giao_trinh
  (id, danh_muc_id, ma, ten, tac_gia, nam_xuat_ban, nha_xuat_ban, gia, gia_goc, ton_kho, so_trang, anh, mo_ta) VALUES
@@ -70,7 +71,7 @@ INSERT INTO thanh_vien (mssv, ho_ten, nguoi_dung_id) VALUES
  ('3120224169', 'Trần Văn Tú', 1),
  ('3120224052', 'Lê Trung Hậu', NULL),
  ('3120224132', 'Nguyễn Tuấn Nhật Thanh', NULL),
- ('3120124040', 'Bhling Trường', NULL);
+ ('3120124040', 'Bhling Trường', 4);
 
 -- Dữ liệu mẫu Phần B: Bảng điểm học phần cá nhân của Trần Văn Tú (3120224169)
 INSERT INTO tv_tu_bang_diem (mssv, ten_hoc_phan, so_tin_chi, a1, a2, a3, tong_ket) VALUES
@@ -99,6 +100,32 @@ INSERT INTO tv_truong_luot_xem (mssv, ngay, so_luot) VALUES
  ('3120124040', DATE_SUB(CURDATE(), INTERVAL 2 DAY), 25),
  ('3120124040', DATE_SUB(CURDATE(), INTERVAL 1 DAY), 38),
  ('3120124040', CURDATE(), 45);
+
+-- Dữ liệu mẫu Phần B: Lượt thích trang cá nhân của Lê Trung Hậu (MSSV: 3120224052)
+INSERT INTO tv_hau_luot_thich (mssv, ip_dia_chi, user_agent, thoi_gian) VALUES
+ ('3120224052', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', DATE_SUB(NOW(), INTERVAL 5 DAY)),
+ ('3120224052', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', DATE_SUB(NOW(), INTERVAL 4 DAY)),
+ ('3120224052', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', DATE_SUB(NOW(), INTERVAL 4 DAY)),
+ ('3120224052', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', DATE_SUB(NOW(), INTERVAL 3 DAY)),
+ ('3120224052', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64)', DATE_SUB(NOW(), INTERVAL 3 DAY)),
+ ('3120224052', '127.0.0.1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)', DATE_SUB(NOW(), INTERVAL 2 DAY)),
+ ('3120224052', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', DATE_SUB(NOW(), INTERVAL 2 DAY)),
+ ('3120224052', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', DATE_SUB(NOW(), INTERVAL 1 DAY)),
+ ('3120224052', '127.0.0.1', 'Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X)', DATE_SUB(NOW(), INTERVAL 12 HOUR)),
+ ('3120224052', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', DATE_SUB(NOW(), INTERVAL 3 HOUR)),
+ ('3120224052', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', DATE_SUB(NOW(), INTERVAL 45 MINUTE)),
+ ('3120224052', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', NOW());
+
+-- Dữ liệu mẫu Phần B: Hệ thống câu chào theo thời gian thực của Lê Trung Hậu (MSSV: 3120224052)
+INSERT INTO tv_hau_cau_chao (mssv, buoi, gio_bat_dau, gio_ket_thuc, bieu_tuong, tieu_de, loi_chao) VALUES
+ ('3120224052', 'sang', 5, 11, '☀️', 'Buổi sáng rạng rỡ', '☀️ Buổi sáng rạng rỡ nha! Chúc bạn ngày mới đầy ắp tiếng cười và lượm lặt thêm thật nhiều điều hay ho nè ✨'),
+ ('3120224052', 'sang', 5, 11, '🌅', 'Khởi đầu ngày mới', '🌅 Chào ngày mới tràn đầy năng lượng! Chúc bạn một ngày học tập và làm việc thật hiệu quả nhé ✨'),
+ ('3120224052', 'chieu', 12, 17, '🌤️', 'Chiều an lành', '🌤️ Chiều an lành nhé! Chúc bạn nạp đầy năng lượng và có buổi học thật vui nha ✨'),
+ ('3120224052', 'chieu', 12, 17, '☕', 'Năng lượng buổi chiều', '☕ Chào buổi chiều! Tiếp tục giữ vững tinh thần và hoàn thành xuất sắc các mục tiêu hôm nay nhé 🎯'),
+ ('3120224052', 'toi', 18, 22, '🌙', 'Tối an yên', '🌙 Tối an yên nhé! Đừng quên vừa học vừa thư giãn để nạp lại năng lượng cho bản thân nha ☁️'),
+ ('3120224052', 'toi', 18, 22, '✨', 'Buổi tối thư thái', '✨ Buổi tối vui vẻ! Thư giãn thật tốt sau một ngày học tập và làm việc chăm chỉ nhé 🌟'),
+ ('3120224052', 'khuya', 23, 4, '🌌', 'Đêm khuya thanh tịnh', '🌌 Đã khuya rồi đấy! Đừng thức quá muộn nhé, nhớ ngủ sớm để giữ gìn sức khỏe nha 💤'),
+ ('3120224052', 'khuya', 23, 4, '🌠', 'Chúc ngủ ngon', '🌠 Chúc bạn một giấc ngủ thật ngon và những giấc mơ đẹp để nạp lại năng lượng cho ngày mai 🌙');
 
 -- Dữ liệu mẫu Phần B: Kỹ năng cá nhân của Nguyễn Tuấn Nhật Thanh (3120224132)
 INSERT INTO tv_thanh_ky_nang (mssv, nhom, ten_ky_nang, muc_do, bieu_tuong) VALUES

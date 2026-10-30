@@ -1,30 +1,128 @@
 /**
  * Các tương tác cho trang cá nhân Lê Trung Hậu (MSSV: 3120224052):
- * 1. Hiển thị lời chào theo thời gian (kết hợp đồng bộ với máy chủ PHP).
- * 2. Đếm lượt thích phía máy chủ (hỗ trợ AJAX mượt mà và form POST/PRG khi tắt JS).
- * 3. Tạo câu giới thiệu ngẫu nhiên (chuyển động mượt mà khi bật JS).
+ * 1. Đồng hồ thời gian thực và tự động cập nhật câu chào từ CSDL MySQL (bảng tv_hau_cau_chao).
+ * 2. Đổi câu chào ngẫu nhiên trong khung giờ từ CSDL (hỗ trợ AJAX và PHP fallback).
+ * 3. Thả tim & Đếm lượt thích thời gian thực lưu vào CSDL MySQL (bảng tv_hau_luot_thich).
+ * 4. Tạo câu giới thiệu ngẫu nhiên.
  */
 
-// 1. HIỂN THỊ LỜI CHÀO THEO THỜI GIAN
+// 1. ĐỒNG HỒ THỜI GIAN THỰC & CẬP NHẬT CÂU CHÀO TỪ CSDL
+const dongHoChuoi = document.querySelector('#dong-ho-chuoi');
 const loiChao = document.querySelector('#loi-chao');
+const huyHieuKhungGio = document.querySelector('#huy-hieu-khung-gio');
+let gioDaGhiNhan = new Date().getHours();
 
-function hienThiLoiChao() {
-    if (!loiChao) return;
+function layTenBuoi(gio) {
+    if (gio >= 5 && gio < 12) return 'Buổi sáng';
+    if (gio >= 12 && gio < 18) return 'Buổi chiều';
+    if (gio >= 18 && gio < 23) return 'Buổi tối';
+    return 'Đêm khuya';
+}
 
-    const gio = new Date().getHours();
+function capNhatDongHoThoiGianThuc() {
+    const bayGio = new Date();
+    const gio = bayGio.getHours();
+    const phut = String(bayGio.getMinutes()).padStart(2, '0');
+    const giay = String(bayGio.getSeconds()).padStart(2, '0');
+    const gioDinhDang = String(gio).padStart(2, '0');
 
-    if (gio >= 5 && gio < 12) {
-        loiChao.textContent = '☀️ Buổi sáng rạng rỡ nha! Chúc bạn ngày mới đầy ắp tiếng cười và lượm lặt thêm thật nhiều điều hay ho nè ✨';
-    } else if (gio >= 12 && gio < 18) {
-        loiChao.textContent = '🌤️ Chiều an lành nhé! Chúc bạn nạp đầy năng lượng và có buổi học thật vui nha ✨';
-    } else {
-        loiChao.textContent = '🌙 Tối an yên nhé! Đừng quên vừa học vừa thư giãn để nạp lại năng lượng cho bản thân nha ☁️';
+    if (dongHoChuoi) {
+        dongHoChuoi.textContent = `${gioDinhDang}:${phut}:${giay} - ${layTenBuoi(gio)} (Thời gian thực)`;
+    }
+
+    // Nếu bước sang khung giờ mới, tự động đồng bộ lại câu chào từ CSDL
+    if (gio !== gioDaGhiNhan) {
+        gioDaGhiNhan = gio;
+        taiCauChaoTuCSDL(gio);
     }
 }
 
-hienThiLoiChao();
+// Chạy đồng hồ mỗi giây
+setInterval(capNhatDongHoThoiGianThuc, 1000);
+capNhatDongHoThoiGianThuc();
 
-// 2. ĐẾM LƯỢT THÍCH MÁY CHỦ (PROGRESSIVE ENHANCEMENT)
+// 2. TẢI VÀ ĐỔI CÂU CHÀO TỪ CSDL MYSQL (AJAX)
+async function taiCauChaoTuCSDL(gioChiDinh) {
+    if (!loiChao) return;
+
+    try {
+        const gio = typeof gioChiDinh === 'number' ? gioChiDinh : new Date().getHours();
+        const res = await fetch(`gioithieu.php?action=lay_cau_chao&gio=${gio}`);
+        if (!res.ok) return;
+
+        const data = await res.json();
+        if (data && data.thanhCong && data.loiChao) {
+            loiChao.style.opacity = '0';
+            loiChao.style.transform = 'translateY(4px)';
+
+            setTimeout(() => {
+                loiChao.textContent = data.loiChao;
+                loiChao.style.opacity = '1';
+                loiChao.style.transform = 'translateY(0)';
+
+                if (huyHieuKhungGio && data.gioBatDau !== undefined && data.gioKetThuc !== undefined) {
+                    huyHieuKhungGio.textContent = `Khung giờ: ${data.gioBatDau}h - ${data.gioKetThuc}h`;
+                }
+
+                // Cập nhật dòng đang áp dụng trong bảng tra cứu CSDL (nếu có)
+                capNhatDongBangCSDL(gio);
+            }, 180);
+        }
+    } catch (err) {
+        console.warn('Không thể tải câu chào thời gian thực từ CSDL:', err);
+    }
+}
+
+function capNhatDongBangCSDL(gio) {
+    const cacDong = document.querySelectorAll('.bang-csdl tbody tr');
+    cacDong.forEach((tr) => {
+        tr.classList.remove('dong-hien-tai');
+        const huyHieu = tr.querySelector('.huy-hieu-dang-chay');
+        if (huyHieu) huyHieu.remove();
+    });
+
+    // Tìm dòng tương ứng với giờ hiện tại
+    cacDong.forEach((tr) => {
+        const tdKhung = tr.querySelector('td:nth-child(2)');
+        if (!tdKhung) return;
+        const text = tdKhung.textContent || '';
+        const match = text.match(/(\d+)h\s*-\s*(\d+)h/);
+        if (match) {
+            const start = parseInt(match[1], 10);
+            const end = parseInt(match[2], 10);
+            const laKhung = (start <= end)
+                ? (gio >= start && gio <= end)
+                : (gio >= start || gio <= end);
+            if (laKhung) {
+                tr.classList.add('dong-hien-tai');
+                const tdDau = tr.querySelector('td:first-child');
+                if (tdDau && !tdDau.querySelector('.huy-hieu-dang-chay')) {
+                    const tag = document.createElement('span');
+                    tag.className = 'huy-hieu-dang-chay';
+                    tag.textContent = 'Đang áp dụng';
+                    tag.title = 'Khung giờ hiện tại';
+                    tdDau.appendChild(tag);
+                }
+            }
+        }
+    });
+}
+
+// Nút Đổi câu chào CSDL
+const nutDoiCauChao = document.querySelector('#nut-doi-cau-chao');
+if (nutDoiCauChao) {
+    nutDoiCauChao.addEventListener('click', (e) => {
+        e.preventDefault();
+        const icon = nutDoiCauChao.querySelector('.nut-doi-cau-chao__bieu-tuong');
+        if (icon) {
+            icon.classList.add('xoay-vong');
+            setTimeout(() => icon.classList.remove('xoay-vong'), 500);
+        }
+        taiCauChaoTuCSDL(new Date().getHours());
+    });
+}
+
+// 3. ĐẾM LƯỢT THÍCH MÁY CHỦ MYSQL (PROGRESSIVE ENHANCEMENT)
 const formThich = document.querySelector('.form-thich');
 const nutThich = document.querySelector('#nut-thich');
 const soLuotThich = document.querySelector('#so-luot-thich');
@@ -32,7 +130,6 @@ const nhanThich = document.querySelector('.nut-thich__nhan');
 
 if (formThich && nutThich && soLuotThich) {
     formThich.addEventListener('submit', async (e) => {
-        // Tận dụng AJAX để tăng mượt không tải lại trang khi có JavaScript
         e.preventDefault();
 
         // Hiệu ứng nhịp tim
@@ -60,6 +157,9 @@ if (formThich && nutThich && soLuotThich) {
                         nhanThich.textContent = 'Đã thích';
                     }
                     nutThich.classList.add('nut-thich--da-thich');
+
+                    // Hiện thông báo cảm ơn mượt mà
+                    hienThongBaoCamOn('❤️ Cảm ơn bạn đã thả tim! Lượt thích đã được lưu an toàn vào CSDL MySQL.');
                 }
             } else {
                 formThich.submit();
@@ -70,7 +170,23 @@ if (formThich && nutThich && soLuotThich) {
     });
 }
 
-// 3. TẠO CÂU GIỚI THIỆU NGẪU NHIÊN
+function hienThongBaoCamOn(tinNhan) {
+    let tb = document.querySelector('.thong-bao-thich');
+    if (!tb) {
+        tb = document.createElement('p');
+        tb.className = 'thong-bao-thich';
+        tb.setAttribute('role', 'status');
+        tb.setAttribute('aria-live', 'polite');
+        const khungLoiChao = document.querySelector('.khung-loi-chao-csdl');
+        if (khungLoiChao && khungLoiChao.parentNode) {
+            khungLoiChao.parentNode.insertBefore(tb, khungLoiChao.nextSibling);
+        }
+    }
+    tb.textContent = tinNhan;
+    tb.style.display = 'block';
+}
+
+// 4. TẠO CÂU GIỚI THIỆU NGẪU NHIÊN
 const nutGioiThieu = document.querySelector('#nut-gioi-thieu');
 const cauGioiThieu = document.querySelector('#cau-gioi-thieu');
 

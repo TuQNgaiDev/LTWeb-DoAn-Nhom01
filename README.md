@@ -55,6 +55,7 @@ Mật khẩu chung: **matkhau123**.
 | Trang cá nhân Trần Văn Tú: Quản lý bảng điểm GPA & Thống kê đồ án CSDL | `thanhvien/3120224169_tu/gioithieu.php` | `tv_tu_bang_diem` |
 | Trang cá nhân Nguyễn Tuấn Nhật Thanh: Lọc kỹ năng & Tìm kiếm thời khóa biểu CSDL | `thanhvien/3120224132_thanh/gioithieu.php` | `tv_thanh_ky_nang`, `tv_thanh_tkb` |
 | Trang cá nhân Bhling Trường: Sổ lưu bút phân trang & Thống kê lượt xem CSDL | `thanhvien/3120124040_truong/gioithieu.php` | `tv_luu_but`, `tv_truong_luot_xem` |
+| Trang cá nhân Lê Trung Hậu: Thả tim & Đếm lượt thích và Câu chào theo thời gian thực CSDL | `thanhvien/3120224052_hau/gioithieu.php` | `tv_hau_luot_thich`, `tv_hau_cau_chao` |
 
 Các thao tác thêm, sửa, xóa và đổi trạng thái dùng POST. Trang quản trị kiểm tra vai trò ở máy chủ; truy vấn chi tiết đơn của khách luôn kèm `nguoi_dung_id`, nên ID đơn của người khác trả 404.
 

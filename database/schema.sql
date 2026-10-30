@@ -139,6 +139,35 @@ CREATE TABLE tv_tu_bang_diem (
         REFERENCES thanh_vien(mssv) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+-- Phần B: Thả tim & Đếm lượt thích cá nhân của Lê Trung Hậu (MSSV: 3120224052) - Lưu CSDL MySQL
+CREATE TABLE tv_hau_luot_thich (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    mssv CHAR(10) NOT NULL DEFAULT '3120224052',
+    ip_dia_chi VARCHAR(45) NULL,
+    user_agent VARCHAR(255) NULL,
+    thoi_gian DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    KEY idx_tv_hau_luot_thich_mssv (mssv),
+    CONSTRAINT fk_tv_hau_luot_thich_thanh_vien FOREIGN KEY (mssv)
+        REFERENCES thanh_vien(mssv) ON DELETE CASCADE
+ ) ENGINE=InnoDB;
+
+-- Phần B: Hệ thống câu chào theo thời gian thực của Lê Trung Hậu (MSSV: 3120224052) - Lưu CSDL MySQL
+CREATE TABLE tv_hau_cau_chao (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    mssv CHAR(10) NOT NULL DEFAULT '3120224052',
+    buoi ENUM('sang', 'chieu', 'toi', 'khuya') NOT NULL,
+    gio_bat_dau TINYINT UNSIGNED NOT NULL,
+    gio_ket_thuc TINYINT UNSIGNED NOT NULL,
+    bieu_tuong VARCHAR(20) NOT NULL DEFAULT '✨',
+    tieu_de VARCHAR(100) NOT NULL,
+    loi_chao VARCHAR(500) NOT NULL,
+    kich_hoat TINYINT(1) NOT NULL DEFAULT 1,
+    ngay_tao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    KEY idx_tv_hau_cau_chao_gio (mssv, gio_bat_dau, gio_ket_thuc, kich_hoat),
+    CONSTRAINT fk_tv_hau_cau_chao_thanh_vien FOREIGN KEY (mssv)
+        REFERENCES thanh_vien(mssv) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
 -- Phần B: Bảng kỹ năng cá nhân của Nguyễn Tuấn Nhật Thanh (MSSV: 3120224132) - Chức năng lọc CSDL
 CREATE TABLE tv_thanh_ky_nang (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -165,4 +194,3 @@ CREATE TABLE tv_thanh_tkb (
     CONSTRAINT fk_tv_thanh_tkb_thanh_vien FOREIGN KEY (mssv)
         REFERENCES thanh_vien(mssv) ON DELETE CASCADE
 ) ENGINE=InnoDB;
-
