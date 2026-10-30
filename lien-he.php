@@ -1,5 +1,5 @@
 <?php
-/** Đăng ký học liệu: kiểm tra ở máy chủ, upload ảnh, lưu JSONL và PRG. */
+/** Đăng ký học liệu: kiểm tra ở máy chủ, upload ảnh, lưu MySQL và PRG. */
 require __DIR__ . '/inc/config.php';
 $kho = khoGiaoTrinh();
 $du = array_fill_keys(['ho_ten', 'ma_sinh_vien', 'email_sv', 'so_dien_thoai', 'lop_hoc_phan', 'hinh_thuc', 'chon_giao_trinh', 'so_luong', 'ngay_hen', 'ghi_chu', 'cam_ket'], '');
@@ -15,17 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$loi) {
         $dich = $anh !== null ? __DIR__ . '/uploads/' . $anh['ten'] : null;
         if ($anh !== null && !move_uploaded_file($anh['tam'], $dich)) { throw new RuntimeException('Không lưu được ảnh tải lên.'); }
-        $gio = new App\Services\GioHang();
-        $donMua = [];
-        if ($du['hinh_thuc'] === 'mua') {
-            foreach ($gio->cacMuc() as $id => $sl) {
-                $sach = $kho->timTheoId((int) $id);
-                if ($sach !== null) { $donMua[] = ['id' => $sach->id, 'ten' => $sach->ten, 'soLuong' => $sl, 'donGia' => $sach->gia]; }
-            }
-        }
         try {
-            (new App\Data\KhoLienHe(__DIR__ . '/storage/lien-he.jsonl'))->them([
-                'thoiGian' => date('Y-m-d H:i:s'), ...$du, 'anh' => $anh['ten'] ?? null, 'gioHang' => $donMua,
+            (new App\Data\KhoLienHe(db()))->them([
+                'ho_ten' => $du['ho_ten'], 'ma_sinh_vien' => $du['ma_sinh_vien'],
+                'email_sv' => $du['email_sv'], 'so_dien_thoai' => $du['so_dien_thoai'],
+                'lop_hoc_phan' => $du['lop_hoc_phan'] === '' ? null : $du['lop_hoc_phan'],
+                'hinh_thuc' => $du['hinh_thuc'], 'chon_giao_trinh' => (int) $du['chon_giao_trinh'],
+                'so_luong' => (int) $du['so_luong'], 'ngay_hen' => $du['ngay_hen'],
+                'ghi_chu' => $du['ghi_chu'] === '' ? null : $du['ghi_chu'], 'anh' => $anh['ten'] ?? null,
             ]);
         } catch (Throwable $ex) { if ($dich !== null && is_file($dich)) { unlink($dich); } throw $ex; }
         flash('Đã gửi phiếu đăng ký thành công. Cảm ơn bạn!');
@@ -45,7 +42,7 @@ $truongNhap = [
 require __DIR__ . '/inc/header.php';
 ?>
 <main class="noi-dung-chinh"><h1>Đăng ký và liên hệ</h1>
-<p>Gửi yêu cầu mượn hoặc đặt mua giáo trình. Khi chọn đặt mua, phiếu lưu kèm các mục hiện có trong giỏ hàng để quản trị viên tiếp nhận.</p>
+<p>Gửi yêu cầu mượn hoặc liên hệ về giáo trình. Để mua các mục trong giỏ, dùng chức năng Đặt hàng.</p>
 <?php if ($tb): ?><p class="thong-bao-bieu-mau--thanh-cong" role="status"><?= e($tb) ?></p><?php endif; ?>
 <?php if ($loi): ?><p class="bieu-mau__loi" role="alert">Chưa gửi phiếu. Vui lòng kiểm tra các trường báo lỗi bên dưới.</p><?php endif; ?>
 <form id="bieu-mau-lien-he" class="bieu-mau" action="lien-he.php" method="post" enctype="multipart/form-data">

@@ -96,6 +96,6 @@ require __DIR__ . '/inc/header.php';
       </div>
       <noscript><p>Hãy bật JavaScript để xem dữ liệu thời tiết cập nhật.</p></noscript>
     </section>
-  <section><h2>Giáo trình tiêu biểu</h2><?php $danhSachThe = array_slice($kho->tatCa(), 0, 3); require __DIR__ . '/inc/danh-sach-the.php'; ?></section>
+  <section><h2>Giáo trình mới</h2><?php $danhSachThe = $kho->moiNhat(3); require __DIR__ . '/inc/danh-sach-the.php'; ?></section>
 <section><h2>Đã xem gần đây</h2><?php if (!$ganDay): ?><p>Bạn chưa xem giáo trình nào.</p><?php else: ?><?php $danhSachThe = $ganDay; require __DIR__ . '/inc/danh-sach-the.php'; ?><?php endif; ?></section></main>
 <?php require __DIR__ . '/inc/footer.php'; ?>

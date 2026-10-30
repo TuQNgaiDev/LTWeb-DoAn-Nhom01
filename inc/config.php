@@ -20,8 +20,13 @@ set_exception_handler(function (Throwable $loi): void {
 });
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/ham.php';
-$duongDanCookie = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/index.php'));
-$duongDanCookie = rtrim($duongDanCookie, '/') . '/';
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/xac-thuc.php';
+$thuMucDuAn = str_replace('\\', '/', (string) realpath(__DIR__ . '/..'));
+$thuMucWeb = str_replace('\\', '/', (string) realpath($_SERVER['DOCUMENT_ROOT'] ?? __DIR__ . '/..'));
+$duongDanCookie = str_starts_with($thuMucDuAn, $thuMucWeb) ? substr($thuMucDuAn, strlen($thuMucWeb)) : '';
+$duongDanCookie = '/' . trim($duongDanCookie, '/') . '/';
+$duongDanCookie = str_replace('//', '/', $duongDanCookie);
 if (session_status() !== PHP_SESSION_ACTIVE) {
     ini_set('session.use_strict_mode', '1');
     session_set_cookie_params(['httponly' => true, 'samesite' => 'Lax', 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', 'path' => $duongDanCookie]);

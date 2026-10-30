@@ -33,10 +33,19 @@ final class GioHang
     public function xoa(int $id): void { unset($_SESSION['gio'][$id]); }
     public function xoaHet(): void { $_SESSION['gio'] = []; }
     public function soMon(): int { return array_sum($_SESSION['gio']); }
+    public function chiTiet(KhoGiaoTrinh $kho): array
+    {
+        $soLuong = $this->cacMuc();
+        $ids = array_map('intval', array_keys($soLuong));
+        $ketQua = [];
+        foreach ($kho->timNhieuTheoId($ids) as $s) {
+            $sl = (int) ($soLuong[$s->id] ?? 0);
+            if ($sl > 0) { $ketQua[] = ['giaoTrinh' => $s, 'soLuong' => $sl, 'thanhTien' => $s->gia * $sl]; }
+        }
+        return $ketQua;
+    }
     public function tongTien(KhoGiaoTrinh $kho): int
     {
-        $tong = 0;
-        foreach ($this->cacMuc() as $id => $sl) { $tong += ($kho->timTheoId((int) $id)?->gia ?? 0) * $sl; }
-        return $tong;
+        return array_sum(array_column($this->chiTiet($kho), 'thanhTien'));
     }
 }

@@ -1,0 +1,10 @@
+<?php /** Biểu mẫu dùng chung cho thêm và sửa giáo trình. */ ?>
+<form class="bieu-mau" action="<?= e($hanhDong) ?>" method="post" enctype="multipart/form-data">
+<?php foreach (['ma' => ['Mã giáo trình','text'], 'ten' => ['Tên giáo trình','text'], 'tac_gia' => ['Tác giả','text'], 'nam_xuat_ban' => ['Năm xuất bản','number'], 'nha_xuat_ban' => ['Nhà xuất bản','text'], 'gia' => ['Giá bán','number'], 'gia_goc' => ['Giá gốc','number'], 'ton_kho' => ['Tồn kho','number'], 'so_trang' => ['Số trang','number']] as $key => [$nhan,$type]): ?>
+<div class="bieu-mau__nhom"><label for="<?= e($key) ?>"><?= e($nhan) ?></label><input class="bieu-mau__o-nhap" id="<?= e($key) ?>" name="<?= e($key) ?>" type="<?= e($type) ?>" value="<?= e($f[$key] ?? '') ?>" required aria-describedby="loi-<?= e($key) ?>"><p id="loi-<?= e($key) ?>" class="bieu-mau__loi"><?= e($loi[$key] ?? '') ?></p></div>
+<?php endforeach; ?>
+<div class="bieu-mau__nhom"><label for="danh_muc_id">Danh mục</label><select class="bieu-mau__o-nhap" id="danh_muc_id" name="danh_muc_id" required><option value="">Chọn danh mục</option><?php foreach ($danhMuc as $d): ?><option value="<?= e($d['id']) ?>" <?= (string) ($f['danh_muc_id'] ?? '') === (string) $d['id'] ? 'selected' : '' ?>><?= e($d['ten']) ?></option><?php endforeach; ?></select><p class="bieu-mau__loi"><?= e($loi['danh_muc_id'] ?? '') ?></p></div>
+<div class="bieu-mau__nhom"><label for="mo_ta">Mô tả</label><textarea class="bieu-mau__o-nhap" id="mo_ta" name="mo_ta" maxlength="2000" rows="5"><?= e($f['mo_ta'] ?? '') ?></textarea><p class="bieu-mau__loi"><?= e($loi['mo_ta'] ?? '') ?></p></div>
+<div class="bieu-mau__nhom"><label for="anh">Ảnh đại diện</label><input id="anh" name="anh" type="file" accept="image/jpeg,image/png,image/webp"><p>JPG, PNG hoặc WebP, tối đa 2 MB. Bỏ trống để dùng ảnh hiện tại.</p><p class="bieu-mau__loi"><?= e($loi['anh'] ?? '') ?></p></div>
+<button class="nut nut--chinh" type="submit"><?= e($nutGui) ?></button> <a href="quan-tri.php">Hủy</a>
+</form>

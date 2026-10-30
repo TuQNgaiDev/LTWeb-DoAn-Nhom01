@@ -7,6 +7,7 @@ $trang ??= '';
 $cssThem ??= [];
 $dataGiaoDien ??= '';
 $gioDauTrang = new App\Services\GioHang();
+$nguoiDungDauTrang = nguoiDung();
 $menu = ['index' => 'Trang chủ', 'danh-sach' => 'Danh mục giáo trình', 'gioi-thieu' => 'Giới thiệu nhóm', 'lien-he' => 'Đăng ký & Liên hệ'];
 ?>
 <!DOCTYPE html>
@@ -33,12 +34,15 @@ $menu = ['index' => 'Trang chủ', 'danh-sach' => 'Danh mục giáo trình', 'gi
     <?php foreach ($menu as $tep => $nhan): ?>
     <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc . $tep) ?>.php" <?= $trang === $tep ? 'aria-current="page"' : '' ?>><?= e($nhan) ?></a></li>
     <?php endforeach; ?>
-    <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc) ?>gio-hang.php" <?= $trang === 'gio-hang' ? 'aria-current="page"' : '' ?>>Giỏ hàng (<?= e($gioDauTrang->soMon()) ?>)</a></li>
-    <?php if (isset($_SESSION['user'])): ?>
-    <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc) ?>quan-tri.php" <?= $trang === 'quan-tri' ? 'aria-current="page"' : '' ?>>Quản trị · <?= e($_SESSION['user']) ?></a></li>
-    <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc) ?>dang-xuat.php">Đăng xuất</a></li>
+    <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc) ?>gio-hang.php" <?= $trang === 'gio-hang' ? 'aria-current="page"' : '' ?>>Giỏ hàng (<span data-so-mon><?= e($gioDauTrang->soMon()) ?></span>)</a></li>
+    <?php if ($nguoiDungDauTrang !== null): ?>
+    <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc) ?>don-hang.php" <?= $trang === 'don-hang' ? 'aria-current="page"' : '' ?>>Đơn hàng</a></li>
+    <?php if ($nguoiDungDauTrang['vai_tro'] === 'quan_tri'): ?><li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc) ?>quan-tri.php" <?= $trang === 'quan-tri' ? 'aria-current="page"' : '' ?>>Quản trị</a></li><?php endif; ?>
+    <li class="thanh-dieu-huong__muc"><span class="thanh-dieu-huong__lien-ket"><?= e($nguoiDungDauTrang['ho_ten']) ?></span></li>
+    <li class="thanh-dieu-huong__muc"><form action="<?= e($goc) ?>dang-xuat.php" method="post"><button class="thanh-dieu-huong__lien-ket nut-dang-xuat" type="submit">Đăng xuất</button></form></li>
     <?php else: ?>
     <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc) ?>dang-nhap.php" <?= $trang === 'dang-nhap' ? 'aria-current="page"' : '' ?>>Đăng nhập</a></li>
+    <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc) ?>dang-ky.php">Đăng ký</a></li>
     <?php endif; ?>
   </ul>
 </nav>

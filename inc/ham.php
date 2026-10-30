@@ -33,16 +33,15 @@ function flash(?string $noiDung = null): string
 }
 function khoGiaoTrinh(): App\Data\KhoGiaoTrinh
 {
-    return new App\Data\KhoGiaoTrinh(__DIR__ . '/../data/giao-trinh.json');
+    return new App\Data\KhoGiaoTrinh(db());
 }
 function daXem(App\Data\KhoGiaoTrinh $kho): array
 {
-    $ketQua = [];
+    $ids = [];
     foreach (explode(',', substr(chuoi($_COOKIE, 'da_xem'), 0, 200)) as $x) {
         $id = soNguyen($x);
-        $sp = $id !== null ? $kho->timTheoId($id) : null;
-        if ($sp !== null) { $ketQua[$id] = $sp; }
-        if (count($ketQua) === 4) { break; }
+        if ($id !== null && !in_array($id, $ids, true)) { $ids[] = $id; }
+        if (count($ids) === 4) { break; }
     }
-    return array_values($ketQua);
+    return $kho->timNhieuTheoId($ids);
 }

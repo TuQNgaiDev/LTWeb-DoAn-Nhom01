@@ -23,7 +23,13 @@ fieldset { min-width: 0; }
 .nut { white-space: normal; }
 .bo-loc-giao-trinh { grid-template-columns: 1fr; }
 .bo-loc-giao-trinh > div { min-width: 0; }
+.phan-trang { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; }
+.phan-trang a { display: inline-block; min-width: 40px; padding: 8px; border: 1px solid #cbd5e1; border-radius: 8px; text-align: center; }
+.phan-trang a[aria-current="page"] { color: #fff; background: #1d4ed8; }
+.form-noi-dong { display: inline; }
+.nut-dang-xuat { border: 0; background: transparent; cursor: pointer; }
+.thanh-dieu-huong form { margin: 0; }
 @media (min-width: 768px) {
   .chi-tiet-php { grid-template-columns: 240px minmax(0, 1fr); }
-  .bo-loc-giao-trinh { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); }
+  .bo-loc-giao-trinh { grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr)); }
 }

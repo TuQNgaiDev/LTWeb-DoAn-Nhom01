@@ -1,0 +1,46 @@
+@goc = http://localhost:8000
+
+### 1. Tìm kiếm - 200
+GET {{goc}}/api/giao-trinh.php?q=giao
+
+### 2. Xem một giáo trình - 200
+GET {{goc}}/api/giao-trinh.php?id=1
+
+### 3. ID không có - 404
+GET {{goc}}/api/giao-trinh.php?id=999999
+
+### 4. Xem giỏ - 200
+GET {{goc}}/api/gio-hang.php
+
+### 5. Thêm vào giỏ - 200
+POST {{goc}}/api/gio-hang.php
+Content-Type: application/json
+
+{"id": 1, "sl": 2}
+
+### 6. Thân không phải JSON - 400
+POST {{goc}}/api/gio-hang.php
+Content-Type: application/json
+
+{id: 1}
+
+### 7. Số lượng âm - 422
+POST {{goc}}/api/gio-hang.php
+Content-Type: application/json
+
+{"id": 1, "sl": -3}
+
+### 8. ID không có - 404
+POST {{goc}}/api/gio-hang.php
+Content-Type: application/json
+
+{"id": 999999, "sl": 1}
+
+### 9. Vượt tồn kho - 422
+POST {{goc}}/api/gio-hang.php
+Content-Type: application/json
+
+{"id": 1, "sl": 99}
+
+### 10. Sai phương thức - 405, Allow: GET, POST
+DELETE {{goc}}/api/gio-hang.php
