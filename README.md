@@ -52,7 +52,8 @@ Mật khẩu chung: **matkhau123**.
 | CRUD giáo trình, xem liên hệ | `quan-tri.php` | `them-giao-trinh.php`, `sua-giao-trinh.php`, `xoa-giao-trinh.php` |
 | Đặt hàng trong giao dịch | `dat-hang.php` | `src/Data/KhoDonHang.php` |
 | Đơn của tôi; quản trị mọi đơn/trạng thái | `don-hang.php` | `don-hang.php`, `src/Data/KhoDonHang.php` |
-| Trang cá nhân Trần Văn Tú: Sổ lưu bút phân trang & thống kê lượt xem CSDL | `thanhvien/3120224169_tu/gioithieu.php` | `tv_luu_but`, `tv_tu_luot_xem` |
+| Trang cá nhân Trần Văn Tú: Quản lý bảng điểm GPA & Thống kê đồ án CSDL | `thanhvien/3120224169_tu/gioithieu.php` | `tv_tu_bang_diem` |
+| Trang cá nhân Bhling Trường: Sổ lưu bút phân trang & Thống kê lượt xem CSDL | `thanhvien/3120124040_truong/gioithieu.php` | `tv_luu_but`, `tv_truong_luot_xem` |
 
 Các thao tác thêm, sửa, xóa và đổi trạng thái dùng POST. Trang quản trị kiểm tra vai trò ở máy chủ; truy vấn chi tiết đơn của khách luôn kèm `nguoi_dung_id`, nên ID đơn của người khác trả 404.
 
