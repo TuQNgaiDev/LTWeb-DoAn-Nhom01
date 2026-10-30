@@ -123,15 +123,6 @@ require __DIR__ . '/../../inc/header.php';
 
 <main class="noi-dung-chinh">
 
-  <!-- Breadcrumb điều hướng đồng bộ -->
-  <nav class="duong-dan" aria-label="Đường dẫn trang">
-    <ol class="duong-dan__danh-sach">
-      <li class="duong-dan__muc"><a class="duong-dan__lien-ket" href="../../index.php">Trang chủ</a></li>
-      <li class="duong-dan__muc"><a class="duong-dan__lien-ket" href="../../gioi-thieu.php">Giới thiệu nhóm</a></li>
-      <li class="duong-dan__muc" aria-current="page">Nguyễn Tuấn Nhật Thanh</li>
-    </ol>
-  </nav>
-
   <!-- Thông báo Flash (PRG) -->
   <?php if (!empty($_SESSION['flash'])): ?>
     <div class="thong-bao-flash thong-bao-flash--thanh-cong" role="status" aria-live="polite">
