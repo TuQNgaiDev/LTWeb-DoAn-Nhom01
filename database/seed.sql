@@ -127,3 +127,23 @@ INSERT INTO tv_hau_cau_chao (mssv, buoi, gio_bat_dau, gio_ket_thuc, bieu_tuong, 
  ('3120224052', 'toi', 18, 22, '✨', 'Buổi tối thư thái', '✨ Buổi tối vui vẻ! Thư giãn thật tốt sau một ngày học tập và làm việc chăm chỉ nhé 🌟'),
  ('3120224052', 'khuya', 23, 4, '🌌', 'Đêm khuya thanh tịnh', '🌌 Đã khuya rồi đấy! Đừng thức quá muộn nhé, nhớ ngủ sớm để giữ gìn sức khỏe nha 💤'),
  ('3120224052', 'khuya', 23, 4, '🌠', 'Chúc ngủ ngon', '🌠 Chúc bạn một giấc ngủ thật ngon và những giấc mơ đẹp để nạp lại năng lượng cho ngày mai 🌙');
+
+
+-- Phần B: Dữ liệu mẫu lọc kỹ năng theo nhóm của Nguyễn Tuấn Nhật Thanh (MSSV: 3120224132)
+INSERT INTO tv_thanh_ky_nang
+(mssv, ten_ky_nang, nhom_ky_nang, muc_do, mo_ta)
+VALUES
+('3120224132', 'HTML', 'Lập trình Web', 'Khá', 'Xây dựng cấu trúc website'),
+('3120224132', 'CSS', 'Lập trình Web', 'Khá', 'Thiết kế giao diện'),
+('3120224132', 'PHP', 'Lập trình Web', 'Cơ bản', 'Lập trình phía máy chủ'),
+('3120224132', 'MySQL', 'Cơ sở dữ liệu', 'Khá', 'Quản lý dữ liệu'),
+('3120224132', 'Git', 'Công cụ', 'Khá', 'Quản lý mã nguồn');
+
+-- Phần B: Dữ liệu mẫu tìm kiếm môn học trong TKB của Nguyễn Tuấn Nhật Thanh (MSSV: 3120224132)
+INSERT INTO tv_thanh_ky_nang
+INSERT INTO tv_thanh_tkb
+(mssv, ma_mon_hoc, ten_mon_hoc, thu, tiet_bat_dau, so_tiet, phong_hoc, giang_vien)
+VALUES
+('3120224132', 'WEB01', 'Thiết kế và Lập trình Web', 2, 1, 3, 'A101', 'Giảng viên A'),
+('3120224132', 'CNPM01', 'Công nghệ phần mềm', 3, 4, 3, 'B202', 'Giảng viên B'),
+('3120224132', 'CSDL01', 'Cơ sở dữ liệu', 4, 1, 3, 'A203', 'Giảng viên C');

@@ -6,7 +6,7 @@
  */
 
 
-declare(strict_types=1);
+declare(strict_types=1);    
 
 
 $goc = '../../';
@@ -18,7 +18,7 @@ $tieuDe = 'Trang giới thiệu cá nhân - Nguyễn Tuấn Nhật Thanh';
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'
-    && ($_POST['form_type'] ?? '') === 'loi_nhan') {
+    && ($_POST['form_type'] ?? '') === 'loi_nhan'   ) {
 
     $loiNhan = trim($_POST['loi_nhan'] ?? '');
 
