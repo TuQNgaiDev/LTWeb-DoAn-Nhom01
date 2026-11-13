@@ -45,18 +45,32 @@ $loiBangDiem = [];
 $duBangDiem = ['ten_hoc_phan' => '', 'so_tin_chi' => '3', 'a1' => '', 'a2' => '', 'a3' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $laThaoTacBangDiem = isset($_POST['xoa_mon_hoc']) || isset($_POST['them_mon_hoc']);
+    if ($laThaoTacBangDiem && !$laChuTrang) {
+        ghiNhatKyBaoMat('cam_truy_cap', [
+            'chuc_nang' => isset($_POST['xoa_mon_hoc']) ? 'tu_xoa_mon_hoc' : 'tu_them_mon_hoc',
+            'nguoi_dung_id' => (int) ($ndHienTai['id'] ?? 0),
+        ]);
+        $thongBao403 = 'Chỉ chủ trang Trần Văn Tú được thay đổi bảng điểm.';
+        require __DIR__ . '/../../403.php';
+        exit;
+    }
+
     // 1.1 Xóa môn học (chỉ chủ trang đăng nhập mới được xóa)
     if (isset($_POST['xoa_mon_hoc'])) {
         $xoaId = soNguyen($_POST['xoa_id'] ?? null);
-        if ($xoaId && $laChuTrang) {
+        if ($xoaId !== null) {
             $stXoa = db()->prepare('DELETE FROM tv_tu_bang_diem WHERE id = ? AND mssv = ?');
             $stXoa->execute([$xoaId, MSSV]);
-            $_SESSION['flash'] = 'Đã xóa môn học thành công khỏi bảng điểm.';
-        } elseif (!$laChuTrang) {
-            $_SESSION['flash_loi'] = 'Bạn không có quyền xóa môn học này.';
+            if ($stXoa->rowCount() === 1) {
+                $_SESSION['flash'] = 'Đã xóa môn học thành công khỏi bảng điểm.';
+            } else {
+                $_SESSION['flash_loi'] = 'Không tìm thấy học phần thuộc bảng điểm của Trần Văn Tú.';
+            }
+        } else {
+            $_SESSION['flash_loi'] = 'Mã học phần không hợp lệ.';
         }
         chuyenHuong('gioithieu.php#bang-diem-csdl');
-        exit;
     }
 
     // 1.2 Thêm môn học và tính điểm mới
@@ -77,13 +91,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $loiBangDiem['so_tin_chi'] = 'Số tín chỉ từ 1 đến 10.';
         }
 
-        if ($a1 === false || $a1 < 0 || $a1 > 10) {
+        if ($a1 === false || !is_finite((float) $a1) || $a1 < 0 || $a1 > 10) {
             $loiBangDiem['a1'] = 'Điểm A1 từ 0 đến 10.';
         }
-        if ($a2 === false || $a2 < 0 || $a2 > 10) {
+        if ($a2 === false || !is_finite((float) $a2) || $a2 < 0 || $a2 > 10) {
             $loiBangDiem['a2'] = 'Điểm A2 từ 0 đến 10.';
         }
-        if ($a3 === false || $a3 < 0 || $a3 > 10) {
+        if ($a3 === false || !is_finite((float) $a3) || $a3 < 0 || $a3 > 10) {
             $loiBangDiem['a3'] = 'Điểm A3 từ 0 đến 10.';
         }
 
@@ -358,7 +372,8 @@ require __DIR__ . '/../../inc/header.php';
         </div>
       </div>
 
-      <!-- Form nhập môn học mới -->
+      <!-- Form nhập môn học mới: chỉ chủ trang được thay đổi dữ liệu -->
+      <?php if ($laChuTrang): ?>
       <form class="bieu-mau bieu-mau--cach-tren" action="gioithieu.php#bang-diem-csdl" method="post" novalidate>
         <?= csrfField() ?>
         <input type="hidden" name="them_mon_hoc" value="1">
@@ -419,6 +434,11 @@ require __DIR__ . '/../../inc/header.php';
 
         <button class="nut nut--chinh tu-csp-11" type="submit">Lưu học phần vào CSDL</button>
       </form>
+      <?php else: ?>
+        <p class="thong-bao-flash thong-bao-flash--loi" role="status">
+          Bạn chỉ có quyền xem bảng điểm. Hãy đăng nhập tài khoản chủ trang để thêm hoặc xóa học phần.
+        </p>
+      <?php endif; ?>
 
       <!-- Bảng danh sách môn học từ CSDL -->
       <div class="bang-cuon tu-csp-12">
