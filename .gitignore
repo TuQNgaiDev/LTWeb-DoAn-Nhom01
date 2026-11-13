@@ -3,6 +3,7 @@
 ~$*
 **/~$*
 /vendor/
+/.env
 /logs/*
 !/logs/.htaccess
 /storage/*
@@ -12,6 +13,7 @@
 !/uploads/.htaccess
 /output/
 /bao-cao/
-/tests/
+/tests/*
+!/tests/bao-mat.sh
 /scratch/
 *.zip

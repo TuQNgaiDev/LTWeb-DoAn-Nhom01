@@ -1,0 +1,15 @@
+Options -Indexes
+ServerSignature Off
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^uploads/?$ - [F,L,NC]
+RewriteRule (^|/)\. - [R=404,L]
+RewriteRule ^(inc|src|vendor|database|logs|storage)(/|$) - [R=404,L,NC]
+RewriteRule \.(sql|log|bak|ini|lock)$ - [F,L,NC]
+RewriteRule (^|/)composer\.json$ - [F,L,NC]
+</IfModule>
+
+<FilesMatch "(\.(sql|log|bak|ini|lock)$|^composer\.json$)">
+Require all denied
+</FilesMatch>

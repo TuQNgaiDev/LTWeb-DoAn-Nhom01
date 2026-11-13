@@ -1,7 +1,5 @@
 <?php
-/** Tạo và dùng lại một kết nối PDO tới CSDL ltweb_nhom01.
- * Cấu hình mặc định khớp XAMPP: root, mật khẩu rỗng, MySQL cổng 3306.
- */
+/** Tạo và dùng lại một kết nối PDO từ cấu hình .env. */
 declare(strict_types=1);
 
 function db(): PDO
@@ -12,9 +10,14 @@ function db(): PDO
     }
 
     $ketNoi = new PDO(
-        'mysql:host=127.0.0.1;port=3306;dbname=ltweb_nhom01;charset=utf8mb4',
-        'root',
-        '',
+        sprintf(
+            'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
+            $_ENV['DB_HOST'] ?? '127.0.0.1',
+            $_ENV['DB_PORT'] ?? '3306',
+            $_ENV['DB_DATABASE'] ?? 'ltweb_nhom01'
+        ),
+        $_ENV['DB_USERNAME'] ?? 'root',
+        $_ENV['DB_PASSWORD'] ?? '',
         [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

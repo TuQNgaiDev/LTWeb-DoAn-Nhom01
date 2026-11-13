@@ -280,3 +280,44 @@ a:focus-visible, button:focus-visible {
     gap: 12px;
   }
 }
+
+/* Lớp tách từ style nội tuyến để tuân thủ CSP Chương 7. */
+.truong-csp-1 { margin-top: 10px; }
+.truong-csp-2 { margin: 25px 0; padding: 20px; border-radius: 8px; background: #f8fafc; border: 1px solid #e2e8f0; }
+.truong-csp-3 { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 16px; }
+.truong-csp-4 { background: #ffffff; padding: 12px 18px; border-radius: 6px; border-left: 4px solid #0284c7; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.truong-csp-5 { font-size: 0.9rem; color: #64748b; display: block; }
+.truong-csp-6 { color: #0284c7; font-size: 1.5rem; }
+.truong-csp-7 { background: #ffffff; padding: 12px 18px; border-radius: 6px; border-left: 4px solid #16a34a; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.truong-csp-8 { color: #16a34a; font-size: 1.5rem; }
+.truong-csp-9 { margin: 0 0 12px; font-size: 0.9rem; color: #64748b; }
+.truong-csp-10 { font-size: 1.05rem; margin-bottom: 8px; color: #334155; }
+.truong-csp-11 { max-width: 480px; }
+.truong-csp-12 { width: 100%; border-collapse: collapse; background: #ffffff; border-radius: 6px; overflow: hidden; font-size: 0.95rem; }
+.truong-csp-13 { background: #e2e8f0; color: #1e293b; text-align: left; }
+.truong-csp-14 { padding: 8px 12px; border-bottom: 1px solid #cbd5e1; }
+.truong-csp-15 { padding: 8px 12px; border-bottom: 1px solid #cbd5e1; text-align: right; }
+.truong-csp-16 { padding: 10px 12px; text-align: center; color: #94a3b8; }
+.truong-csp-17 { border-bottom: 1px solid #f1f5f9; }
+.truong-csp-18 { padding: 8px 12px; }
+.truong-csp-19 { padding: 8px 12px; text-align: right; font-weight: bold; color: #0284c7; }
+.truong-csp-20 { padding: 10px 14px; background: #dcfce7; color: #166534; border-radius: 4px; font-weight: bold; }
+.truong-csp-21 { padding: 10px 14px; background: #fee2e2; color: #991b1b; border-radius: 4px; font-weight: bold; }
+.truong-csp-22 { margin-bottom: 12px; }
+.truong-csp-23 { display: block; font-weight: bold; margin-bottom: 4px; }
+.truong-csp-24 { width: 100%; max-width: 450px; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 4px; }
+.truong-csp-25 { width: 100%; max-width: 550px; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 4px; }
+.truong-csp-26 { padding: 8px 20px; cursor: pointer; border-radius: 4px; }
+.truong-csp-27 { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 15px; }
+.truong-csp-28 { margin: 0; }
+.truong-csp-29 { font-size: 0.9rem; color: #64748b; }
+.truong-csp-30 { font-style: italic; color: #64748b; }
+.truong-csp-31 { list-style: none; padding-left: 0; margin: 0 0 20px 0; }
+.truong-csp-32 { border-bottom: 1px dashed #cbd5e1; padding: 12px 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; }
+.truong-csp-33 { flex: 1; }
+.truong-csp-34 { color: #1e293b; font-size: 1rem; }
+.truong-csp-35 { font-size: 0.85rem; color: #64748b; margin-left: 6px; }
+.truong-csp-36 { margin: 6px 0 0; color: #334155; line-height: 1.5; }
+.truong-csp-37 { padding: 4px 8px; font-size: 0.8rem; color: #b91c1c; border-color: #fca5a5; background: #fff; }
+.truong-csp-38 { display: flex; gap: 6px; align-items: center; justify-content: center; margin-top: 15px; }
+.truong-csp-39 { padding: 6px 12px; font-size: 0.9rem; }

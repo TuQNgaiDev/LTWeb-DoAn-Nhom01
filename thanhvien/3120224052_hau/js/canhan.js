@@ -52,13 +52,11 @@ async function taiCauChaoTuCSDL(gioChiDinh) {
 
         const data = await res.json();
         if (data && data.thanhCong && data.loiChao) {
-            loiChao.style.opacity = '0';
-            loiChao.style.transform = 'translateY(4px)';
+            loiChao.classList.add('dang-doi-noi-dung');
 
             setTimeout(() => {
                 loiChao.textContent = data.loiChao;
-                loiChao.style.opacity = '1';
-                loiChao.style.transform = 'translateY(0)';
+                loiChao.classList.remove('dang-doi-noi-dung');
 
                 if (huyHieuKhungGio && data.gioBatDau !== undefined && data.gioKetThuc !== undefined) {
                     huyHieuKhungGio.textContent = `Khung giờ: ${data.gioBatDau}h - ${data.gioKetThuc}h`;
@@ -140,11 +138,13 @@ if (formThich && nutThich && soLuotThich) {
             const formData = new URLSearchParams();
             formData.append('thich_trang', '1');
             formData.append('ajax', '1');
+            formData.append('csrf', document.querySelector('meta[name="csrf-token"]')?.content || '');
 
             const res = await fetch('gioithieu.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content || '',
                 },
                 body: formData.toString(),
             });
@@ -183,7 +183,7 @@ function hienThongBaoCamOn(tinNhan) {
         }
     }
     tb.textContent = tinNhan;
-    tb.style.display = 'block';
+    tb.classList.add('hien-thi');
 }
 
 // 4. TẠO CÂU GIỚI THIỆU NGẪU NHIÊN
@@ -213,10 +213,10 @@ if (nutGioiThieu && cauGioiThieu) {
         viTriHienTai = viTriMoi;
 
         // Hiệu ứng mờ dần và hiện câu mới
-        cauGioiThieu.style.opacity = '0';
+        cauGioiThieu.classList.add('dang-doi-noi-dung');
         setTimeout(() => {
             cauGioiThieu.textContent = danhSachGioiThieu[viTriHienTai];
-            cauGioiThieu.style.opacity = '1';
+            cauGioiThieu.classList.remove('dang-doi-noi-dung');
         }, 150);
     });
 }

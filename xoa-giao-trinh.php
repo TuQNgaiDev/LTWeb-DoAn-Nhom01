@@ -2,8 +2,9 @@
 /** Xóa giáo trình chỉ bằng POST; bắt lỗi khóa ngoại khi đã có trong đơn.
  * GET nhận 405 và không thay đổi dữ liệu.
  */
-require __DIR__ . '/inc/config.php'; yeuCauQuyen('quan_tri');
+require __DIR__ . '/inc/config.php';
 if($_SERVER['REQUEST_METHOD']!=='POST'){http_response_code(405);header('Allow: POST');echo 'Chỉ chấp nhận POST.';exit;}
+yeuCauQuyen('quan_tri');
 $id=soNguyen($_POST['id']??null);
 if($id===null){flash('ID giáo trình không hợp lệ.');chuyenHuong('quan-tri.php');}
 try{khoGiaoTrinh()->xoa($id);flash('Đã xóa giáo trình #'.$id.'.');}

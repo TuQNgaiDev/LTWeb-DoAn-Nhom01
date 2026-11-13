@@ -1,15 +1,16 @@
-# UEDBookHub - Bài tập nhóm 6
+# UEDBookHub - Bài tập nhóm 7, Phần A
 
-Website PHP thuần của Nhóm 01 dùng MySQL qua PDO để quản lý giáo trình, tài khoản, liên hệ và đơn hàng. Mã nguồn không dùng framework, ORM hoặc query builder.
+Website PHP thuần của Nhóm 01 dùng MySQL qua PDO để quản lý giáo trình, tài khoản, liên hệ và đơn hàng. Phiên bản Chương 7 bổ sung CSRF, CSP, session an toàn, `.env`, phân quyền CSDL tối thiểu, chống dò mật khẩu và nhật ký bảo mật.
 
 ## Cài đặt và chạy
 
-Cần PHP 8.1 trở lên (bật `pdo_mysql`, `mbstring`, `fileinfo`), MySQL 8 hoặc MariaDB 10.4 trở lên và Composer 2. Cấu hình mặc định trong `inc/db.php` dùng máy chủ `127.0.0.1:3306`, tài khoản `root`, mật khẩu rỗng như XAMPP.
+Cần PHP 8.1 trở lên (bật `pdo_mysql`, `mbstring`, `fileinfo`), MySQL 8 hoặc MariaDB 10.4 trở lên và Composer 2. Cấu hình mẫu trong `.env.example` dùng máy chủ `127.0.0.1:3306`, tài khoản `root`, mật khẩu rỗng như XAMPP.
 
-1. Cài thư viện và autoload:
+1. Cài thư viện, sao chép cấu hình cục bộ (không commit `.env`):
 
    ```sh
    composer install
+   cp .env.example .env
    ```
 
 2. Tạo lại CSDL từ đầu, rồi nạp dữ liệu mẫu:
@@ -27,7 +28,21 @@ Cần PHP 8.1 trở lên (bật `pdo_mysql`, `mbstring`, `fileinfo`), MySQL 8 ho
    php -S localhost:8000
    ```
 
-Với XAMPP, chép kho vào `htdocs/ltweb-doan-nhom01`, thực hiện hai bước import rồi mở `http://localhost/ltweb-doan-nhom01/`. PHP cần quyền ghi `logs/` và `uploads/`. Giữ `MOI_TRUONG = 'dev'` trong `inc/config.php` khi nộp bài.
+Với XAMPP, chép kho vào `htdocs/ltweb-doan-nhom01`, thực hiện hai bước import rồi mở `http://localhost/ltweb-doan-nhom01/`. PHP cần quyền ghi `logs/` và `uploads/`. Cấu hình kết nối nằm trong `.env`; đặt `APP_DEBUG=false` khi trình diễn/triển khai. Khi triển khai, chạy `database/tai-khoan.sql`, thay mật khẩu giữ chỗ và dùng `DB_USERNAME=nhom01_app` để ứng dụng chỉ có quyền cần thiết.
+
+## Biện pháp bảo mật Chương 7
+
+| Biện pháp | Tệp chính | Slide |
+|---|---|---:|
+| CSRF cho mọi POST form và fetch | `inc/csrf.php`, `inc/config.php`, `inc/header.php` | 23–24 |
+| Session/cookie an toàn, hết hạn 30 phút | `inc/config.php`, `inc/xac-thuc.php` | 25 |
+| CSP và security headers, không inline | `inc/config.php`, các tệp CSS/JS ngoài | 22, 26–27 |
+| Bí mật trong `.env` | `.env.example`, `inc/db.php` | 29 |
+| Chặn truy cập tệp/thư mục nhạy cảm | `.htaccess`, `uploads/.htaccess` | 28, 30 |
+| Tài khoản CSDL quyền tối thiểu | `database/tai-khoan.sql` | 20 |
+| Khóa 5 lần sai/15 phút và ghi log | `dang-nhap.php`, `dang_nhap_sai`, `logs/bao-mat.log` | 31–32 |
+
+Nội dung tương ứng các slide 22–32 của `Slide_Chuong7_BaoMat.pptx`. Không có URL đăng nhập nhanh hoặc cơ chế đổi quyền qua tham số GET.
 
 ## Tài khoản thử
 
@@ -68,7 +83,7 @@ Các thao tác thêm, sửa, xóa và đổi trạng thái dùng POST. Trang qu�
 | GET | `/api/gio-hang.php` | Giỏ, tổng số món và tổng tiền |
 | POST | `/api/gio-hang.php` với `{"id":1,"sl":2}` | Thêm vào giỏ hoặc 400/404/422 |
 
-Mở `api.http` bằng REST Client để chạy các request mẫu và trường hợp lỗi. API chỉ trả JSON, dùng các mã 200, 400, 404, 405, 422 và 500; endpoint thay đổi dữ liệu không nhận GET.
+Mở `api.http` bằng REST Client để chạy các request mẫu và trường hợp lỗi. Trước POST API, lấy cookie và token từ trang có thẻ meta CSRF rồi gửi header `X-CSRF-Token`. API trả thêm mã 403 cho token sai/thiếu.
 
 ## CSDL và quy tắc chính
 
@@ -76,12 +91,12 @@ Mở `api.http` bằng REST Client để chạy các request mẫu và trường
 
 Mọi dữ liệu người dùng đi vào SQL qua prepared statement. Cột `ORDER BY` được chọn từ danh sách cố định. Đặt hàng dùng transaction; câu trừ kho có điều kiện `ton_kho >= ?`, nên thiếu một mục sẽ rollback đơn, chi tiết và tồn kho đã cập nhật trước đó. Session chỉ lưu `uid`; vai trò được đọc lại từ CSDL.
 
-`500.php` không nạp header và không truy vấn CSDL, nên vẫn hiển thị khi kết nối CSDL hỏng. Chi tiết lỗi được ghi vào `logs/php-error.log`; chế độ `prod` không đưa thông tin nội bộ ra HTML hoặc JSON.
+`500.php` không nạp header và không truy vấn CSDL, nên vẫn hiển thị khi kết nối CSDL hỏng. Chi tiết lỗi được ghi vào `logs/php-error.log`; khi `APP_DEBUG=false`, HTML và JSON không đưa thông tin nội bộ ra phản hồi.
 
 Website vẫn dùng được khi tắt JavaScript: tìm kiếm là form GET và thêm giỏ là form POST. `fetch` chỉ tăng cường tìm tức thời và thêm giỏ không tải lại trang.
 
 ## Kiểm thử
 
-Sau khi import mới `schema.sql` và `seed.sql`, chạy các ca của Bảng 3 trong đề bằng trình duyệt, curl và `api.http`. Đo W3C trên HTML do PHP sinh; đo Lighthouse Mobile cho `index.php`, `danh-sach.php`, `dang-ky.php`; kiểm tra không cuộn ngang ở 360 px và đọc `logs/php-error.log` sau khi thao tác.
+Sau khi import mới `schema.sql` và `seed.sql`, chạy `bash tests/bao-mat.sh http://localhost:8000`. Kịch bản gồm 12 ca âm bắt buộc và 2 ca riêng của UEDBookHub. Khi PHP và Apache chạy ở hai URL khác nhau, truyền thêm `HTACCESS_GOC=http://localhost/...` để ba ca `.htaccess` kiểm tra trên Apache. Sau đó chạy lại các ca Bài 6 bằng trình duyệt/curl, kiểm tra `logs/php-error.log` và `logs/bao-mat.log`.
 
 AI (Codex) hỗ trợ chuyển dữ liệu sang PDO, xây dựng chức năng và kiểm thử. Thành viên cần chạy lại, hiểu mã và ghi đúng đóng góp thực tế trong báo cáo.

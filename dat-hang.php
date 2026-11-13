@@ -29,6 +29,7 @@ $tieuDe = 'Xác nhận đặt hàng'; $trang = 'gio-hang'; require __DIR__ . '/i
 <ul><?php foreach ($chiTietGio as $muc): ?><li><?= e($muc['giaoTrinh']->ten) ?>: <?= e($muc['soLuong']) ?> × <?= e(vnd($muc['giaoTrinh']->gia)) ?></li><?php endforeach; ?></ul>
 <p><strong>Tổng tiền: <?= e(vnd($gio->tongTien($kho))) ?></strong></p>
 <form class="bieu-mau" action="dat-hang.php" method="post">
+<?= csrfField() ?>
 <div class="bieu-mau__nhom"><label for="dia_chi">Địa chỉ nhận</label><input class="bieu-mau__o-nhap" id="dia_chi" name="dia_chi" value="<?= e($du['dia_chi']) ?>" minlength="5" maxlength="255" required aria-describedby="loi-dia-chi"><p class="bieu-mau__loi" id="loi-dia-chi"><?= e($loi['dia_chi'] ?? '') ?></p></div>
 <div class="bieu-mau__nhom"><label for="ghi_chu">Ghi chú</label><textarea class="bieu-mau__o-nhap" id="ghi_chu" name="ghi_chu" maxlength="1000" rows="4"><?= e($du['ghi_chu']) ?></textarea><p class="bieu-mau__loi"><?= e($loi['ghi_chu'] ?? '') ?></p></div>
 <button class="nut nut--chinh" type="submit">Đặt hàng</button></form><?php endif; ?></main>

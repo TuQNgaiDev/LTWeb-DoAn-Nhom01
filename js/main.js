@@ -6,6 +6,13 @@ import { docYeuThich } from './yeu-thich.js';
 
 document.documentElement.classList.add('js');
 
+document.addEventListener('submit', (suKien) => {
+  const form = suKien.target;
+  if (form instanceof HTMLFormElement && form.dataset.confirm && !window.confirm(form.dataset.confirm)) {
+    suKien.preventDefault();
+  }
+});
+
 const thanhDieuHuong = document.querySelector('.thanh-dieu-huong');
 const danhSachMenu = thanhDieuHuong?.querySelector('.thanh-dieu-huong__danh-sach');
 

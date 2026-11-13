@@ -173,9 +173,10 @@ function layDanhSachCauChaoCSDL(?PDO $pdo, string $mssv): array {
 }
 
 // --- Xử lý AJAX: Lấy câu chào theo thời gian thực từ CSDL ---
-if (isset($_GET['action']) && $_GET['action'] === 'lay_cau_chao') {
+if (chuoi($_GET, 'action') === 'lay_cau_chao') {
     header('Content-Type: application/json; charset=utf-8');
-    $gioClient = isset($_GET['gio']) ? (int)$_GET['gio'] : (int)date('G');
+    $gioRaw = chuoi($_GET, 'gio');
+    $gioClient = $gioRaw !== '' && ctype_digit($gioRaw) ? (int)$gioRaw : (int)date('G');
     if ($gioClient < 0 || $gioClient > 23) {
         $gioClient = (int)date('G');
     }
@@ -219,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['thich_trang'])) {
 
     $soLuotThich = laySoLuotThichCSDL($pdo, MSSV_HAU);
 
-    if (isset($_POST['ajax']) && $_POST['ajax'] === '1') {
+    if (chuoi($_POST, 'ajax') === '1') {
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode([
             'thanhCong' => true,
@@ -383,6 +384,7 @@ require __DIR__ . '/../../inc/header.php';
           <!-- Nhóm các nút bấm tương tác -->
           <div class="tuong-tac__hanh-dong">
             <form class="form-thich" action="gioithieu.php#tuong-tac" method="post">
+              <?= csrfField() ?>
               <input type="hidden" name="thich_trang" value="1">
               <button id="nut-thich" class="nut nut--thich <?= $daThichPhien ? 'nut-thich--da-thich' : '' ?>" type="submit" aria-label="Thả tim thích trang (Lưu CSDL MySQL)">
                 <span class="nut-thich__bieu-tuong" aria-hidden="true">❤️</span>
@@ -523,6 +525,7 @@ require __DIR__ . '/../../inc/header.php';
       <?php endif; ?>
 
       <form class="bieu-mau bieu-mau-drl" action="gioithieu.php#may-tinh-drl" method="post" novalidate>
+        <?= csrfField() ?>
         <input type="hidden" name="tinh_drl" value="1">
         <div class="bieu-mau__nhom">
           <label for="drl">Điểm rèn luyện (Thang 100) <span class="dau-sao" aria-hidden="true">*</span></label>

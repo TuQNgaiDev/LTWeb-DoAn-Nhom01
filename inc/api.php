@@ -16,6 +16,6 @@ function dangKyLoiApi(): void
 {
     set_exception_handler(function (Throwable $loi): void {
         error_log((string) $loi);
-        traJson(['loi' => MOI_TRUONG === 'dev' ? $loi->getMessage() : 'Lỗi máy chủ'], 500);
+        traJson(['loi' => APP_DEBUG ? $loi->getMessage() : 'Lỗi máy chủ'], 500);
     });
 }

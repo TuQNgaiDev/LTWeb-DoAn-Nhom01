@@ -541,3 +541,6 @@
   font-weight: 700;
   margin-left: 4px;
 }
+
+.dang-doi-noi-dung { opacity: 0; transform: translateY(4px); }
+.thong-bao-thich.hien-thi { display: block; }

@@ -28,4 +28,20 @@ final class KhoNguoiDung
     {
         $st=$this->db->prepare('UPDATE nguoi_dung SET mat_khau = ? WHERE id = ?');$st->execute([$matKhauBam,$id]);
     }
+    public function soLanDangNhapSai(string $email): int
+    {
+        $st = $this->db->prepare('SELECT COUNT(*) FROM dang_nhap_sai WHERE email = ? AND thoi_gian >= DATE_SUB(NOW(), INTERVAL 15 MINUTE)');
+        $st->execute([$email]);
+        return (int) $st->fetchColumn();
+    }
+    public function ghiDangNhapSai(string $email, string $ip): void
+    {
+        $st = $this->db->prepare('INSERT INTO dang_nhap_sai (email, ip_dia_chi) VALUES (?, ?)');
+        $st->execute([$email, $ip]);
+    }
+    public function xoaDangNhapSai(string $email): void
+    {
+        $st = $this->db->prepare('DELETE FROM dang_nhap_sai WHERE email = ?');
+        $st->execute([$email]);
+    }
 }

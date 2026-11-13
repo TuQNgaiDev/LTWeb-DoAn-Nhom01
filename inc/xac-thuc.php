@@ -38,9 +38,20 @@ function yeuCauQuyen(string $vaiTro): array
 {
     $nd = yeuCauDangNhap();
     if ($nd['vai_tro'] !== $vaiTro) {
+        ghiNhatKyBaoMat('cam_truy_cap', ['vai_tro_yeu_cau' => $vaiTro, 'uid' => $nd['id'] ?? '']);
         http_response_code(403);
         require __DIR__ . '/../403.php';
         exit;
     }
     return $nd;
+}
+
+function dangXuat(): void
+{
+    $_SESSION = [];
+    if (ini_get('session.use_cookies')) {
+        $p = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000, $p['path'], $p['domain'], $p['secure'], $p['httponly']);
+    }
+    session_destroy();
 }

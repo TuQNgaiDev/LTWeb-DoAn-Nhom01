@@ -594,3 +594,37 @@ html[data-giao-dien="toi"] .the-loi-nhan {
     align-items: flex-start;
   }
 }
+
+/* Lớp tách từ style nội tuyến để tuân thủ CSP Chương 7. */
+.tu-csp-1 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 16px 0; }
+.tu-csp-2 { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; text-align: center; }
+.tu-csp-3 { font-size: 0.9rem; color: #64748b; font-weight: 600; }
+.tu-csp-4 { font-size: 1.8rem; font-weight: 700; color: #1e3a8a; margin-top: 4px; }
+.tu-csp-5 { font-size: 1.8rem; font-weight: 700; color: #0284c7; margin-top: 4px; }
+.tu-csp-6 { font-size: 1.8rem; font-weight: 700; color: #15803d; margin-top: 4px; }
+.tu-csp-7 { font-size: 1rem; font-weight: 600; display: block; color: #166534; text-transform: uppercase; }
+.tu-csp-8 { font-size: 1.15rem; margin-bottom: 12px; color: #1e293b; }
+.tu-csp-9 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.tu-csp-10 { grid-column: span 2; }
+.tu-csp-11 { margin-top: 10px; }
+.tu-csp-12 { margin-top: 20px; }
+.tu-csp-13 { text-align: center; color: #64748b; }
+.tu-csp-14 { text-align: center; }
+.tu-csp-15 { text-align: center; font-weight: bold; color: #1e3a8a; }
+.tu-csp-16 { text-align: center; font-weight: bold; }
+.tu-csp-17 { text-align: center; font-weight: bold; color: #15803d; }
+.tu-csp-18 { margin-top: 36px; }
+.tu-csp-19 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 16px 0; }
+.tu-csp-20 { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 14px; text-align: center; }
+.tu-csp-21 { font-size: 0.9rem; color: #166534; font-weight: 600; }
+.tu-csp-22 { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px; text-align: center; }
+.tu-csp-23 { font-size: 0.9rem; color: #1e40af; font-weight: 600; }
+.tu-csp-24 { font-size: 1.8rem; font-weight: 700; color: #1d4ed8; margin-top: 4px; }
+.tu-csp-25 { font-size: 1.15rem; margin-top: 20px; color: #1e3a8a; }
+.tu-csp-26 { text-align: right; }
+.tu-csp-27 { text-align: center; font-weight: bold; color: #0284c7; }
+.tu-csp-28 { text-align: right; font-weight: bold; color: #15803d; }
+.tu-csp-29 { font-size: 1.15rem; margin-top: 24px; color: #1e3a8a; }
+.o-doanh-thu { text-align: right; font-weight: bold; }
+.o-doanh-thu--co { color: #15803d; }
+.o-doanh-thu--khong { color: #64748b; }

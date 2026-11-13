@@ -1,4 +1,8 @@
 @goc = http://localhost:8000
+# Trước các request POST: mở trang web, lấy cookie PHPSESSID và nội dung
+# meta[name="csrf-token"], rồi điền hai giá trị dưới đây.
+@cookie = PHPSESSID=DIEN_SESSION_ID
+@csrf = DIEN_CSRF_TOKEN
 
 ### 1. Tìm kiếm - 200
 GET {{goc}}/api/giao-trinh.php?q=giao
@@ -15,30 +19,40 @@ GET {{goc}}/api/gio-hang.php
 ### 5. Thêm vào giỏ - 200
 POST {{goc}}/api/gio-hang.php
 Content-Type: application/json
+Cookie: {{cookie}}
+X-CSRF-Token: {{csrf}}
 
 {"id": 1, "sl": 2}
 
 ### 6. Thân không phải JSON - 400
 POST {{goc}}/api/gio-hang.php
 Content-Type: application/json
+Cookie: {{cookie}}
+X-CSRF-Token: {{csrf}}
 
 {id: 1}
 
 ### 7. Số lượng âm - 422
 POST {{goc}}/api/gio-hang.php
 Content-Type: application/json
+Cookie: {{cookie}}
+X-CSRF-Token: {{csrf}}
 
 {"id": 1, "sl": -3}
 
 ### 8. ID không có - 404
 POST {{goc}}/api/gio-hang.php
 Content-Type: application/json
+Cookie: {{cookie}}
+X-CSRF-Token: {{csrf}}
 
 {"id": 999999, "sl": 1}
 
 ### 9. Vượt tồn kho - 422
 POST {{goc}}/api/gio-hang.php
 Content-Type: application/json
+Cookie: {{cookie}}
+X-CSRF-Token: {{csrf}}
 
 {"id": 1, "sl": 99}
 

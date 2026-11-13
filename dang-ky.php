@@ -31,6 +31,7 @@ require __DIR__ . '/inc/header.php';
 <main class="noi-dung-chinh"><h1>Đăng ký tài khoản</h1>
 <?php if ($loi): ?><p class="bieu-mau__loi" role="alert">Vui lòng kiểm tra các trường báo lỗi.</p><?php endif; ?>
 <form class="bieu-mau" action="dang-ky.php" method="post">
+<?= csrfField() ?>
 <?php foreach (['ho_ten' => 'Họ và tên', 'email' => 'Email'] as $key => $nhan): ?><div class="bieu-mau__nhom"><label for="<?= e($key) ?>"><?= e($nhan) ?></label><input class="bieu-mau__o-nhap" id="<?= e($key) ?>" name="<?= e($key) ?>" type="<?= $key === 'email' ? 'email' : 'text' ?>" value="<?= e($du[$key]) ?>" maxlength="<?= $key === 'email' ? '254' : '100' ?>" required aria-describedby="loi-<?= e($key) ?>"><p class="bieu-mau__loi" id="loi-<?= e($key) ?>"><?= e($loi[$key] ?? '') ?></p></div><?php endforeach; ?>
 <div class="bieu-mau__nhom"><label for="mat_khau">Mật khẩu</label><input class="bieu-mau__o-nhap" id="mat_khau" name="mat_khau" type="password" minlength="8" maxlength="200" autocomplete="new-password" required aria-describedby="loi-mat-khau"><p class="bieu-mau__loi" id="loi-mat-khau"><?= e($loi['mat_khau'] ?? '') ?></p></div>
 <div class="bieu-mau__nhom"><label for="xac_nhan">Nhập lại mật khẩu</label><input class="bieu-mau__o-nhap" id="xac_nhan" name="xac_nhan" type="password" minlength="8" maxlength="200" autocomplete="new-password" required aria-describedby="loi-xac-nhan"><p class="bieu-mau__loi" id="loi-xac-nhan"><?= e($loi['xac_nhan'] ?? '') ?></p></div>

@@ -1,8 +1,9 @@
 {
   "name": "nhom01/uedbookhub",
-  "description": "UEDBookHub - Bai tap nhom 6, PHP va MySQL qua PDO",
+  "description": "UEDBookHub - Bai tap nhom 7, gia co bao mat PHP va MySQL",
   "license": "proprietary",
   "type": "project",
-  "require": {"php": ">=8.1", "ext-mbstring": "*", "ext-fileinfo": "*", "ext-pdo": "*", "ext-pdo_mysql": "*"},
+  "require": {"php": ">=8.1", "ext-mbstring": "*", "ext-fileinfo": "*", "ext-pdo": "*", "ext-pdo_mysql": "*",
+    "vlucas/phpdotenv": "^5.6"},
   "autoload": {"psr-4": {"App\\": "src/"}}
 }

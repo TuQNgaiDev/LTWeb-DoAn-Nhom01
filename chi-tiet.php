@@ -20,7 +20,7 @@ require __DIR__ . '/inc/header.php';
 <?php foreach (['Mã giáo trình' => $s->ma, 'Tác giả' => $s->tacGia, 'Khoa' => $s->khoa, 'Nhà xuất bản' => $s->nhaXuatBan, 'Năm xuất bản' => $s->namXuatBan, 'Số trang' => $s->soTrang, 'Số bản hiện có' => $s->soLuong] as $nhan => $giaTri): ?>
 <div><dt><?= e($nhan) ?></dt><dd><?= e($giaTri) ?></dd></div><?php endforeach; ?></dl>
 <p>Giá đặt mua: <strong><?= e(vnd($s->gia)) ?></strong></p>
-<form action="gio-hang.php" method="post" class="bieu-mau" data-them-gio><input type="hidden" name="hanh_dong" value="them"><input type="hidden" name="id" value="<?= e($s->id) ?>">
+<form action="gio-hang.php" method="post" class="bieu-mau" data-them-gio><?= csrfField() ?><input type="hidden" name="hanh_dong" value="them"><input type="hidden" name="id" value="<?= e($s->id) ?>">
 <label for="sl">Số lượng đặt mua</label><input id="sl" type="number" name="so_luong" value="1" min="1" max="<?= e(min(99, $s->soLuong)) ?>" required>
 <button class="nut nut--chinh" type="submit" <?= $s->soLuong === 0 ? 'disabled' : '' ?>>Thêm vào giỏ</button></form>
 <p><button hidden class="nut nut--phu" type="button" data-hanh-dong="yeu-thich" data-id="<?= e($s->id) ?>">Thêm yêu thích</button> <a href="lien-he.php?giao-trinh=<?= e($s->id) ?>">Gửi yêu cầu về giáo trình</a></p>

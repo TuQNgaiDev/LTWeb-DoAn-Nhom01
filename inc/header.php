@@ -16,6 +16,7 @@ $menu = ['index' => 'Trang chủ', 'danh-sach' => 'Danh mục giáo trình', 'gi
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="<?= e($moTa ?? 'UEDBookHub giúp tra cứu và đặt mua giáo trình, đăng ký học liệu trực tuyến.') ?>">
+  <meta name="csrf-token" content="<?= e(csrfToken()) ?>">
   <title><?= e($tieuDe ?? 'UEDBookHub') ?> | UEDBookHub</title>
   <link rel="stylesheet" href="<?= e($goc) ?>css/style.css">
   <link rel="stylesheet" href="<?= e($goc) ?>css/php.css">
@@ -39,7 +40,7 @@ $menu = ['index' => 'Trang chủ', 'danh-sach' => 'Danh mục giáo trình', 'gi
     <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc) ?>don-hang.php" <?= $trang === 'don-hang' ? 'aria-current="page"' : '' ?>>Đơn hàng</a></li>
     <?php if ($nguoiDungDauTrang['vai_tro'] === 'quan_tri'): ?><li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc) ?>quan-tri.php" <?= $trang === 'quan-tri' ? 'aria-current="page"' : '' ?>>Quản trị</a></li><?php endif; ?>
     <li class="thanh-dieu-huong__muc"><span class="thanh-dieu-huong__lien-ket"><?= e($nguoiDungDauTrang['ho_ten']) ?></span></li>
-    <li class="thanh-dieu-huong__muc"><form action="<?= e($goc) ?>dang-xuat.php" method="post"><button class="thanh-dieu-huong__lien-ket nut-dang-xuat" type="submit">Đăng xuất</button></form></li>
+    <li class="thanh-dieu-huong__muc"><form action="<?= e($goc) ?>dang-xuat.php" method="post"><?= csrfField() ?><button class="thanh-dieu-huong__lien-ket nut-dang-xuat" type="submit">Đăng xuất</button></form></li>
     <?php else: ?>
     <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc) ?>dang-nhap.php" <?= $trang === 'dang-nhap' ? 'aria-current="page"' : '' ?>>Đăng nhập</a></li>
     <li class="thanh-dieu-huong__muc"><a class="thanh-dieu-huong__lien-ket" href="<?= e($goc) ?>dang-ky.php">Đăng ký</a></li>

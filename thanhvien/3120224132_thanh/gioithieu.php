@@ -22,9 +22,9 @@ const MSSV = '3120224132';
 $goc = '../../';
 
 // --- XỬ LÝ GỬI LỜI NHẮN (POST / PRG) ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['form_type'] ?? '') === 'loi_nhan') {
-    $tenNguoiGui = trim($_POST['ten_nguoi_gui'] ?? '');
-    $loiNhan = trim($_POST['loi_nhan'] ?? '');
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && chuoi($_POST, 'form_type') === 'loi_nhan') {
+    $tenNguoiGui = chuoi($_POST, 'ten_nguoi_gui');
+    $loiNhan = chuoi($_POST, 'loi_nhan');
 
     if ($tenNguoiGui === '') {
         $tenNguoiGui = 'Khách ghé thăm';
@@ -51,7 +51,7 @@ $cacNhomKyNang = [
     'kynangmem' => 'Kỹ năng mềm & Làm việc nhóm'
 ];
 
-$nhomChon = trim($_GET['nhom'] ?? 'tatca');
+$nhomChon = chuoi($_GET, 'nhom') ?: 'tatca';
 if (!array_key_exists($nhomChon, $cacNhomKyNang)) {
     $nhomChon = 'tatca';
 }
@@ -84,7 +84,7 @@ try {
 $tongSoKyNang = array_sum($soLuongTheoNhom);
 
 // --- CHỨC NĂNG CSDL 2: TÌM KIẾM MÔN HỌC TRONG THỜI KHÓA BIỂU (BẢNG tv_thanh_tkb) ---
-$tuKhoa = trim($_GET['tim_mon'] ?? '');
+$tuKhoa = chuoi($_GET, 'tim_mon');
 $ketQuaTimKiem = [];
 $daTimKiem = ($tuKhoa !== '');
 
@@ -166,9 +166,9 @@ require __DIR__ . '/../../inc/header.php';
           <p><strong>💻 Định hướng:</strong> Lập trình Web Fullstack, Thiết kế CSDL quan hệ, Kiến trúc phần mềm</p>
         </div>
         <div class="ho-so-ca-nhan__nut-hanh-dong">
-          <button id="btn-copy-email" class="nut nut--phu nut--nho" type="button" onclick="saoChepEmail()">📋 Sao chép Email</button>
-          <button id="btn-download-info" class="nut nut--phu nut--nho" type="button" onclick="taiThongTin()">💾 Tải thông tin cá nhân</button>
-          <span id="thong-bao-copy" class="chu-thanh-cong" style="display:none; font-size:0.85rem; margin-left:8px;" aria-live="polite">✓ Đã sao chép!</span>
+          <button id="btn-copy-email" class="nut nut--phu nut--nho" type="button">📋 Sao chép Email</button>
+          <button id="btn-download-info" class="nut nut--phu nut--nho" type="button">💾 Tải thông tin cá nhân</button>
+          <span id="thong-bao-copy" class="chu-thanh-cong thanh-csp-1" aria-live="polite">✓ Đã sao chép!</span>
         </div>
       </div>
     </div>
@@ -242,7 +242,7 @@ require __DIR__ . '/../../inc/header.php';
   </section>
 
   <!-- CHỨC NĂNG CSDL 2: TÌM KIẾM MÔN HỌC TRONG THỜI KHÓA BIỂU (BẢNG tv_thanh_tkb) -->
-  <section id="tim-kiem-tkb" class="khoi-chuc-nang-ca-nhan" aria-labelledby="tieu-de-tkb" style="margin-top: 36px;">
+  <section id="tim-kiem-tkb" class="khoi-chuc-nang-ca-nhan thanh-csp-2" aria-labelledby="tieu-de-tkb">
     <div class="khoi-chuc-nang-ca-nhan__dau">
       <div>
         <h2 id="tieu-de-tkb" class="khoi-chuc-nang-ca-nhan__tieu-de">2. Tìm kiếm môn học trong Thời khóa biểu (CSDL MySQL: <code>tv_thanh_tkb</code>)</h2>
@@ -256,12 +256,12 @@ require __DIR__ . '/../../inc/header.php';
     <!-- Biểu mẫu tìm kiếm môn học -->
     <form class="bieu-mau bieu-mau--tim-kiem" method="get" action="gioithieu.php#tim-kiem-tkb">
       <div class="bieu-mau__hang-ngang">
-        <div class="bieu-mau__nhom" style="flex: 1;">
+        <div class="bieu-mau__nhom thanh-csp-3">
           <label for="tim_mon">Nhập tên môn học, mã môn hoặc phòng học:</label>
           <input class="bieu-mau__o-nhap" id="tim_mon" name="tim_mon" type="text"
                  value="<?= e($tuKhoa) ?>" placeholder="Ví dụ: Lập trình web, An toàn thông tin, B3-206...">
         </div>
-        <div class="bieu-mau__nhom" style="align-self: flex-end;">
+        <div class="bieu-mau__nhom thanh-csp-4">
           <button type="submit" class="nut nut--chinh">🔍 Tìm môn học</button>
           <?php if ($daTimKiem): ?>
             <a href="gioithieu.php#tim-kiem-tkb" class="nut nut--phu">Xóa tìm kiếm</a>
@@ -272,18 +272,18 @@ require __DIR__ . '/../../inc/header.php';
 
     <!-- Kết quả tìm kiếm (nếu có từ khóa) -->
     <?php if ($daTimKiem): ?>
-      <div class="ket-qua-tim-kiem" style="margin-top: 20px;">
+      <div class="ket-qua-tim-kiem thanh-csp-5">
         <h3 class="tieu-de-phu">
           Kết quả tìm kiếm cho từ khóa: <em>"<?= e($tuKhoa) ?>"</em>
-          <span class="huy-hieu huy-hieu--chinh" style="margin-left: 8px;"><?= count($ketQuaTimKiem) ?> môn học</span>
+          <span class="huy-hieu huy-hieu--chinh thanh-csp-6"><?= count($ketQuaTimKiem) ?> môn học</span>
         </h3>
 
         <?php if (!$ketQuaTimKiem): ?>
-          <div class="thong-bao-flash thong-bao-flash--loi" style="margin-top: 12px;">
+          <div class="thong-bao-flash thong-bao-flash--loi thanh-csp-7">
             Không tìm thấy môn học nào khớp với từ khóa "<strong><?= e($tuKhoa) ?></strong>". Vui lòng thử từ khóa khác!
           </div>
         <?php else: ?>
-          <div class="bang-cuon" style="margin-top: 12px;">
+          <div class="bang-cuon thanh-csp-7">
             <table>
               <caption>Danh sách học phần khớp với từ khóa tìm kiếm trong CSDL</caption>
               <thead>
@@ -301,13 +301,13 @@ require __DIR__ . '/../../inc/header.php';
               <tbody>
                 <?php foreach ($ketQuaTimKiem as $idx => $m): ?>
                   <tr>
-                    <td style="text-align: center;"><?= $idx + 1 ?></td>
-                    <td style="font-family: monospace; font-weight: bold; color: #1e3a8a;"><?= e($m['ma_hoc_phan']) ?></td>
+                    <td class="thanh-csp-8"><?= $idx + 1 ?></td>
+                    <td class="thanh-csp-9"><?= e($m['ma_hoc_phan']) ?></td>
                     <td><strong><?= e($m['ten_mon']) ?></strong></td>
-                    <td style="text-align: center;"><?= (int)$m['so_tin_chi'] ?></td>
-                    <td style="text-align: center;"><span class="huy-hieu huy-hieu--con"><?= e($m['thu']) ?></span></td>
-                    <td style="text-align: center;"><?= e($m['tiet_hoc']) ?></td>
-                    <td style="text-align: center; font-weight: 600;"><?= e($m['phong_hoc']) ?></td>
+                    <td class="thanh-csp-8"><?= (int)$m['so_tin_chi'] ?></td>
+                    <td class="thanh-csp-8"><span class="huy-hieu huy-hieu--con"><?= e($m['thu']) ?></span></td>
+                    <td class="thanh-csp-8"><?= e($m['tiet_hoc']) ?></td>
+                    <td class="thanh-csp-10"><?= e($m['phong_hoc']) ?></td>
                     <td><?= e($m['giang_vien'] ?? 'Đang cập nhật') ?></td>
                   </tr>
                 <?php endforeach; ?>
@@ -319,9 +319,9 @@ require __DIR__ . '/../../inc/header.php';
     <?php endif; ?>
 
     <!-- Toàn bộ Thời khóa biểu tuần tổng quan (Bảng chuẩn) -->
-    <div style="margin-top: 28px;">
+    <div class="thanh-csp-11">
       <h3 class="tieu-de-phu">Lịch học Thời khóa biểu tuần tổng quan (Học kỳ 1 năm học 2026 – 2027)</h3>
-      <div class="bang-cuon" style="margin-top: 12px;">
+      <div class="bang-cuon thanh-csp-7">
         <table>
           <caption>Thời khóa biểu toàn bộ các học phần học kỳ 1 của sinh viên Nguyễn Tuấn Nhật Thanh</caption>
           <thead>
@@ -338,12 +338,12 @@ require __DIR__ . '/../../inc/header.php';
           <tbody>
             <?php foreach ($tatCaTkb as $tkb): ?>
               <tr>
-                <td style="font-family: monospace; font-weight: bold; color: #1e3a8a;"><?= e($tkb['ma_hoc_phan']) ?></td>
+                <td class="thanh-csp-9"><?= e($tkb['ma_hoc_phan']) ?></td>
                 <td><strong><?= e($tkb['ten_mon']) ?></strong></td>
-                <td style="text-align: center;"><?= (int)$tkb['so_tin_chi'] ?></td>
-                <td style="text-align: center;"><span class="huy-hieu huy-hieu--con"><?= e($tkb['thu']) ?></span></td>
-                <td style="text-align: center;"><?= e($tkb['tiet_hoc']) ?></td>
-                <td style="text-align: center; font-weight: 600;"><?= e($tkb['phong_hoc']) ?></td>
+                <td class="thanh-csp-8"><?= (int)$tkb['so_tin_chi'] ?></td>
+                <td class="thanh-csp-8"><span class="huy-hieu huy-hieu--con"><?= e($tkb['thu']) ?></span></td>
+                <td class="thanh-csp-8"><?= e($tkb['tiet_hoc']) ?></td>
+                <td class="thanh-csp-10"><?= e($tkb['phong_hoc']) ?></td>
                 <td><?= e($tkb['giang_vien'] ?? 'ThS. Nguyễn Hữu Hải') ?></td>
               </tr>
             <?php endforeach; ?>
@@ -354,18 +354,18 @@ require __DIR__ . '/../../inc/header.php';
   </section>
 
   <!-- KHỐI DỰ ÁN & SỞ THÍCH -->
-  <section class="khoi-chuc-nang-ca-nhan" style="margin-top: 36px;">
+  <section class="khoi-chuc-nang-ca-nhan thanh-csp-2">
     <h2 class="khoi-chuc-nang-ca-nhan__tieu-de">Dự án tham gia &amp; Sở thích cá nhân</h2>
-    <div class="luoi-hai-cot" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 16px;">
-      <div class="the-noi-dung" style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 18px;">
-        <h3 style="color: #1e3a8a; font-size: 1.15rem; margin-top: 0;">🚀 Dự án UEDBookHub (Bài tập nhóm)</h3>
-        <p style="color: #475569; line-height: 1.6;">
+    <div class="luoi-hai-cot thanh-csp-12">
+      <div class="the-noi-dung thanh-csp-13">
+        <h3 class="thanh-csp-14">🚀 Dự án UEDBookHub (Bài tập nhóm)</h3>
+        <p class="thanh-csp-15">
           Tham gia xây dựng website động UEDBookHub: chịu trách nhiệm chính về module Quản trị CRUD giáo trình (Thêm, Sửa, Xóa kiểm tra ràng buộc FK 1451, Phân trang quản trị) và thiết kế sơ đồ quan hệ ERD chuẩn 3NF.
         </p>
       </div>
-      <div class="the-noi-dung" style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 18px;">
-        <h3 style="color: #0284c7; font-size: 1.15rem; margin-top: 0;">💡 Sở thích &amp; Định hướng học tập</h3>
-        <p style="color: #475569; line-height: 1.6;">
+      <div class="the-noi-dung thanh-csp-13">
+        <h3 class="thanh-csp-16">💡 Sở thích &amp; Định hướng học tập</h3>
+        <p class="thanh-csp-15">
           Yêu thích khám phá các công nghệ Web hiện đại, tối ưu hóa câu truy vấn CSDL quan hệ MySQL, lập trình hướng đối tượng OOP và tích cực tham gia các hoạt động nghiên cứu khoa học sinh viên.
         </p>
       </div>
@@ -373,13 +373,14 @@ require __DIR__ . '/../../inc/header.php';
   </section>
 
   <!-- KHỐI GỬI LỜI NHẮN (POST / PRG) -->
-  <section id="form-loi-nhan" class="khoi-chuc-nang-ca-nhan" style="margin-top: 36px;">
+  <section id="form-loi-nhan" class="khoi-chuc-nang-ca-nhan thanh-csp-2">
     <h2 class="khoi-chuc-nang-ca-nhan__tieu-de">Gửi lời nhắn cho Thanh</h2>
     <p class="khoi-chuc-nang-ca-nhan__mo-ta">
       Bạn có góp ý hoặc câu hỏi nào về các module quản trị hay dự án? Hãy để lại lời nhắn bên dưới nhé!
     </p>
 
-    <form class="bieu-mau" method="post" action="gioithieu.php#form-loi-nhan" style="max-width: 600px; margin-top: 16px;">
+    <form class="bieu-mau bieu-mau--gioi-han" method="post" action="gioithieu.php#form-loi-nhan">
+      <?= csrfField() ?>
       <input type="hidden" name="form_type" value="loi_nhan">
       <div class="bieu-mau__nhom">
         <label for="ten_nguoi_gui">Họ và tên của bạn:</label>
@@ -394,77 +395,31 @@ require __DIR__ . '/../../inc/header.php';
   </section>
 
   <!-- KHỐI ĐẾM NGƯỢC ĐẾN KỲ THI CUỐI KỲ -->
-  <section class="khoi-chuc-nang-ca-nhan" style="margin-top: 36px; text-align: center;">
+  <section class="khoi-chuc-nang-ca-nhan thanh-csp-17">
     <h2 class="khoi-chuc-nang-ca-nhan__tieu-de">⏳ Đếm ngược đến kỳ thi cuối kỳ</h2>
-    <p style="color: #64748b; margin-bottom: 16px;">Mục tiêu học tập: Hoàn thành xuất sắc học phần Thiết kế &amp; Lập trình Web.</p>
+    <p class="thanh-csp-18">Mục tiêu học tập: Hoàn thành xuất sắc học phần Thiết kế &amp; Lập trình Web.</p>
 
-    <div class="dem-nguoc" id="countdown-box" style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;" aria-live="polite">
-      <div class="the-dem-nguoc" style="background: #1e3a8a; color: white; padding: 14px 20px; border-radius: 8px; min-width: 80px;">
-        <span id="days" style="display: block; font-size: 2rem; font-weight: 700;">0</span>
-        <span style="font-size: 0.85rem; text-transform: uppercase;">Ngày</span>
+    <div class="dem-nguoc thanh-csp-19" id="countdown-box" aria-live="polite">
+      <div class="the-dem-nguoc thanh-csp-20">
+        <span id="days" class="thanh-csp-21">0</span>
+        <span class="thanh-csp-22">Ngày</span>
       </div>
-      <div class="the-dem-nguoc" style="background: #0284c7; color: white; padding: 14px 20px; border-radius: 8px; min-width: 80px;">
-        <span id="hours" style="display: block; font-size: 2rem; font-weight: 700;">0</span>
-        <span style="font-size: 0.85rem; text-transform: uppercase;">Giờ</span>
+      <div class="the-dem-nguoc thanh-csp-23">
+        <span id="hours" class="thanh-csp-21">0</span>
+        <span class="thanh-csp-22">Giờ</span>
       </div>
-      <div class="the-dem-nguoc" style="background: #0d9488; color: white; padding: 14px 20px; border-radius: 8px; min-width: 80px;">
-        <span id="minutes" style="display: block; font-size: 2rem; font-weight: 700;">0</span>
-        <span style="font-size: 0.85rem; text-transform: uppercase;">Phút</span>
+      <div class="the-dem-nguoc thanh-csp-24">
+        <span id="minutes" class="thanh-csp-21">0</span>
+        <span class="thanh-csp-22">Phút</span>
       </div>
-      <div class="the-dem-nguoc" style="background: #d97706; color: white; padding: 14px 20px; border-radius: 8px; min-width: 80px;">
-        <span id="seconds" style="display: block; font-size: 2rem; font-weight: 700;">0</span>
-        <span style="font-size: 0.85rem; text-transform: uppercase;">Giây</span>
+      <div class="the-dem-nguoc thanh-csp-25">
+        <span id="seconds" class="thanh-csp-21">0</span>
+        <span class="thanh-csp-22">Giây</span>
       </div>
     </div>
   </section>
 
 </main>
-
-<script>
-// Sao chép email vào clipboard
-function saoChepEmail() {
-  const email = document.getElementById('email-text').innerText;
-  navigator.clipboard.writeText(email).then(() => {
-    const tb = document.getElementById('thong-bao-copy');
-    tb.style.display = 'inline';
-    setTimeout(() => { tb.style.display = 'none'; }, 2500);
-  });
-}
-
-// Tải thông tin cá nhân dưới dạng JSON
-function taiThongTin() {
-  const info = {
-    hoTen: 'Nguyễn Tuấn Nhật Thanh',
-    mssv: '3120224132',
-    lop: '24CNTT1',
-    truong: 'Đại học Sư phạm - Đại học Đà Nẵng',
-    email: 'nguyentuannhatthanh06092006@gmail.com',
-    vaiTroDoAn: 'Thành viên Nhóm 01 (Phụ trách Chức năng 3: Quản trị CRUD và Sơ đồ ERD)'
-  };
-  const blob = new Blob([JSON.stringify(info, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = '3120224132_NguyenTuanNhatThanh_ThongTin.json';
-  a.click();
-}
-
-// Đếm ngược ngày thi
-(function() {
-  const ngayThi = new Date('2026-12-25T08:00:00').getTime();
-  function capNhatDemNguoc() {
-    const bayGio = new Date().getTime();
-    const khoangCach = ngayThi - bayGio;
-    if (khoangCach > 0) {
-      document.getElementById('days').innerText = Math.floor(khoangCach / (1000 * 60 * 60 * 24));
-      document.getElementById('hours').innerText = Math.floor((khoangCach % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      document.getElementById('minutes').innerText = Math.floor((khoangCach % (1000 * 60 * 60)) / (1000 * 60));
-      document.getElementById('seconds').innerText = Math.floor((khoangCach % (1000 * 60)) / 1000);
-    }
-  }
-  capNhatDemNguoc();
-  setInterval(capNhatDemNguoc, 1000);
-})();
-</script>
 
 <?php
 require __DIR__ . '/../../inc/footer.php';

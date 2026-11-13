@@ -379,3 +379,32 @@
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
+
+/* Lớp tách từ style nội tuyến để tuân thủ CSP Chương 7. */
+.thanh-csp-1 { display:none; font-size:0.85rem; margin-left:8px; }
+.thanh-csp-2 { margin-top: 36px; }
+.thanh-csp-3 { flex: 1; }
+.thanh-csp-4 { align-self: flex-end; }
+.thanh-csp-5 { margin-top: 20px; }
+.thanh-csp-6 { margin-left: 8px; }
+.thanh-csp-7 { margin-top: 12px; }
+.thanh-csp-8 { text-align: center; }
+.thanh-csp-9 { font-family: monospace; font-weight: bold; color: #1e3a8a; }
+.thanh-csp-10 { text-align: center; font-weight: 600; }
+.thanh-csp-11 { margin-top: 28px; }
+.thanh-csp-12 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 16px; }
+.thanh-csp-13 { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 18px; }
+.thanh-csp-14 { color: #1e3a8a; font-size: 1.15rem; margin-top: 0; }
+.thanh-csp-15 { color: #475569; line-height: 1.6; }
+.thanh-csp-16 { color: #0284c7; font-size: 1.15rem; margin-top: 0; }
+.thanh-csp-17 { margin-top: 36px; text-align: center; }
+.thanh-csp-18 { color: #64748b; margin-bottom: 16px; }
+.thanh-csp-19 { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.thanh-csp-20 { background: #1e3a8a; color: white; padding: 14px 20px; border-radius: 8px; min-width: 80px; }
+.thanh-csp-21 { display: block; font-size: 2rem; font-weight: 700; }
+.thanh-csp-22 { font-size: 0.85rem; text-transform: uppercase; }
+.thanh-csp-23 { background: #0284c7; color: white; padding: 14px 20px; border-radius: 8px; min-width: 80px; }
+.thanh-csp-24 { background: #0d9488; color: white; padding: 14px 20px; border-radius: 8px; min-width: 80px; }
+.thanh-csp-25 { background: #d97706; color: white; padding: 14px 20px; border-radius: 8px; min-width: 80px; }
+#thong-bao-copy.hien-thi { display: inline; }
+.an-csp { display: none !important; }

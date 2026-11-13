@@ -23,17 +23,6 @@ $tieuDe = 'Giới thiệu thành viên: Bhling Trường';
 
 require_once __DIR__ . '/../../inc/config.php';
 
-// Chế độ dev: Hỗ trợ mô phỏng đăng nhập nhanh cho kiểm thử & chụp ảnh minh chứng
-if (defined('MOI_TRUONG') && MOI_TRUONG === 'dev') {
-    if (isset($_GET['dang_nhap_chu_trang'])) {
-        $_SESSION['uid'] = 4; // Tài khoản truong@ued.vn
-        chuyenHuong('gioithieu.php#so-luu-but');
-    } elseif (isset($_GET['dang_xuat_chu_trang'])) {
-        unset($_SESSION['uid']);
-        chuyenHuong('gioithieu.php#so-luu-but');
-    }
-}
-
 // --- Xác thực thông tin thành viên và quyền chủ trang ---
 $stTv = db()->prepare('SELECT ho_ten, nguoi_dung_id FROM thanh_vien WHERE mssv = ?');
 $stTv->execute([MSSV]);
@@ -81,7 +70,7 @@ $duLuuBut = ['ho_ten' => '', 'loi_nhan' => ''];
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     // 2.1 Xóa lời nhắn (chỉ chủ trang đăng nhập mới được xóa)
     if (isset($_POST['xoa_luu_but'])) {
-        $xoaId = filter_var($_POST['xoa_id'] ?? '', FILTER_VALIDATE_INT);
+        $xoaId = soNguyen($_POST['xoa_id'] ?? null);
         if ($xoaId && $laChuTrang) {
             $stXoa = db()->prepare('DELETE FROM tv_luu_but WHERE id = ? AND mssv = ?');
             $stXoa->execute([$xoaId, MSSV]);
@@ -92,8 +81,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 
     // 2.2 Gửi lời nhắn mới
     if (isset($_POST['gui_luu_but'])) {
-        $duLuuBut['ho_ten'] = trim($_POST['ho_ten'] ?? '');
-        $duLuuBut['loi_nhan'] = trim($_POST['loi_nhan'] ?? '');
+        $duLuuBut['ho_ten'] = chuoi($_POST, 'ho_ten');
+        $duLuuBut['loi_nhan'] = chuoi($_POST, 'loi_nhan');
 
         if ($duLuuBut['ho_ten'] === '' || $duLuuBut['loi_nhan'] === '') {
             $thongBaoLoi = 'Vui lòng nhập đầy đủ họ tên và lời nhắn.';
@@ -117,9 +106,7 @@ $stTong->execute([MSSV]);
 $tongSoLuuBut = (int) $stTong->fetchColumn();
 $soTrang = max(1, (int) ceil($tongSoLuuBut / $moiTrang));
 
-$trangHienTai = filter_var($_GET['trang'] ?? 1, FILTER_VALIDATE_INT, [
-    'options' => ['min_range' => 1, 'default' => 1]
-]);
+$trangHienTai = soNguyen($_GET['trang'] ?? 1) ?? 1;
 $trangHienTai = min($trangHienTai, $soTrang);
 $boQua = ($trangHienTai - 1) * $moiTrang;
 
@@ -155,7 +142,7 @@ require_once __DIR__ . '/../../inc/header.php';
             <span class="huy-hieu huy-hieu--con">Khoa Toán – Tin</span>
             <span class="huy-hieu huy-hieu--sap-het">Lớp: 24SPT - Sư phạm Tin học</span>
             <span class="huy-hieu huy-hieu--con">Trường ĐH Sư phạm – ĐH Đà Nẵng</span>
-            <p class="dong-email" style="margin-top: 10px;">
+            <p class="dong-email truong-csp-1">
               Email: <strong id="email-ca-nhan">truongbhlingnttinh@gmail.com</strong>
               <button id="nut-chep-email" type="button" class="nut-tien-ich" aria-label="Sao chép địa chỉ email">
                 📋 Sao chép
@@ -404,40 +391,40 @@ require_once __DIR__ . '/../../inc/header.php';
   </section>
 
   <!-- CHỨC NĂNG PHẦN B 1: BỘ ĐẾM SỐ LƯỢT XEM THEO NGÀY (CSDL MySQL: bảng tv_truong_luot_xem) -->
-  <section class="hop-dem-views" style="margin: 25px 0; padding: 20px; border-radius: 8px; background: #f8fafc; border: 1px solid #e2e8f0;">
+  <section class="hop-dem-views truong-csp-2">
     <h2>📊 Thống kê ghé thăm trang cá nhân (MySQL)</h2>
-    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 16px;">
-      <div style="background: #ffffff; padding: 12px 18px; border-radius: 6px; border-left: 4px solid #0284c7; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-        <span style="font-size: 0.9rem; color: #64748b; display: block;">Tổng số lượt ghé thăm</span>
-        <strong style="color: #0284c7; font-size: 1.5rem;"><?= e((string)$tongLuotXem) ?></strong> lượt
+    <div class="truong-csp-3">
+      <div class="truong-csp-4">
+        <span class="truong-csp-5">Tổng số lượt ghé thăm</span>
+        <strong class="truong-csp-6"><?= e((string)$tongLuotXem) ?></strong> lượt
       </div>
-      <div style="background: #ffffff; padding: 12px 18px; border-radius: 6px; border-left: 4px solid #16a34a; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-        <span style="font-size: 0.9rem; color: #64748b; display: block;">Lượt xem hôm nay</span>
-        <strong style="color: #16a34a; font-size: 1.5rem;"><?= e((string)$luotXemHomNay) ?></strong> lượt
+      <div class="truong-csp-7">
+        <span class="truong-csp-5">Lượt xem hôm nay</span>
+        <strong class="truong-csp-8"><?= e((string)$luotXemHomNay) ?></strong> lượt
       </div>
     </div>
 
-    <p style="margin: 0 0 12px; font-size: 0.9rem; color: #64748b;">
+    <p class="truong-csp-9">
       (Cơ chế: Lưu trữ trực tiếp vào bảng <code>tv_truong_luot_xem</code> qua <code>INSERT ... ON DUPLICATE KEY UPDATE</code>; kết hợp Session PHP máy chủ nên F5 tải lại trang không tăng lượt đếm).
     </p>
 
-    <h3 style="font-size: 1.05rem; margin-bottom: 8px; color: #334155;">Lịch sử ghé thăm 7 ngày gần nhất</h3>
-    <div class="bang-cuon" style="max-width: 480px;">
-      <table style="width: 100%; border-collapse: collapse; background: #ffffff; border-radius: 6px; overflow: hidden; font-size: 0.95rem;">
+    <h3 class="truong-csp-10">Lịch sử ghé thăm 7 ngày gần nhất</h3>
+    <div class="bang-cuon truong-csp-11">
+      <table class="truong-csp-12">
         <thead>
-          <tr style="background: #e2e8f0; color: #1e293b; text-align: left;">
-            <th scope="col" style="padding: 8px 12px; border-bottom: 1px solid #cbd5e1;">Ngày ghi nhận</th>
-            <th scope="col" style="padding: 8px 12px; border-bottom: 1px solid #cbd5e1; text-align: right;">Số lượt ghé thăm</th>
+          <tr class="truong-csp-13">
+            <th scope="col" class="truong-csp-14">Ngày ghi nhận</th>
+            <th scope="col" class="truong-csp-15">Số lượt ghé thăm</th>
           </tr>
         </thead>
         <tbody>
           <?php if (empty($lichSu7Ngay)): ?>
-            <tr><td colspan="2" style="padding: 10px 12px; text-align: center; color: #94a3b8;">Chưa có dữ liệu thống kê.</td></tr>
+            <tr><td colspan="2" class="truong-csp-16">Chưa có dữ liệu thống kê.</td></tr>
           <?php else: ?>
             <?php foreach ($lichSu7Ngay as $dongNgay): ?>
-              <tr style="border-bottom: 1px solid #f1f5f9;">
-                <td style="padding: 8px 12px;"><?= e((string)$dongNgay['ngay_dinh_dang']) ?></td>
-                <td style="padding: 8px 12px; text-align: right; font-weight: bold; color: #0284c7;"><?= e((string)$dongNgay['so_luot']) ?></td>
+              <tr class="truong-csp-17">
+                <td class="truong-csp-18"><?= e((string)$dongNgay['ngay_dinh_dang']) ?></td>
+                <td class="truong-csp-19"><?= e((string)$dongNgay['so_luot']) ?></td>
               </tr>
             <?php endforeach; ?>
           <?php endif; ?>
@@ -447,72 +434,71 @@ require_once __DIR__ . '/../../inc/header.php';
   </section>
 
   <!-- CHỨC NĂNG PHẦN B 2: SỔ LƯU BÚT BẠN BÈ (CSDL MySQL: bảng tv_luu_but) -->
-  <section id="so-luu-but" class="hop-luu-but" style="margin: 25px 0; padding: 20px; border-radius: 8px; background: #f8fafc; border: 1px solid #e2e8f0;">
+  <section id="so-luu-but" class="hop-luu-but truong-csp-2">
     <h2>✍️ Sổ lưu bút &amp; Lời nhắn cho Trường (MySQL)</h2>
 
-    <!-- THANH TRỢ GIÚP DEV & PHÂN QUYỀN CHỦ TRANG -->
-    <div style="margin-bottom: 15px; padding: 10px 14px; background: #e0f2fe; border: 1px solid #bae6fd; border-radius: 6px; font-size: 0.9rem;">
+    <div class="thong-tin-quyen">
       <?php if ($laChuTrang): ?>
-        <span style="color: #0369a1; font-weight: bold;">
+        <span class="thong-tin-quyen__chu-trang">
           🔑 Bạn đang đăng nhập với tư cách chủ trang (Bhling Trường - <code>truong@ued.vn</code>). Bạn có quyền Xóa lời nhắn.
         </span>
-        <a href="gioithieu.php?dang_xuat_chu_trang=1#so-luu-but" style="margin-left: 10px; color: #b91c1c; font-weight: bold;">[Đăng xuất chủ trang]</a>
       <?php else: ?>
-        <span style="color: #475569;">
-          👤 Bạn đang xem với tư cách khách. Muốn thử tính năng Xóa lời nhắn của chủ trang?
+        <span class="thong-tin-quyen__khach">
+          👤 Bạn đang xem với tư cách khách. Hãy đăng nhập bằng tài khoản hợp lệ để dùng quyền chủ trang.
         </span>
-        <a href="gioithieu.php?dang_nhap_chu_trang=1#so-luu-but" class="nut nut--phu" style="padding: 4px 10px; font-size: 0.85rem; margin-left: 8px;">Đăng nhập nhanh chủ trang (Trường)</a>
       <?php endif; ?>
     </div>
 
     <?php if ($thongBaoThanhCong !== ''): ?>
-      <p style="padding: 10px 14px; background: #dcfce7; color: #166534; border-radius: 4px; font-weight: bold;" role="status">
+      <p class="truong-csp-20" role="status">
         ✓ <?= e($thongBaoThanhCong) ?>
       </p>
     <?php endif; ?>
 
     <?php if ($thongBaoLoi !== ''): ?>
-      <p style="padding: 10px 14px; background: #fee2e2; color: #991b1b; border-radius: 4px; font-weight: bold;" role="alert">
+      <p class="truong-csp-21" role="alert">
         ✕ <?= e($thongBaoLoi) ?>
       </p>
     <?php endif; ?>
 
     <!-- BIỂU MẪU GỬI LỜI NHẮN (POST & PRG) -->
-    <form method="post" action="gioithieu.php#so-luu-but" style="margin-bottom: 25px;">
-      <div style="margin-bottom: 12px;">
-        <label for="ho_ten" style="display: block; font-weight: bold; margin-bottom: 4px;">Họ tên của bạn (bắt buộc):</label>
-        <input type="text" id="ho_ten" name="ho_ten" required minlength="2" maxlength="50" value="<?= e($duLuuBut['ho_ten']) ?>" placeholder="Nhập tên của bạn (2 - 50 ký tự)..." style="width: 100%; max-width: 450px; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
+    <form class="form-luu-but" method="post" action="gioithieu.php#so-luu-but">
+      <?= csrfField() ?>
+      <div class="truong-csp-22">
+        <label for="ho_ten" class="truong-csp-23">Họ tên của bạn (bắt buộc):</label>
+        <input type="text" id="ho_ten" name="ho_ten" required minlength="2" maxlength="50" value="<?= e($duLuuBut['ho_ten']) ?>" placeholder="Nhập tên của bạn (2 - 50 ký tự)..." class="truong-csp-24">
       </div>
-      <div style="margin-bottom: 12px;">
-        <label for="loi_nhan" style="display: block; font-weight: bold; margin-bottom: 4px;">Lời nhắn (bắt buộc):</label>
-        <textarea id="loi_nhan" name="loi_nhan" rows="3" required minlength="2" maxlength="500" placeholder="Viết vài dòng lời nhắn cho Trường (2 - 500 ký tự)..." style="width: 100%; max-width: 550px; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 4px;"><?= e($duLuuBut['loi_nhan']) ?></textarea>
+      <div class="truong-csp-22">
+        <label for="loi_nhan" class="truong-csp-23">Lời nhắn (bắt buộc):</label>
+        <textarea id="loi_nhan" name="loi_nhan" rows="3" required minlength="2" maxlength="500" placeholder="Viết vài dòng lời nhắn cho Trường (2 - 500 ký tự)..." class="truong-csp-25"><?= e($duLuuBut['loi_nhan']) ?></textarea>
       </div>
-      <button type="submit" name="gui_luu_but" class="nut nut--chinh" style="padding: 8px 20px; cursor: pointer; border-radius: 4px;">Gửi lưu bút</button>
+      <button type="submit" name="gui_luu_but" class="nut nut--chinh truong-csp-26">Gửi lưu bút</button>
     </form>
 
     <!-- DANH SÁCH LỜI NHẮN ĐÃ NHẬN -->
-    <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 15px;">
-      <h3 style="margin: 0;">Danh sách lời nhắn (Tổng: <?= e((string)$tongSoLuuBut) ?>)</h3>
-      <span style="font-size: 0.9rem; color: #64748b;">Trang <?= e((string)$trangHienTai) ?> / <?= e((string)$soTrang) ?></span>
+    <div class="truong-csp-27">
+      <h3 class="truong-csp-28">Danh sách lời nhắn (Tổng: <?= e((string)$tongSoLuuBut) ?>)</h3>
+      <span class="truong-csp-29">Trang <?= e((string)$trangHienTai) ?> / <?= e((string)$soTrang) ?></span>
     </div>
 
     <?php if (empty($danhSachLuuBut)): ?>
-      <p style="font-style: italic; color: #64748b;">Chưa có lời nhắn nào được ghi lại. Hãy là người đầu tiên để lại lời nhắn nhé!</p>
+      <p class="truong-csp-30">Chưa có lời nhắn nào được ghi lại. Hãy là người đầu tiên để lại lời nhắn nhé!</p>
     <?php else: ?>
-      <ul style="list-style: none; padding-left: 0; margin: 0 0 20px 0;">
+      <ul class="truong-csp-31">
         <?php foreach ($danhSachLuuBut as $dong): ?>
-          <li style="border-bottom: 1px dashed #cbd5e1; padding: 12px 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 15px;">
-            <div style="flex: 1;">
-              <strong style="color: #1e293b; font-size: 1rem;"><?= e((string)$dong['ten_khach']) ?></strong> 
-              <span style="font-size: 0.85rem; color: #64748b; margin-left: 6px;">(<?= e((string)$dong['ngay_gio']) ?>)</span>
-              <p style="margin: 6px 0 0; color: #334155; line-height: 1.5;"><?= nl2br(e((string)$dong['loi_nhan'])) ?></p>
+          <li class="truong-csp-32">
+            <div class="truong-csp-33">
+              <strong class="truong-csp-34"><?= e((string)$dong['ten_khach']) ?></strong>
+              <span class="truong-csp-35">(<?= e((string)$dong['ngay_gio']) ?>)</span>
+              <p class="truong-csp-36"><?= nl2br(e((string)$dong['loi_nhan'])) ?></p>
             </div>
 
             <!-- Nút Xóa: Chỉ hiển thị khi chủ trang Trường đăng nhập -->
             <?php if ($laChuTrang): ?>
-              <form method="post" action="gioithieu.php#so-luu-but" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lời nhắn này?');" style="margin: 0;">
+              <form class="form-khong-le" method="post" action="gioithieu.php#so-luu-but" data-confirm="Bạn có chắc chắn muốn xóa lời nhắn này?">
+                <?= csrfField() ?>
                 <input type="hidden" name="xoa_id" value="<?= e((string)$dong['id']) ?>">
-                <button type="submit" name="xoa_luu_but" class="nut nut--phu" style="padding: 4px 8px; font-size: 0.8rem; color: #b91c1c; border-color: #fca5a5; background: #fff;" title="Chỉ chủ trang có quyền xóa">
+                <button type="submit" name="xoa_luu_but" class="nut nut--phu truong-csp-37" title="Chỉ chủ trang có quyền xóa">
                   ✕ Xóa
                 </button>
               </form>
@@ -523,11 +509,10 @@ require_once __DIR__ . '/../../inc/header.php';
 
       <!-- BỘ PHÂN TRANG (PAGINATION) -->
       <?php if ($soTrang > 1): ?>
-        <nav aria-label="Phân trang sổ lưu bút" style="display: flex; gap: 6px; align-items: center; justify-content: center; margin-top: 15px;">
+        <nav aria-label="Phân trang sổ lưu bút" class="truong-csp-38">
           <?php for ($i = 1; $i <= $soTrang; $i++): ?>
             <a href="gioithieu.php?trang=<?= e((string)$i) ?>#so-luu-but" 
-               class="nut <?= $i === $trangHienTai ? 'nut--chinh' : 'nut--phu' ?>"
-               style="padding: 6px 12px; font-size: 0.9rem;"
+               class="nut <?= $i === $trangHienTai ? 'nut--chinh' : 'nut--phu' ?> truong-csp-39"
                <?= $i === $trangHienTai ? 'aria-current="page"' : '' ?>>
               <?= e((string)$i) ?>
             </a>

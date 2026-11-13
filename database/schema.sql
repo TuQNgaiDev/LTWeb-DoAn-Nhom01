@@ -22,6 +22,15 @@ CREATE TABLE nguoi_dung (
     UNIQUE KEY uq_nguoi_dung_email (email)
 ) ENGINE=InnoDB;
 
+CREATE TABLE dang_nhap_sai (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(254) NOT NULL,
+    ip_dia_chi VARCHAR(45) NOT NULL,
+    thoi_gian DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    KEY idx_dang_nhap_sai_email_thoi_gian (email, thoi_gian),
+    KEY idx_dang_nhap_sai_ip_thoi_gian (ip_dia_chi, thoi_gian)
+) ENGINE=InnoDB;
+
 CREATE TABLE giao_trinh (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     danh_muc_id INT UNSIGNED NOT NULL,

@@ -1,5 +1,6 @@
 <?php /** Biểu mẫu dùng chung cho thêm và sửa giáo trình. */ ?>
 <form class="bieu-mau" action="<?= e($hanhDong) ?>" method="post" enctype="multipart/form-data">
+<?= csrfField() ?>
 <?php foreach (['ma' => ['Mã giáo trình','text'], 'ten' => ['Tên giáo trình','text'], 'tac_gia' => ['Tác giả','text'], 'nam_xuat_ban' => ['Năm xuất bản','number'], 'nha_xuat_ban' => ['Nhà xuất bản','text'], 'gia' => ['Giá bán','number'], 'gia_goc' => ['Giá gốc','number'], 'ton_kho' => ['Tồn kho','number'], 'so_trang' => ['Số trang','number']] as $key => [$nhan,$type]): ?>
 <div class="bieu-mau__nhom"><label for="<?= e($key) ?>"><?= e($nhan) ?></label><input class="bieu-mau__o-nhap" id="<?= e($key) ?>" name="<?= e($key) ?>" type="<?= e($type) ?>" value="<?= e($f[$key] ?? '') ?>" required aria-describedby="loi-<?= e($key) ?>"><p id="loi-<?= e($key) ?>" class="bieu-mau__loi"><?= e($loi[$key] ?? '') ?></p></div>
 <?php endforeach; ?>

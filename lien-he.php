@@ -46,6 +46,7 @@ require __DIR__ . '/inc/header.php';
 <?php if ($tb): ?><p class="thong-bao-bieu-mau--thanh-cong" role="status"><?= e($tb) ?></p><?php endif; ?>
 <?php if ($loi): ?><p class="bieu-mau__loi" role="alert">Chưa gửi phiếu. Vui lòng kiểm tra các trường báo lỗi bên dưới.</p><?php endif; ?>
 <form id="bieu-mau-lien-he" class="bieu-mau" action="lien-he.php" method="post" enctype="multipart/form-data">
+<?= csrfField() ?>
 <fieldset class="bieu-mau__khung"><legend>Thông tin đăng ký</legend>
 <?php foreach ($truongNhap as $key => [$nhan, $type, $attrs]): ?>
 <div class="bieu-mau__nhom"><label class="bieu-mau__nhan" for="<?= e($key) ?>"><?= e($nhan) ?><?= $key !== 'lop_hoc_phan' ? ' (bắt buộc)' : '' ?></label>

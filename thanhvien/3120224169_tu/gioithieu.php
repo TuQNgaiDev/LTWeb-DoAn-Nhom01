@@ -20,15 +20,6 @@ require_once __DIR__ . '/../../inc/config.php';
 const MSSV = '3120224169';
 $goc = '../../';
 
-// Chế độ dev: Hỗ trợ mô phỏng đăng nhập nhanh cho kiểm thử & chụp ảnh
-if (defined('MOI_TRUONG') && MOI_TRUONG === 'dev') {
-    if (isset($_GET['dang_nhap_chu_trang'])) {
-        $_SESSION['uid'] = 1;
-    } elseif (isset($_GET['dang_xuat_chu_trang'])) {
-        unset($_SESSION['uid']);
-    }
-}
-
 // --- Xác thực thông tin thành viên và quyền chủ trang ---
 $stTv = db()->prepare('SELECT ho_ten, nguoi_dung_id FROM thanh_vien WHERE mssv = ?');
 $stTv->execute([MSSV]);
@@ -56,7 +47,7 @@ $duBangDiem = ['ten_hoc_phan' => '', 'so_tin_chi' => '3', 'a1' => '', 'a2' => ''
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 1.1 Xóa môn học (chỉ chủ trang đăng nhập mới được xóa)
     if (isset($_POST['xoa_mon_hoc'])) {
-        $xoaId = filter_var($_POST['xoa_id'] ?? '', FILTER_VALIDATE_INT);
+        $xoaId = soNguyen($_POST['xoa_id'] ?? null);
         if ($xoaId && $laChuTrang) {
             $stXoa = db()->prepare('DELETE FROM tv_tu_bang_diem WHERE id = ? AND mssv = ?');
             $stXoa->execute([$xoaId, MSSV]);
@@ -70,11 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 1.2 Thêm môn học và tính điểm mới
     if (isset($_POST['them_mon_hoc'])) {
-        $duBangDiem['ten_hoc_phan'] = trim($_POST['ten_hoc_phan'] ?? '');
-        $soTinChi = filter_var($_POST['so_tin_chi'] ?? '', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 10]]);
-        $a1 = filter_var($_POST['a1'] ?? '', FILTER_VALIDATE_FLOAT);
-        $a2 = filter_var($_POST['a2'] ?? '', FILTER_VALIDATE_FLOAT);
-        $a3 = filter_var($_POST['a3'] ?? '', FILTER_VALIDATE_FLOAT);
+        $duBangDiem['ten_hoc_phan'] = chuoi($_POST, 'ten_hoc_phan');
+        $soTinChi = soNguyen($_POST['so_tin_chi'] ?? null, 1, 10);
+        $a1 = filter_var(chuoi($_POST, 'a1'), FILTER_VALIDATE_FLOAT);
+        $a2 = filter_var(chuoi($_POST, 'a2'), FILTER_VALIDATE_FLOAT);
+        $a3 = filter_var(chuoi($_POST, 'a3'), FILTER_VALIDATE_FLOAT);
 
         if ($duBangDiem['ten_hoc_phan'] === '') {
             $loiBangDiem['ten_hoc_phan'] = 'Vui lòng nhập tên học phần.';
@@ -82,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $loiBangDiem['ten_hoc_phan'] = 'Tên học phần không được vượt quá 120 ký tự.';
         }
 
-        if ($soTinChi === false) {
+        if ($soTinChi === null) {
             $loiBangDiem['so_tin_chi'] = 'Số tín chỉ từ 1 đến 10.';
         }
 
@@ -182,8 +173,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['doi_giao_dien'])) {
     setcookie('giao_dien_tu', $giaoDienMoi, [
         'expires' => time() + 30 * 24 * 3600,
         'path' => '/',
-        'httponly' => false,
+        'httponly' => true,
         'samesite' => 'Lax',
+        'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
     ]);
     chuyenHuong('gioithieu.php');
     exit;
@@ -234,6 +226,7 @@ require __DIR__ . '/../../inc/header.php';
         </p>
       </div>
       <form class="form-doi-giao-dien" action="gioithieu.php" method="post">
+        <?= csrfField() ?>
         <input type="hidden" name="doi_giao_dien" value="1">
         <button id="doi-giao-dien" class="nut nut--phu" type="submit" aria-pressed="<?= $giaoDien === 'toi' ? 'true' : 'false' ?>">
           <?= $giaoDien === 'toi' ? '☀️ Dùng giao diện sáng' : '🌙 Dùng giao diện tối' ?>
@@ -345,20 +338,20 @@ require __DIR__ . '/../../inc/header.php';
       </div>
 
       <!-- Khối tổng quan GPA tích lũy -->
-      <div class="luoi-thong-ke" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 16px 0;">
-        <div class="the-thong-ke" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; text-align: center;">
-          <div style="font-size: 0.9rem; color: #64748b; font-weight: 600;">TỔNG TÍN CHỈ TÍCH LŨY</div>
-          <div style="font-size: 1.8rem; font-weight: 700; color: #1e3a8a; margin-top: 4px;"><?= $tongTinChi ?> tín chỉ</div>
+      <div class="luoi-thong-ke tu-csp-1">
+        <div class="the-thong-ke tu-csp-2">
+          <div class="tu-csp-3">TỔNG TÍN CHỈ TÍCH LŨY</div>
+          <div class="tu-csp-4"><?= $tongTinChi ?> tín chỉ</div>
         </div>
-        <div class="the-thong-ke" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; text-align: center;">
-          <div style="font-size: 0.9rem; color: #64748b; font-weight: 600;">ĐIỂM TRUNG BÌNH HỆ 10</div>
-          <div style="font-size: 1.8rem; font-weight: 700; color: #0284c7; margin-top: 4px;"><?= number_format($gpa10, 2) ?> / 10</div>
+        <div class="the-thong-ke tu-csp-2">
+          <div class="tu-csp-3">ĐIỂM TRUNG BÌNH HỆ 10</div>
+          <div class="tu-csp-5"><?= number_format($gpa10, 2) ?> / 10</div>
         </div>
-        <div class="the-thong-ke" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; text-align: center;">
-          <div style="font-size: 0.9rem; color: #64748b; font-weight: 600;">GPA HỆ 4 &amp; XẾP LOẠI</div>
-          <div style="font-size: 1.8rem; font-weight: 700; color: #15803d; margin-top: 4px;">
+        <div class="the-thong-ke tu-csp-2">
+          <div class="tu-csp-3">GPA HỆ 4 &amp; XẾP LOẠI</div>
+          <div class="tu-csp-6">
             <?= number_format($gpa4, 2) ?> / 4.0
-            <span style="font-size: 1rem; font-weight: 600; display: block; color: #166534; text-transform: uppercase;">
+            <span class="tu-csp-7">
               <?= $gpa4 >= 3.6 ? 'Xuất sắc' : ($gpa4 >= 3.2 ? 'Giỏi' : ($gpa4 >= 2.5 ? 'Khá' : 'Trung bình')) ?>
             </span>
           </div>
@@ -366,12 +359,13 @@ require __DIR__ . '/../../inc/header.php';
       </div>
 
       <!-- Form nhập môn học mới -->
-      <form class="bieu-mau" action="gioithieu.php#bang-diem-csdl" method="post" novalidate style="margin-top: 16px;">
+      <form class="bieu-mau bieu-mau--cach-tren" action="gioithieu.php#bang-diem-csdl" method="post" novalidate>
+        <?= csrfField() ?>
         <input type="hidden" name="them_mon_hoc" value="1">
-        <h3 style="font-size: 1.15rem; margin-bottom: 12px; color: #1e293b;">+ Thêm học phần và lưu vào CSDL</h3>
+        <h3 class="tu-csp-8">+ Thêm học phần và lưu vào CSDL</h3>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
-          <div class="bieu-mau__nhom" style="grid-column: span 2;">
+        <div class="tu-csp-9">
+          <div class="bieu-mau__nhom tu-csp-10">
             <label for="ten_hoc_phan">Tên học phần <span class="dau-sao" aria-hidden="true">*</span></label>
             <input class="bieu-mau__o-nhap <?= isset($loiBangDiem['ten_hoc_phan']) ? 'bieu-mau__o-nhap--loi' : '' ?>"
                    id="ten_hoc_phan" name="ten_hoc_phan" type="text" maxlength="120"
@@ -423,11 +417,11 @@ require __DIR__ . '/../../inc/header.php';
           </div>
         </div>
 
-        <button class="nut nut--chinh" type="submit" style="margin-top: 10px;">Lưu học phần vào CSDL</button>
+        <button class="nut nut--chinh tu-csp-11" type="submit">Lưu học phần vào CSDL</button>
       </form>
 
       <!-- Bảng danh sách môn học từ CSDL -->
-      <div class="bang-cuon" style="margin-top: 20px;">
+      <div class="bang-cuon tu-csp-12">
         <table>
           <caption>Danh sách học phần tích lũy của Trần Văn Tú trong CSDL (tv_tu_bang_diem)</caption>
           <thead>
@@ -448,23 +442,24 @@ require __DIR__ . '/../../inc/header.php';
           </thead>
           <tbody>
             <?php if (!$dsBangDiem): ?>
-              <tr><td colspan="<?= $laChuTrang ? 10 : 9 ?>" style="text-align: center; color: #64748b;">Chưa có học phần nào được lưu trong CSDL.</td></tr>
+              <tr><td colspan="<?= $laChuTrang ? 10 : 9 ?>" class="tu-csp-13">Chưa có học phần nào được lưu trong CSDL.</td></tr>
             <?php else: ?>
               <?php foreach ($dsBangDiem as $idx => $mh): ?>
                 <?php $qd = quyDoiDiem((float)$mh['tong_ket']); ?>
                 <tr>
-                  <td style="text-align: center;"><?= $idx + 1 ?></td>
+                  <td class="tu-csp-14"><?= $idx + 1 ?></td>
                   <td><strong><?= e($mh['ten_hoc_phan']) ?></strong></td>
-                  <td style="text-align: center;"><?= (int)$mh['so_tin_chi'] ?></td>
-                  <td style="text-align: center;"><?= number_format((float)$mh['a1'], 1) ?></td>
-                  <td style="text-align: center;"><?= number_format((float)$mh['a2'], 1) ?></td>
-                  <td style="text-align: center;"><?= number_format((float)$mh['a3'], 1) ?></td>
-                  <td style="text-align: center; font-weight: bold; color: #1e3a8a;"><?= number_format((float)$mh['tong_ket'], 1) ?></td>
-                  <td style="text-align: center; font-weight: bold;"><?= $qd[0] ?></td>
-                  <td style="text-align: center; font-weight: bold; color: #15803d;"><?= number_format($qd[1], 1) ?></td>
+                  <td class="tu-csp-14"><?= (int)$mh['so_tin_chi'] ?></td>
+                  <td class="tu-csp-14"><?= number_format((float)$mh['a1'], 1) ?></td>
+                  <td class="tu-csp-14"><?= number_format((float)$mh['a2'], 1) ?></td>
+                  <td class="tu-csp-14"><?= number_format((float)$mh['a3'], 1) ?></td>
+                  <td class="tu-csp-15"><?= number_format((float)$mh['tong_ket'], 1) ?></td>
+                  <td class="tu-csp-16"><?= $qd[0] ?></td>
+                  <td class="tu-csp-17"><?= number_format($qd[1], 1) ?></td>
                   <?php if ($laChuTrang): ?>
-                    <td style="text-align: center;">
-                      <form action="gioithieu.php#bang-diem-csdl" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa học phần này khỏi bảng điểm?');" style="display: inline;">
+                    <td class="tu-csp-14">
+                      <form class="form-noi-dong" action="gioithieu.php#bang-diem-csdl" method="post" data-confirm="Bạn có chắc muốn xóa học phần này khỏi bảng điểm?">
+                        <?= csrfField() ?>
                         <input type="hidden" name="xoa_mon_hoc" value="1">
                         <input type="hidden" name="xoa_id" value="<?= (int)$mh['id'] ?>">
                         <button class="nut nut--nguy-hiem nut--nho" type="submit">Xóa</button>
@@ -480,26 +475,26 @@ require __DIR__ . '/../../inc/header.php';
     </section>
 
     <!-- CHỨC NĂNG CSDL 2: BẢNG ĐIỀU KHIỂN THỐNG KÊ ĐỒ ÁN UEDBOOKHUB (JOIN + GROUP BY) -->
-    <section id="thong-ke-do-an" class="khoi-thong-ke-do-an" aria-labelledby="tieu-de-thong-ke" style="margin-top: 36px;">
+    <section id="thong-ke-do-an" class="khoi-thong-ke-do-an tu-csp-18" aria-labelledby="tieu-de-thong-ke">
       <h2 id="tieu-de-thong-ke">Thống kê dữ liệu Đồ án UEDBookHub (CSDL MySQL)</h2>
       <p class="so-luu-but__mo-ta">
         Truy vấn trực tiếp từ CSDL đồ án bằng các câu lệnh phức hợp <code>JOIN + GROUP BY + SUM + COUNT</code> để phân tích kinh doanh.
       </p>
 
       <!-- Khối tóm tắt toàn hệ thống -->
-      <div class="luoi-thong-ke" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 16px 0;">
-        <div class="the-thong-ke" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 14px; text-align: center;">
-          <div style="font-size: 0.9rem; color: #166534; font-weight: 600;">TỔNG DOANH THU ĐỒ ÁN</div>
-          <div style="font-size: 1.8rem; font-weight: 700; color: #15803d; margin-top: 4px;"><?= vnd($tongDoanhThuHeThong) ?></div>
+      <div class="luoi-thong-ke tu-csp-19">
+        <div class="the-thong-ke tu-csp-20">
+          <div class="tu-csp-21">TỔNG DOANH THU ĐỒ ÁN</div>
+          <div class="tu-csp-6"><?= vnd($tongDoanhThuHeThong) ?></div>
         </div>
-        <div class="the-thong-ke" style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px; text-align: center;">
-          <div style="font-size: 0.9rem; color: #1e40af; font-weight: 600;">TỔNG SỐ ĐƠN HÀNG ĐÃ ĐẶT</div>
-          <div style="font-size: 1.8rem; font-weight: 700; color: #1d4ed8; margin-top: 4px;"><?= $tongDonHangHeThong ?> đơn hàng</div>
+        <div class="the-thong-ke tu-csp-22">
+          <div class="tu-csp-23">TỔNG SỐ ĐƠN HÀNG ĐÃ ĐẶT</div>
+          <div class="tu-csp-24"><?= $tongDonHangHeThong ?> đơn hàng</div>
         </div>
       </div>
 
       <!-- 2.1 Bảng Top 5 giáo trình bán chạy nhất -->
-      <h3 style="font-size: 1.15rem; margin-top: 20px; color: #1e3a8a;">1. Top 5 Giáo trình bán chạy nhất (chi_tiet_don JOIN giao_trinh)</h3>
+      <h3 class="tu-csp-25">1. Top 5 Giáo trình bán chạy nhất (chi_tiet_don JOIN giao_trinh)</h3>
       <div class="bang-cuon">
         <table>
           <caption>Top 5 giáo trình có số lượng đặt mua nhiều nhất trong hệ thống</caption>
@@ -515,16 +510,16 @@ require __DIR__ . '/../../inc/header.php';
           </thead>
           <tbody>
             <?php if (!$topSachBanChay): ?>
-              <tr><td colspan="6" style="text-align: center; color: #64748b;">Chưa có dữ liệu đặt hàng.</td></tr>
+              <tr><td colspan="6" class="tu-csp-13">Chưa có dữ liệu đặt hàng.</td></tr>
             <?php else: ?>
               <?php foreach ($topSachBanChay as $idx => $s): ?>
                 <tr>
-                  <td style="text-align: center; font-weight: bold;">#<?= $idx + 1 ?></td>
+                  <td class="tu-csp-16">#<?= $idx + 1 ?></td>
                   <td><strong><?= e($s['ten']) ?></strong></td>
                   <td><?= e($s['ten_danh_muc']) ?></td>
-                  <td style="text-align: right;"><?= vnd((int)$s['gia']) ?></td>
-                  <td style="text-align: center; font-weight: bold; color: #0284c7;"><?= (int)$s['tong_ban'] ?> cuốn</td>
-                  <td style="text-align: right; font-weight: bold; color: #15803d;"><?= vnd((int)$s['doanh_thu']) ?></td>
+                  <td class="tu-csp-26"><?= vnd((int)$s['gia']) ?></td>
+                  <td class="tu-csp-27"><?= (int)$s['tong_ban'] ?> cuốn</td>
+                  <td class="tu-csp-28"><?= vnd((int)$s['doanh_thu']) ?></td>
                 </tr>
               <?php endforeach; ?>
             <?php endif; ?>
@@ -533,7 +528,7 @@ require __DIR__ . '/../../inc/header.php';
       </div>
 
       <!-- 2.2 Bảng Thống kê doanh thu theo danh mục -->
-      <h3 style="font-size: 1.15rem; margin-top: 24px; color: #1e3a8a;">2. Doanh thu &amp; Số lượng đầu sách theo Danh mục (danh_muc JOIN giao_trinh)</h3>
+      <h3 class="tu-csp-29">2. Doanh thu &amp; Số lượng đầu sách theo Danh mục (danh_muc JOIN giao_trinh)</h3>
       <div class="bang-cuon">
         <table>
           <caption>Thống kê số lượng đầu sách và doanh thu phân bổ theo từng chuyên ngành</caption>
@@ -549,11 +544,11 @@ require __DIR__ . '/../../inc/header.php';
           <tbody>
             <?php foreach ($doanhThuDanhMuc as $idx => $dm): ?>
               <tr>
-                <td style="text-align: center;"><?= $idx + 1 ?></td>
+                <td class="tu-csp-14"><?= $idx + 1 ?></td>
                 <td><strong><?= e($dm['ten_danh_muc']) ?></strong></td>
-                <td style="text-align: center;"><?= (int)$dm['so_dau_sach'] ?> giáo trình</td>
-                <td style="text-align: center;"><?= (int)$dm['tong_sach_ban'] ?> cuốn</td>
-                <td style="text-align: right; font-weight: bold; color: <?= (int)$dm['doanh_thu'] > 0 ? '#15803d' : '#64748b' ?>;">
+                <td class="tu-csp-14"><?= (int)$dm['so_dau_sach'] ?> giáo trình</td>
+                <td class="tu-csp-14"><?= (int)$dm['tong_sach_ban'] ?> cuốn</td>
+                <td class="o-doanh-thu <?= (int)$dm['doanh_thu'] > 0 ? 'o-doanh-thu--co' : 'o-doanh-thu--khong' ?>">
                   <?= (int)$dm['doanh_thu'] > 0 ? vnd((int)$dm['doanh_thu']) : 'Chưa có đơn' ?>
                 </td>
               </tr>

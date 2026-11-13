@@ -6,7 +6,7 @@ formGio?.addEventListener('submit', async (suKien) => {
   try {
     const duLieu = new FormData(formGio);
     const phanHoi = await fetch(new URL('api/gio-hang.php', document.baseURI), {
-      method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content || '' },
       body: JSON.stringify({ id: Number(duLieu.get('id')), sl: Number(duLieu.get('so_luong')) })
     });
     const json = await phanHoi.json(); if (!phanHoi.ok) throw new Error(json.loi || 'Không thể thêm vào giỏ.');

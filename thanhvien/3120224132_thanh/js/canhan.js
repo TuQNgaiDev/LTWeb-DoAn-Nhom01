@@ -89,11 +89,11 @@ filterButtons.forEach(function (button) {
                 skill.dataset.group === selectedGroup
             ) {
 
-                skill.style.display = "";
+                skill.classList.remove('an-csp');
 
             } else {
 
-                skill.style.display = "none";
+                skill.classList.add('an-csp');
 
             }
 
@@ -243,3 +243,27 @@ if (copyEmailBtn && email && copyMessage) {
 
     });
 }
+
+const nutSaoChepMoi = document.getElementById('btn-copy-email');
+nutSaoChepMoi?.addEventListener('click', async () => {
+    const emailMoi = document.getElementById('email-text')?.textContent || '';
+    await navigator.clipboard.writeText(emailMoi.trim());
+    const thongBao = document.getElementById('thong-bao-copy');
+    thongBao?.classList.add('hien-thi');
+    setTimeout(() => thongBao?.classList.remove('hien-thi'), 2500);
+});
+
+document.getElementById('btn-download-info')?.addEventListener('click', () => {
+    const info = {
+        hoTen: 'Nguyễn Tuấn Nhật Thanh', mssv: '3120224132', lop: '24CNTT1',
+        truong: 'Đại học Sư phạm - Đại học Đà Nẵng',
+        email: 'nguyentuannhatthanh06092006@gmail.com',
+        vaiTroDoAn: 'Thành viên Nhóm 01 (Phụ trách Chức năng 3: Quản trị CRUD và Sơ đồ ERD)'
+    };
+    const url = URL.createObjectURL(new Blob([JSON.stringify(info, null, 2)], { type: 'application/json' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = '3120224132_NguyenTuanNhatThanh_ThongTin.json';
+    link.click();
+    URL.revokeObjectURL(url);
+});
