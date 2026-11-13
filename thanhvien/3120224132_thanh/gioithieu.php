@@ -21,10 +21,13 @@ require_once __DIR__ . '/../../inc/config.php';
 const MSSV = '3120224132';
 $goc = '../../';
 
-// --- XỬ LÝ GỬI LỜI NHẮN (POST / PRG) ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && chuoi($_POST, 'form_type') === 'loi_nhan') {
-    $tenNguoiGui = chuoi($_POST, 'ten_nguoi_gui');
-    $loiNhan = chuoi($_POST, 'loi_nhan');
+// --- XỬ LÝ GỬI LỜI  NHẮN (POST / PRG) ---
+if (
+    $_SERVER['REQUEST_METHOD'] === 'POST'
+    && chuoi($_POST['form_type'] ?? '') === 'loi_nhan'
+) {
+    $tenNguoiGui = trim(chuoi($_POST, 'ten_nguoi_gui'));
+    $loiNhan = trim(chuoi($_POST, 'loi_nhan'));
 
     if ($tenNguoiGui === '') {
         $tenNguoiGui = 'Khách ghé thăm';
@@ -51,10 +54,15 @@ $cacNhomKyNang = [
     'kynangmem' => 'Kỹ năng mềm & Làm việc nhóm'
 ];
 
-$nhomChon = chuoi($_GET, 'nhom') ?: 'tatca';
-if (!array_key_exists($nhomChon, $cacNhomKyNang)) {
+$nhomChon = trim(chuoi($_GET, 'nhom'));
+
+if (
+    $nhomChon === '' ||
+    !array_key_exists($nhomChon, $cacNhomKyNang)
+) {
     $nhomChon = 'tatca';
 }
+
 
 $dsKyNang = [];
 try {
@@ -84,7 +92,13 @@ try {
 $tongSoKyNang = array_sum($soLuongTheoNhom);
 
 // --- CHỨC NĂNG CSDL 2: TÌM KIẾM MÔN HỌC TRONG THỜI KHÓA BIỂU (BẢNG tv_thanh_tkb) ---
-$tuKhoa = chuoi($_GET, 'tim_mon');
+$tuKhoa = trim(chuoi($_GET, 'tim_mon'));
+
+if (mb_strlen($tuKhoa, 'UTF-8') > 100) {
+    $tuKhoa = mb_substr($tuKhoa, 0, 100, 'UTF-8');
+}
+
+
 $ketQuaTimKiem = [];
 $daTimKiem = ($tuKhoa !== '');
 
@@ -194,7 +208,9 @@ require __DIR__ . '/../../inc/header.php';
       <form class="form-loc-ky-nang" method="get" action="gioithieu.php#ky-nang-csdl">
         <label for="nhom-ky-nang" class="nhan-loc">Chọn nhóm kỹ năng:</label>
         <div class="dieu-khien-loc">
-          <select id="nhom-ky-nang" name="nhom" class="o-chon" onchange="this.form.submit()">
+         <select id="nhom-ky-nang"
+        name="nhom"
+        class="o-chon">
             <?php foreach ($cacNhomKyNang as $ma => $tenNhom): ?>
               <?php $so = ($ma === 'tatca') ? $tongSoKyNang : ($soLuongTheoNhom[$ma] ?? 0); ?>
               <option value="<?= e($ma) ?>" <?= $nhomChon === $ma ? 'selected' : '' ?>>
