@@ -75,6 +75,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             $stXoa = db()->prepare('DELETE FROM tv_luu_but WHERE id = ? AND mssv = ?');
             $stXoa->execute([$xoaId, MSSV]);
             $_SESSION['flash'] = 'Đã xóa lời nhắn thành công.';
+        } elseif (!$laChuTrang) {
+            ghiNhatKyBaoMat('cam_truy_cap', ['trang' => 'thanhvien_truong_xoa', 'xoa_id' => $xoaId]);
         }
         chuyenHuong('gioithieu.php#so-luu-but');
     }
@@ -121,12 +123,10 @@ $stDs->execute([MSSV, $boQua]);
 $danhSachLuuBut = $stDs->fetchAll();
 
 $thongBaoThanhCong = flash();
+$cssThem = ['thanhvien/3120124040_truong/css/style.css'];
 
 require_once __DIR__ . '/../../inc/header.php';
 ?>
-
-<!-- Nạp CSS riêng của cá nhân theo đúng gợi ý đề bài -->
-<link rel="stylesheet" href="css/style.css?v=15">
 
 <main class="noi-dung-chinh">
 
