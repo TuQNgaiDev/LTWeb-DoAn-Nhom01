@@ -231,7 +231,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['thich_trang'])) {
         exit;
     }
 
-    chuyenHuong('gioithieu.php?da_thich=1#tuong-tac');
+    $_SESSION['flash'] = '❤️ Cảm ơn bạn đã thả tim ủng hộ trang cá nhân của Hậu! Lượt thích đã được lưu an toàn vào CSDL MySQL.';
+    chuyenHuong('gioithieu.php#tuong-tac');
 }
 
 // Lấy tổng số lượt thích hiện tại từ CSDL MySQL (hoặc bộ đếm phiên nếu chưa bật DB)
@@ -375,10 +376,11 @@ require __DIR__ . '/../../inc/header.php';
             </div>
           </div>
 
-          <?php if (isset($_GET['da_thich'])): ?>
+          <?php if (!empty($_SESSION['flash']) || isset($_GET['da_thich'])): ?>
           <p class="thong-bao-thich" role="status" aria-live="polite">
-            ❤️ Cảm ơn bạn đã thả tim ủng hộ trang cá nhân của Hậu! Lượt thích đã được lưu an toàn vào CSDL MySQL.
+            <?= e($_SESSION['flash'] ?? '❤️ Cảm ơn bạn đã thả tim ủng hộ trang cá nhân của Hậu! Lượt thích đã được lưu an toàn vào CSDL MySQL.') ?>
           </p>
+          <?php unset($_SESSION['flash']); ?>
           <?php endif; ?>
 
           <!-- Nhóm các nút bấm tương tác -->
@@ -613,7 +615,6 @@ require __DIR__ . '/../../inc/header.php';
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
             </tr>
             <tr>
               <th scope="row">5</th>
@@ -630,11 +631,9 @@ require __DIR__ . '/../../inc/header.php';
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
             </tr>
             <tr>
               <th scope="row">6</th>
-              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -683,10 +682,10 @@ require __DIR__ . '/../../inc/header.php';
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
             </tr>
             <tr>
               <th scope="row">10</th>
-              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -704,11 +703,9 @@ require __DIR__ . '/../../inc/header.php';
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
             </tr>
             <tr>
               <th scope="row">12</th>
-              <td></td>
               <td></td>
               <td></td>
               <td></td>
